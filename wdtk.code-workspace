@@ -1,0 +1,21 @@
+{
+  "folders": [
+    {
+      "name": "cli",
+      "path": "packages/cli"
+    },
+    {
+      "name": "core",
+      "path": "packages/core"
+    }
+  ],
+  "settings": {
+    "terminal.integrated.cwd": "./../../",
+    "files.eol": "\n",
+    "files.exclude": {
+      "**/node_modules": true
+    },
+    "cSpell.words": ["wdtk"],
+    "jest.pathToJest": "yarn jest"
+  }
+}
