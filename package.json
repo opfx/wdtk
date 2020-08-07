@@ -6,6 +6,9 @@
   "author": "opfx",
   "license": "MIT",
   "private": true,
+  "bin": {
+    "admin": "./bin/admin"
+  },
   "workspaces": [
     "packages/*"
   ],
@@ -13,15 +16,10 @@
     "node": ">=12.13.0"
   },
   "scripts": {
-    "build": "yarn workspaces foreach -pt run build",
-    "watch": "yarn workspaces foreach -pt run watch",
-    "build:compile": "cd \"$0\" && yarn clean",
-    "build:clean": "node ./scripts/rimraf  \"$0\"/dist"
+    "build": "yarn workspaces foreach -pt run build"
   },
   "devDependencies": {
-    "@types/jest": "^24.0.25",
     "@types/node": "14.0.27",
-    "jest": "^26.0.1",
     "prettier": "2.0.5",
     "typescript": "3.9.7"
   }
