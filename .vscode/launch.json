@@ -21,6 +21,15 @@
       "program": "${workspaceFolder}\\bin\\admin",
       // "outFiles": ["${workspaceFolder}/**/*.js"],
       "args": ["publish"]
+    },
+    {
+      "type": "node",
+      "request": "launch",
+      "name": "install (admin)",
+      "skipFiles": ["<node_internals>/**"],
+      "program": "${workspaceFolder}\\bin\\admin",
+      // "outFiles": ["${workspaceFolder}/**/*.js"],
+      "args": ["install"]
     }
   ]
 }
