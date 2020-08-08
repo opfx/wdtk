@@ -217,7 +217,7 @@ export const packages: PackageMap = packageJsonPaths
     const experimental = !!packageJson.private || !!packageJson.experimental;
 
     packages[name] = {
-      build: path.join(distRoot, pkgRoot.substr(path.dirname(__dirname).length)),
+      build: path.join(distRoot, pkgRoot.substr(path.dirname(__dirname).length), 'src'),
       dist: path.join(distRoot, name),
       root: pkgRoot,
       relative: path.relative(path.dirname(__dirname), pkgRoot),
