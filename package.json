@@ -16,7 +16,8 @@
     "node": ">=12.13.0"
   },
   "scripts": {
-    "build": "node ./bin/admin build"
+    "build": "node ./bin/admin build",
+    "publish": "node ./bin/admin publish"
   },
   "devDependencies": {
     "@angular-devkit/core": "^10.0.5",

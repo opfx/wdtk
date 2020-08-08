@@ -12,6 +12,15 @@
       "program": "${workspaceFolder}\\bin\\admin",
       // "outFiles": ["${workspaceFolder}/**/*.js"],
       "args": ["build"]
+    },
+    {
+      "type": "node",
+      "request": "launch",
+      "name": "publish (admin)",
+      "skipFiles": ["<node_internals>/**"],
+      "program": "${workspaceFolder}\\bin\\admin",
+      // "outFiles": ["${workspaceFolder}/**/*.js"],
+      "args": ["publish"]
     }
   ]
 }
