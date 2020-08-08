@@ -17,7 +17,8 @@
   },
   "scripts": {
     "build": "node ./bin/admin build",
-    "publish": "node ./bin/admin publish"
+    "publish": "node ./bin/admin publish",
+    "install": "node ./bin/admin install"
   },
   "devDependencies": {
     "@angular-devkit/core": "^10.0.5",
