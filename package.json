@@ -16,13 +16,18 @@
     "node": ">=12.13.0"
   },
   "scripts": {
-    "build": "yarn workspaces foreach -pt run build"
+    "build": "node ./bin/admin build"
   },
   "devDependencies": {
+    "@angular-devkit/core": "^10.0.5",
     "@types/jest": "25.1.4",
     "@types/node": "14.0.27",
+    "glob": "^7.1.6",
     "jest": "25.2.3",
+    "minimist": "^1.2.5",
     "prettier": "2.0.5",
+    "rimraf": "^3.0.2",
+    "temp": "^0.9.1",
     "ts-jest": "25.2.1",
     "typescript": "3.9.7"
   }

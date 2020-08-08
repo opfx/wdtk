@@ -11,7 +11,9 @@
     "**/node_modules": true,
     "**/dist": true
   },
-  "cSpell.words": [],
+  "cSpell.words": [
+    "devkit"
+  ],
   "cSpell.ignorePaths": [
     "**/package.json",
     "**/yarn.lock",

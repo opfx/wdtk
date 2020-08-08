@@ -1,0 +1,79 @@
+#!/usr/bin/env node
+/**
+ * @license
+ * Copyright Google Inc. All Rights Reserved.
+ *
+ * Use of this source code is governed by an MIT-style license that can be
+ * found in the LICENSE file at https://angular.io/license
+ */
+'use strict';
+
+require('./../lib/bootstrap');
+
+const minimist = require('minimist');
+const path = require('path');
+
+
+const args = minimist(process.argv.slice(2), { boolean: ['verbose'] });
+
+const scriptName = args._.shift();
+const scriptPath = path.join('./../scripts/admin', scriptName);
+
+const cwd = process.cwd();
+process.chdir(path.join(__dirname, '..'));
+
+let logger = null;
+try {
+    logger = new (require('@angular-devkit/core').logging.IndentLogger)('root');
+    const { bold, gray, red, yellow, white } = require('@angular-devkit/core').terminal;
+    const filter = require('rxjs/operators').filter;
+
+    logger.pipe(filter(entry => (entry.level !== 'debug' || args.verbose)))
+        .subscribe(entry => {
+            let color = gray;
+            let output = process.stdout;
+            switch (entry.level) {
+                case 'info':
+                    color = white;
+                    break
+                case 'warn':
+                    color = yellow;
+                    break;
+                case 'error':
+                    color = red;
+                    output = process.stderr;
+                    break;
+                case 'fatal':
+                    color = x => bold(red(x));
+                    output = process.stderr;
+                    break;
+            }
+            output.write(color(entry.message) + '\n');
+            if (entry.level === 'fatal') {
+                process.exit(100);
+            }
+        });
+} catch (e) {
+    console.error(`Reverting to manual console logging.\nReason: ${e.message}.`);
+    logger = {
+        debug: console.log.bind(console),
+        info: console.log.bind(console),
+        warn: console.warn.bind(console),
+        error: console.error.bind(console),
+        fatal: x => { console.error(x); process.exit(100); },
+        createChild: () => logger
+    };
+
+}
+
+
+try {
+    Promise.resolve()
+        .then(() => require(scriptPath).default(args, logger, cwd))
+        .then((exitCode) => process.exit(exitCode || 0))
+        .catch(e => {
+            logger.fatal(e && e.stack);
+        })
+} catch (e) {
+    logger.fatal(e.stack);
+}

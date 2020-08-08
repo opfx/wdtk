@@ -10,11 +10,12 @@
     "experimentalDecorators": true,
     "emitDecoratorMetadata": true,
     "skipLibCheck": true,
-    "types": ["node", "jest"],
+    "types": ["node"],
     "lib": ["es2018"],
     "declaration": true,
     "baseUrl": ".",
     "rootDir": ".",
     "paths": {}
-  }
+  },
+  "exclude": ["lib/**", "scripts/**"]
 }
