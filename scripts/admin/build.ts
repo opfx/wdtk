@@ -60,9 +60,10 @@ export default async function (argv: { local?: boolean; snapshot?: boolean }, lo
         // skip sources, but allow declaration files
         if (filename.endsWith('.ts') && !filename.endsWith('.d.ts')) {
           // verify that we have a build version of the source file
-          if (!fs.existsSync(path.join(pkg.dist, filename).replace(/ts$/, 'js'))) {
-            packageLog.fatal(`\nSource found but compiled file not found : '${filename}'.`);
-          }
+          // bt : disabled because otherwise we can not get rid of the src directory
+          // if (!fs.existsSync(path.join(pkg.dist, filename).replace(/ts$/, 'js'))) {
+          //   packageLog.fatal(`\nSource found but compiled file not found : '${filename}'.`);
+          // }
           return false;
         }
         // skip ts config files
