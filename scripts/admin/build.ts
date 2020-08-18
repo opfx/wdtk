@@ -137,7 +137,11 @@ function clean(logger: logging.Logger) {
     return;
   }
   logger.info(`    removing 'dist/' directory`);
-  rimraf.sync(distDir);
+  try {
+    rimraf.sync(distDir);
+  } catch (e) {
+    rimraf.sync(distDir);
+  }
 }
 
 function recursiveCopy(from: string, to: string, logger: logging.Logger) {
