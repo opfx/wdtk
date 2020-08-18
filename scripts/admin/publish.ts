@@ -39,7 +39,7 @@ export default async function (args: PublishArgs, log: logging.Logger) {
 
           //   const publishArgs = ['publish', '--tag', tag, '--registry', registry];
           // const publishArgs = ['publish', '--tag', tag, '--tolerate-republish'];
-          const publishArgs = ['publish', '--tag', tag];
+          const publishArgs = ['publish', '--tag', tag, '--access', 'public'];
           return exec('npm', publishArgs, { cwd: pkg.dist }, log);
         })
         .then((stdout: string) => {
