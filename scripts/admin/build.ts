@@ -3,9 +3,10 @@ import * as glob from 'glob';
 import * as path from 'path';
 import { spawnSync } from 'child_process';
 import * as rimraf from 'rimraf';
-import { JsonObject, logging } from '@angular-devkit/core';
+import { JsonObject, logging, UnsupportedPlatformException } from '@angular-devkit/core';
 
 import { packages } from './../../lib/packages';
+import { Z_FIXED } from 'zlib';
 
 function exec(command: string, args: string[], opts: { cwd?: string }, log: logging.Logger) {
   const { status, error, stderr, stdout } = spawnSync(command, args, { stdio: 'inherit', ...opts });
@@ -53,6 +54,9 @@ export default async function (argv: { local?: boolean; snapshot?: boolean }, lo
     const resources = files
       .map((filename) => path.relative(pkg.root, filename))
       .filter((filename: string) => {
+        if (filename === 'package.json') {
+          return false;
+        }
         // skip node_modules
         if (/(?:^|[\/\\])node_modules[\/\\]/.test(filename)) {
           return false;
@@ -80,7 +84,37 @@ export default async function (argv: { local?: boolean; snapshot?: boolean }, lo
     });
   }
 
-  log.info('Setting versions...');
+  log.info(`Generating 'package.json' files...`);
+  const packageJsonLog = log.createChild('packages');
+  for (const packageName of sortedPackages) {
+    packageJsonLog.info(packageName);
+    const pkg = packages[packageName];
+    // const packageInfo = require(path.join(pkg.root, 'package.json'));
+    const packageJson = pkg.packageJson;
+    // packageJsonLog.info(JSON.stringify(packageInfo));
+    for (const key of Object.keys(packageJson)) {
+      switch (key) {
+        case 'publishConfig':
+          const publishConfig = packageJson[key];
+          for (const setting of Object.keys(publishConfig)) {
+            switch (setting) {
+              case 'bin':
+              // fallthrough
+              case 'main':
+              // fallthrough
+              case 'types':
+                packageJson[setting] = publishConfig[setting];
+                break;
+            }
+          }
+        // fallthrough
+        case 'scripts':
+          delete packageJson[key];
+          break;
+      }
+    }
+    fs.writeFileSync(path.join(pkg.dist, 'package.json'), JSON.stringify(packageJson));
+  }
 
   log.info(`Done`);
 }
