@@ -11,7 +11,7 @@ import { logging, tags } from '@angular-devkit/core';
 import { packages } from './../../lib/packages';
 
 import build from './build';
-import { Logger } from '@angular-devkit/core/src/logger';
+
 export interface PublishArgs {
   tag?: string;
   tagCheck?: boolean;
