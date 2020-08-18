@@ -19,6 +19,9 @@
     "build": "node ./bin/admin build",
     "publish": "node ./bin/admin publish"
   },
+  "dependencies": {
+    "tslib": "^2.0.1"
+  },
   "devDependencies": {
     "@angular-devkit/core": "^10.0.5",
     "@types/jest": "25.1.4",
