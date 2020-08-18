@@ -21,11 +21,8 @@ export default async function (args: PublishArgs, log: logging.Logger) {
   log.info('Publishing...');
   let { tag } = args;
   if (!tag) {
-    tag = 'next';
+    tag = 'latest';
   }
-
-  //   let registry = args.registry;
-  //   if()
 
   await build({}, log.createChild('build'));
 
@@ -41,7 +38,8 @@ export default async function (args: PublishArgs, log: logging.Logger) {
           log.info(`publishing package ${name} with version => ${name}@`);
 
           //   const publishArgs = ['publish', '--tag', tag, '--registry', registry];
-          const publishArgs = ['publish', '--tag', tag, '--dry-run'];
+          // const publishArgs = ['publish', '--tag', tag, '--tolerate-republish'];
+          const publishArgs = ['publish', '--tag', tag];
           return exec('npm', publishArgs, { cwd: pkg.dist }, log);
         })
         .then((stdout: string) => {
