@@ -3,10 +3,9 @@ import * as glob from 'glob';
 import * as path from 'path';
 import { spawnSync } from 'child_process';
 import * as rimraf from 'rimraf';
-import { JsonObject, logging, UnsupportedPlatformException } from '@angular-devkit/core';
+import { JsonArray, logging, UnsupportedPlatformException } from '@angular-devkit/core';
 
 import { packages } from './../../lib/packages';
-import { Z_FIXED } from 'zlib';
 
 function exec(command: string, args: string[], opts: { cwd?: string }, log: logging.Logger) {
   const { status, error, stderr, stdout } = spawnSync(command, args, { stdio: 'inherit', ...opts });
@@ -39,7 +38,13 @@ export default async function (argv: { local?: boolean; snapshot?: boolean }, lo
     packageLog.info(packageName);
     const pkg = packages[packageName];
     recursiveCopy(pkg.build, pkg.dist, log);
-    rimraf.sync(pkg.build);
+    const fragments: string[] = (pkg.packageJson.fragments as any) || [];
+    for (const fragment of fragments) {
+      packageLog.info(`${packageName}/${fragment}`);
+
+      recursiveCopy(pkg.build.replace('src', fragment), path.join(pkg.dist, fragment), log);
+    }
+    // rimraf.sync(pkg.build);
   }
 
   log.info('Copying resources...');
