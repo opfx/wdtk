@@ -11,9 +11,7 @@
     "**/node_modules": true,
     "**/dist": true
   },
-  "cSpell.words": [
-    "devkit"
-  ],
+  "cSpell.words": ["devkit", "wdtk"],
   "cSpell.ignorePaths": [
     "**/package.json",
     "**/yarn.lock",

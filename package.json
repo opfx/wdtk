@@ -7,7 +7,8 @@
   "license": "MIT",
   "private": true,
   "bin": {
-    "admin": "./bin/admin"
+    "admin": "./bin/admin",
+    "wx": "./bin/wx"
   },
   "workspaces": [
     "packages/*"
@@ -17,13 +18,13 @@
   },
   "scripts": {
     "build": "node ./bin/admin build",
-    "publish": "node ./bin/admin publish"
+    "publish": "node ./bin/admin publish",
+    "wx": "node ./bin/wx"
   },
   "dependencies": {
     "tslib": "^2.0.1"
   },
   "devDependencies": {
-    "@angular-devkit/core": "^10.0.5",
     "@types/jest": "25.1.4",
     "@types/node": "14.0.27",
     "glob": "^7.1.6",

@@ -5,16 +5,16 @@ __metadata:
   version: 4
   cacheKey: 5
 
-"@angular-devkit/core@npm:^10.0.5":
-  version: 10.0.5
-  resolution: "@angular-devkit/core@npm:10.0.5"
+"@angular-devkit/core@npm:^10.0.7":
+  version: 10.0.7
+  resolution: "@angular-devkit/core@npm:10.0.7"
   dependencies:
     ajv: 6.12.3
     fast-json-stable-stringify: 2.1.0
     magic-string: 0.25.7
     rxjs: 6.5.5
     source-map: 0.7.3
-  checksum: 8e7dde35440a8674121824e7362ff19389e20e9d776454407c567daf35abf82d7b38e9537f5fac176c36fdaa1adb61750b8839bef166b3c2fcab17b7269ef757
+  checksum: ff46aa4996106c6ed3348cdb5f5b68a67a746e04f5d793d816a7662850fb92ae4108d043e561d32a0b40e93b069827321beb4db83563edf5a1fd991a6f7e3c63
   languageName: node
   linkType: hard
 
@@ -737,11 +737,33 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@wdtk/cli@workspace:packages/cli":
+  version: 0.0.0-use.local
+  resolution: "@wdtk/cli@workspace:packages/cli"
+  dependencies:
+    "@wdtk/core": "*"
+    jest: 25.2.3
+    tslib: ^2.0.1
+  bin:
+    wx: ./src/bin/wx.ts
+  languageName: unknown
+  linkType: soft
+
+"@wdtk/core@*, @wdtk/core@workspace:packages/core":
+  version: 0.0.0-use.local
+  resolution: "@wdtk/core@workspace:packages/core"
+  dependencies:
+    "@angular-devkit/core": ^10.0.7
+    ansi-colors: 4.1.1
+    jest: 25.2.3
+    tslib: ^2.0.1
+  languageName: unknown
+  linkType: soft
+
 "@wdtk/source@workspace:.":
   version: 0.0.0-use.local
   resolution: "@wdtk/source@workspace:."
   dependencies:
-    "@angular-devkit/core": ^10.0.5
     "@types/jest": 25.1.4
     "@types/node": 14.0.27
     glob: ^7.1.6
@@ -751,6 +773,7 @@ __metadata:
     rimraf: ^3.0.2
     temp: ^0.9.1
     ts-jest: 25.2.1
+    tslib: ^2.0.1
     typescript: 3.9.7
   bin:
     admin: ./bin/admin
@@ -815,6 +838,13 @@ __metadata:
     json-schema-traverse: ^0.4.1
     uri-js: ^4.2.2
   checksum: b20a171bf30ede1635c6b1955bcc1db5a6b3e7dfa77f75aace9fb0db87375430c46d5cdd84158a0bf0a8da91e4da97bdb1afe5604a0969d8468b7c11143fdbba
+  languageName: node
+  linkType: hard
+
+"ansi-colors@npm:4.1.1":
+  version: 4.1.1
+  resolution: "ansi-colors@npm:4.1.1"
+  checksum: 50d8dfbce25602caea1b170ecf4c71c4c9c58d2d1e3186fb5712848c0610d05fe60b8bb6a9eaebd9b54f1db3baf6f603e04214cce597cc7799bc9f47fd9a797a
   languageName: node
   linkType: hard
 
@@ -4721,6 +4751,13 @@ resolve@1.1.7:
   version: 1.13.0
   resolution: "tslib@npm:1.13.0"
   checksum: 5dc3bdaea3b67c76ef4a14c28fcb2171da7bcf292fd9c59a260098729626b1ce766c52b588f08e324ed9a0c52ea8a93a815920f980d75981abc9d850fbf310fb
+  languageName: node
+  linkType: hard
+
+"tslib@npm:^2.0.1":
+  version: 2.0.1
+  resolution: "tslib@npm:2.0.1"
+  checksum: 7b42337a07f536c9650c72471cdf51317f07eb981692e91b8979fee3f6e20136a8f047e6ecdc5f2f3201132a6cc4e0096fa3c58655eba3803bf7fe739ccd088e
   languageName: node
   linkType: hard
 

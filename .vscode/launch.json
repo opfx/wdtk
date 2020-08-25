@@ -21,6 +21,15 @@
       "program": "${workspaceFolder}\\bin\\admin",
       // "outFiles": ["${workspaceFolder}/**/*.js"],
       "args": ["publish"]
+    },
+    {
+      "type": "node",
+      "request": "launch",
+      "name": "wx - version",
+      "skipFiles": ["<node_internals>/**"],
+      "program": "${workspaceFolder}\\bin\\wx",
+      // "outFiles": ["${workspaceFolder}/**/*.js"],
+      "args": ["version"]
     }
   ]
 }
