@@ -16,7 +16,7 @@
     "lib": ["es2018"],
     "declaration": true,
     "baseUrl": ".",
-    "rootDir": ".",
+    "rootDirs": [".", "./target/"],
     "paths": {
       "@wdtk/core/util": ["./packages/core/util/index"]
     }
