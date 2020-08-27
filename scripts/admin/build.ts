@@ -3,7 +3,7 @@ import * as glob from 'glob';
 import * as path from 'path';
 import { spawnSync } from 'child_process';
 import * as rimraf from 'rimraf';
-import { JsonArray, logging, UnsupportedPlatformException } from '@angular-devkit/core';
+import { logging, JsonObject } from '@angular-devkit/core';
 
 import { packages } from './../../lib/packages';
 
@@ -90,13 +90,32 @@ export default async function (argv: { local?: boolean; snapshot?: boolean }, lo
   }
 
   log.info(`Generating 'package.json' files...`);
+  // use the workspace version
   const packageJsonLog = log.createChild('packages');
+  const rootPackageJson = require('./../../package.json');
+
+  const version = rootPackageJson['version'];
   for (const packageName of sortedPackages) {
     packageJsonLog.info(packageName);
     const pkg = packages[packageName];
-    // const packageInfo = require(path.join(pkg.root, 'package.json'));
+
     const packageJson = pkg.packageJson;
-    // packageJsonLog.info(JSON.stringify(packageInfo));
+    packageJson['version'] = version;
+
+    for (const depName of Object.keys(packages)) {
+      for (const depKey of ['dependencies', 'peerDependencies', 'devDependencies']) {
+        let dependenciesSection: JsonObject | null;
+
+        dependenciesSection = packageJson[depKey] as JsonObject | null;
+
+        if (dependenciesSection && typeof dependenciesSection === 'object' && dependenciesSection[depName]) {
+          if ((dependenciesSection[depName] as string).match(/\b0\.0\.0\b/)) {
+            dependenciesSection[depName] = (dependenciesSection[depName] as string).replace(/\b0\.0\.0\b/, version);
+          }
+        }
+      }
+    }
+
     for (const key of Object.keys(packageJson)) {
       switch (key) {
         case 'publishConfig':
