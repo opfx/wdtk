@@ -766,6 +766,7 @@ __metadata:
     "@angular-devkit/core": ^10.0.7
     ansi-colors: 4.1.1
     jest: 25.2.3
+    semver: ^6.3.0
     tslib: ^2.0.1
   languageName: unknown
   linkType: soft
