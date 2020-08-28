@@ -9,6 +9,7 @@ import { parseJson, JsonParseMode, JsonObject } from './../json';
 import { isJsonObject } from './../json';
 
 import { CommandDescriptor, SubCommandDescriptor, CommandMapOptions, CommandWorkspace, CommandMap } from './types';
+import { CommandNotFoundException } from './exceptions';
 import { Command } from './command';
 
 import { parseJsonSchemaToCommandDescriptor } from './schema';
@@ -18,6 +19,7 @@ import { ParseArgumentException } from './arguments';
 export interface RunCommandOptions {
   uriHandler: schema.UriHandler;
   commands: CommandMap;
+  workspace: CommandWorkspace;
   log?: Logger;
 }
 
@@ -92,27 +94,27 @@ export async function runCommand(args: string[], opts: RunCommandOptions): Promi
   }
 
   if (!descriptor) {
-    const commandsDistance = {} as { [name: string]: number };
-    const name = commandName;
-    const allCommands = Object.keys(commands).sort((a, b) => {
-      if (!(a in commandsDistance)) {
-        commandsDistance[a] = strings.levenshtein(a, name);
-      }
-      if (!(b in commandsDistance)) {
-        commandsDistance[b] = strings.levenshtein(b, name);
-      }
-      return commandsDistance[a] - commandsDistance[b];
-    });
+    const e = new CommandNotFoundException(commandName);
+    throw e;
 
-    const cliName = process.title.split(' ')[0];
-    log.error(tags.stripIndents`
-    The specified command ("${commandName}") is invalid. For a list of available options,
-    run "${cliName} help".
-
-    Did you mean "${allCommands[0]}"?
-    `);
-
-    return 1;
+    // const commandsDistance = {} as { [name: string]: number };
+    // const name = commandName;
+    // const allCommands = Object.keys(commands).sort((a, b) => {
+    //   if (!(a in commandsDistance)) {
+    //     commandsDistance[a] = strings.levenshtein(a, name);
+    //   }
+    //   if (!(b in commandsDistance)) {
+    //     commandsDistance[b] = strings.levenshtein(b, name);
+    //   }
+    //   return commandsDistance[a] - commandsDistance[b];
+    // });
+    // const cliName = process.title.split(' ')[0];
+    // log.error(tags.stripIndents`
+    // The specified command ("${commandName}") is invalid. For a list of available options,
+    // run "${cliName} help".
+    // Did you mean "${allCommands[0]}"?
+    // `);
+    // return 1;
   }
 
   try {
@@ -125,7 +127,7 @@ export async function runCommand(args: string[], opts: RunCommandOptions): Promi
       return map;
     });
 
-    const ctx = {};
+    const ctx = { workspace: opts.workspace };
     const command = new descriptor.impl(ctx, descriptor, log);
 
     const result = await command.validateAndRun(parsedArguments);

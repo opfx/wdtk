@@ -2,9 +2,10 @@ import * as path from 'path';
 import * as fs from 'fs';
 import { format } from 'util';
 import { createConsoleLogger } from '@angular-devkit/core/node';
-import { runCommand } from '@wdtk/core';
+import { runCommand, getCommandWorkspace } from '@wdtk/core';
 import { colors, removeColor, supportsColor } from '@wdtk/core/util';
 import { findUp } from '@wdtk/core/util';
+import { CommandNotFoundException } from '@wdtk/core';
 
 const dbgEnv = process.env['WX_DEBUG'];
 
@@ -15,6 +16,11 @@ export default async function (options: { cliArgs: string[] }) {
   //fix verification of node version
 
   const logger = setupLogging();
+
+  let workspace = getCommandWorkspace();
+  if (!workspace) {
+    workspace = { root: process.cwd() };
+  }
 
   const commandsFile = findUp('commands.json', __dirname);
   const commandsJson = fs.readFileSync(commandsFile, 'utf-8');
@@ -34,8 +40,16 @@ export default async function (options: { cliArgs: string[] }) {
   };
 
   try {
-    // const maybeExitCode = await runCommand(['version'], commandMapOpts);
-    const maybeExitCode = await runCommand(options.cliArgs, { commands, uriHandler });
+    let maybeExitCode;
+    try {
+      maybeExitCode = await runCommand(options.cliArgs, { commands, workspace, uriHandler });
+    } catch (x) {
+      if (x instanceof CommandNotFoundException) {
+        const ngCli = require.resolve('@angular/cli', { paths: [process.cwd()] });
+        const cli = await import(ngCli);
+        maybeExitCode = await cli.default({ cliArgs: options.cliArgs });
+      }
+    }
     if (typeof maybeExitCode === 'number') {
       console.assert(Number.isInteger(maybeExitCode));
       return maybeExitCode;

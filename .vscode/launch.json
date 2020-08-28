@@ -39,9 +39,9 @@
       "request": "launch",
       "name": "wx",
       "skipFiles": ["<node_internals>/**"],
-      "program": "${workspaceFolder}\\bin\\wx"
+      "program": "${workspaceFolder}\\bin\\wx",
       // "outFiles": ["${workspaceFolder}/**/*.js"],
-      //"args": ["version"]
+      "args": ["generate"]
     }
   ]
 }

@@ -26,7 +26,7 @@
         "name": "wx",
         "skipFiles": ["<node_internals>/**"],
         "program": "./../../bin/wx",
-        "args": ["ver"]
+        "args": ["version"]
       }
     ],
     "compounds": []
