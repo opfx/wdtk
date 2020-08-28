@@ -3,6 +3,7 @@ import * as path from 'path';
 
 import { schema } from '@angular-devkit/core';
 import { Logger } from '@wdtk/core/util';
+import { strings, tags } from '@wdtk/core/util';
 
 import { parseJson, JsonParseMode, JsonObject } from './../json';
 import { isJsonObject } from './../json';
@@ -60,10 +61,57 @@ export async function runCommand(args: string[], opts: RunCommandOptions): Promi
 
   if (commandName in commands) {
     descriptor = await loadCommandDescriptor(commandName, commands[commandName], registry);
+  } else {
+    const commandNames = Object.keys(commands);
+
+    // optimize loading for common aliases
+    if (commandName.length === 1) {
+      commandNames.sort((a, b) => {
+        const aMatch = a[0] === commandName;
+        const bMatch = b[0] === commandName;
+        if (aMatch && !bMatch) {
+          return -1;
+        }
+        if (!aMatch && bMatch) {
+          return 1;
+        }
+        return 0;
+      });
+    }
+
+    for (const name of commandNames) {
+      const aliasDesc = await loadCommandDescriptor(name, commands[name], registry);
+      const aliases = aliasDesc.aliases;
+
+      if (aliases && aliases.some((alias) => alias === commandName)) {
+        commandName = name;
+        descriptor = aliasDesc;
+        break;
+      }
+    }
   }
 
   if (!descriptor) {
-    //FIXME
+    const commandsDistance = {} as { [name: string]: number };
+    const name = commandName;
+    const allCommands = Object.keys(commands).sort((a, b) => {
+      if (!(a in commandsDistance)) {
+        commandsDistance[a] = strings.levenshtein(a, name);
+      }
+      if (!(b in commandsDistance)) {
+        commandsDistance[b] = strings.levenshtein(b, name);
+      }
+      return commandsDistance[a] - commandsDistance[b];
+    });
+
+    const cliName = process.title.split(' ')[0];
+    log.error(tags.stripIndents`
+    The specified command ("${commandName}") is invalid. For a list of available options,
+    run "${cliName} help".
+
+    Did you mean "${allCommands[0]}"?
+    `);
+
     return 1;
   }
 
