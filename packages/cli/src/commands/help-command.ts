@@ -21,6 +21,8 @@ export class HelpCommand extends Command<HelpCommandSchema> {
       const aliasInfo = cmd.aliases.length > 0 ? ` (${cmd.aliases.join(', ')})` : '';
       this.log.info(`  ${colors.cyan(cmd.name)}${aliasInfo} ${cmd.description}`);
     }
-    this.log.info(`\nFor more detailed help run "${process.title} [command name] --help"`);
+    let cliName = process.title.split(' ')[0];
+
+    this.log.info(`\nFor more detailed help run "${cliName} [command name] --help"`);
   }
 }
