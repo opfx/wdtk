@@ -13,7 +13,8 @@ import * as fs from 'fs';
 import * as path from 'path';
 import * as ts from 'typescript';
 
-const distRoot = path.join(__dirname, '../dist');
+const buildRoot = path.join(__dirname, '../target/build');
+const distRoot = path.join(__dirname, '../target/dist');
 // fixme
 // const { packages: monorepoPackages } = require('../.monorepo.json');
 
@@ -25,6 +26,7 @@ export interface PackageInfo {
   main: string;
   dist: string;
   build: string;
+  schema: { build: string };
   tar: string;
   private: boolean;
   experimental: boolean;
@@ -217,7 +219,8 @@ export const packages: PackageMap = packageJsonPaths
     const experimental = !!packageJson.private || !!packageJson.experimental;
 
     packages[name] = {
-      build: path.join(distRoot, pkgRoot.substr(path.dirname(__dirname).length), 'src'),
+      build: path.join(buildRoot, pkgRoot.substr(path.dirname(__dirname).length), 'src'),
+      schema: { build: path.join(buildRoot, 'target', pkgRoot.substr(path.dirname(__dirname).length), 'src') },
       dist: path.join(distRoot, name),
       root: pkgRoot,
       relative: path.relative(path.dirname(__dirname), pkgRoot),

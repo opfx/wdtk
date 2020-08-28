@@ -6,6 +6,7 @@ import * as rimraf from 'rimraf';
 import { logging, JsonObject } from '@angular-devkit/core';
 
 import { packages } from './../../lib/packages';
+import * as buildSchema from './build-schema';
 
 function exec(command: string, args: string[], opts: { cwd?: string }, log: logging.Logger) {
   const { status, error, stderr, stdout } = spawnSync(command, args, { stdio: 'inherit', ...opts });
@@ -28,6 +29,8 @@ function exec(command: string, args: string[], opts: { cwd?: string }, log: logg
 export default async function (argv: { local?: boolean; snapshot?: boolean }, log: logging.Logger) {
   clean(log);
 
+  await buildSchema.default({}, log.createChild('build-schema'));
+
   const sortedPackages = sortPackages();
 
   build(log);
@@ -37,7 +40,13 @@ export default async function (argv: { local?: boolean; snapshot?: boolean }, lo
   for (const packageName of sortedPackages) {
     packageLog.info(packageName);
     const pkg = packages[packageName];
+    // move the main source
     recursiveCopy(pkg.build, pkg.dist, log);
+    // move the schema
+    if (fs.existsSync(pkg.schema.build)) {
+      recursiveCopy(pkg.schema.build, pkg.dist, log);
+    }
+
     const fragments: string[] = (pkg.packageJson.fragments as any) || [];
     for (const fragment of fragments) {
       packageLog.info(`${packageName}/${fragment}`);
@@ -85,7 +94,8 @@ export default async function (argv: { local?: boolean; snapshot?: boolean }, lo
       });
     packageLog.info(`found ${resources.length} resource(s)...`);
     resources.forEach((filename) => {
-      copy(path.join(pkg.root, filename), path.join(pkg.dist, filename));
+      const targetFilename = filename.replace('src', '');
+      copy(path.join(pkg.root, filename), path.join(pkg.dist, targetFilename));
     });
   }
 
@@ -154,13 +164,13 @@ function build(log: logging.Logger) {
 }
 
 function clean(logger: logging.Logger) {
-  const distDir = path.join(__dirname, './../../dist');
+  const distDir = path.join(__dirname, './../../target');
 
   logger.info(`Cleaning... `);
   if (!fs.existsSync(distDir)) {
     return;
   }
-  logger.info(`    removing 'dist/' directory`);
+  logger.info(`    removing 'target/' directory`);
   try {
     rimraf.sync(distDir);
   } catch (e) {

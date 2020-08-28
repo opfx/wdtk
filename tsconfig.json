@@ -7,7 +7,7 @@
     "importHelpers": true,
     "module": "commonjs",
     "moduleResolution": "node",
-    "outDir": "./dist",
+    "outDir": "./target/build",
     "typeRoots": ["node_modules/@types"],
     "experimentalDecorators": true,
     "emitDecoratorMetadata": true,
@@ -16,10 +16,10 @@
     "lib": ["es2018"],
     "declaration": true,
     "baseUrl": ".",
-    "rootDirs": [".", "./target/"],
+    "rootDirs": [".", "./target"],
     "paths": {
       "@wdtk/core/util": ["./packages/core/util/index"]
     }
   },
-  "exclude": ["lib/**", "scripts/**"]
+  "exclude": ["lib/**", "scripts/**", "./target/build"]
 }
