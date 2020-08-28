@@ -1,6 +1,7 @@
 {
   "name": "@wdtk/cli",
   "version": "0.0.0",
+  "main": "./src/lib/cli/index.ts",
   "bin": {
     "wx": "./src/bin/wx.ts"
   },
@@ -8,6 +9,7 @@
     "build": "npm -v"
   },
   "publishConfig": {
+    "main": "./lib/cli/index.js",
     "bin": {
       "wx": "./bin/wx.js"
     }
