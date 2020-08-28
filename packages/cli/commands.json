@@ -1,0 +1,4 @@
+{
+  "help": "./commands/help.json",
+  "version": "./commands/version.json"
+}

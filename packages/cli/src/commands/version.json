@@ -1,0 +1,11 @@
+{
+  "$schema": "http://json-schema.org/schema",
+  "$id": "wx-cli://commands/version.json",
+  "description": "Outputs wdtk CLI version.",
+  "$longDescription": "",
+  "$aliases": ["v"],
+  "$scope": "all",
+  "$impl": "./version-command#VersionCommand",
+  "type": "object",
+  "allOf": [{ "$ref": "./.definitions.json#/definitions/base" }]
+}

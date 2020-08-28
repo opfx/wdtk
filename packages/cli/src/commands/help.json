@@ -1,0 +1,11 @@
+{
+  "$schema": "http://json-schema.org/schema",
+  "$id": "wx-cli://commands/help.json",
+  "description": "Lists available commands and their short descriptions.",
+  "$longDescription": "./help-long.md",
+  "$aliases": [],
+  "$scope": "all",
+  "$impl": "./help-command#HelpCommand",
+  "type": "object",
+  "allOf": [{ "$ref": "./.definitions.json#/definitions/base" }]
+}

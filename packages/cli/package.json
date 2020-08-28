@@ -1,0 +1,22 @@
+{
+  "name": "@wdtk/cli",
+  "version": "0.0.0",
+  "bin": {
+    "wx": "./src/bin/wx.ts"
+  },
+  "scripts": {
+    "build": "npm -v"
+  },
+  "publishConfig": {
+    "bin": {
+      "wx": "./bin/wx.js"
+    }
+  },
+  "dependencies": {
+    "@wdtk/core": "0.0.0",
+    "tslib": "^2.0.1"
+  },
+  "devDependencies": {
+    "jest": "25.2.3"
+  }
+}

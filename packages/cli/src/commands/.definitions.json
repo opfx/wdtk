@@ -1,0 +1,31 @@
+{
+  "$schema": "http://json-schema.org/schema",
+  "$id": "wx-cli://commands/.definitions.json",
+
+  "definitions": {
+    "base": {
+      "type": "object",
+      "properties": {
+        "help": {
+          "enum": [true, false, "json", "JSON"],
+          "description": "Shows a help message for this command in the console.",
+          "default": false
+        }
+      }
+    },
+    "interactive": {
+      "properties": {
+        "interactive": {
+          "type": "boolean",
+          "default": "true",
+          "description": "When false, disables interactive input prompts."
+        },
+        "defaults": {
+          "type": "boolean",
+          "default": "false",
+          "description": "When true, disables interactive input prompts for options with a default."
+        }
+      }
+    }
+  }
+}

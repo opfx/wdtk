@@ -1,12 +1,12 @@
 # See http://help.github.com/ignore-files/ for more about ignoring files.
-packages
+
 .yarn/cache
 .yarn/install-state.gz
 .yarn/build-state.yml
 # compiled output
 **/dist
 /tmp
-/out-tsc
+/target
 
 # dependencies
 **/node_modules

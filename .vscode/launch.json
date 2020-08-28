@@ -7,6 +7,18 @@
     {
       "type": "node",
       "request": "launch",
+      "name": "quicktype",
+      "skipFiles": ["<node_internals>/**"],
+      "program": "${workspaceFolder}\\scripts\\tools\\quicktype.js",
+      // "outFiles": ["${workspaceFolder}/**/*.js"],
+      "args": [
+        "D:\\work\\opfx\\proj\\wdtk\\wdtk\\packages\\cli\\src\\commands\\version.json",
+        "D:\\work\\opfx\\proj\\wdtk\\wdtk\\dist\\version.ts"
+      ]
+    },
+    {
+      "type": "node",
+      "request": "launch",
       "name": "build (admin)",
       "skipFiles": ["<node_internals>/**"],
       "program": "${workspaceFolder}\\bin\\admin",
@@ -25,11 +37,11 @@
     {
       "type": "node",
       "request": "launch",
-      "name": "wx - version",
+      "name": "wx",
       "skipFiles": ["<node_internals>/**"],
-      "program": "${workspaceFolder}\\bin\\wx",
+      "program": "${workspaceFolder}\\bin\\wx"
       // "outFiles": ["${workspaceFolder}/**/*.js"],
-      "args": ["version"]
+      //"args": ["version"]
     }
   ]
 }
