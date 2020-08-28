@@ -122,7 +122,8 @@ function _findAllPackageJson(dir: string, exclude: RegExp): string[] {
 // let excludeRe = new RegExp('');
 const tsConfigPath = path.join(__dirname, '../tsconfig.json');
 const tsConfig = ts.readConfigFile(tsConfigPath, ts.sys.readFile);
-// if (tsConfig.config.exclude !== undefined) {
+const excludePackages = (tsConfig.config.exclude as string[]) || [];
+excludePackages.push('./target');
 const pattern =
   '^(' +
   (tsConfig.config.exclude as string[])
