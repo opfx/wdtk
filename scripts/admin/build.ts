@@ -27,7 +27,7 @@ function exec(command: string, args: string[], opts: { cwd?: string }, log: logg
 }
 
 export default async function (argv: { local?: boolean; snapshot?: boolean }, log: logging.Logger) {
-  clean(log);
+  await clean(log);
 
   await buildSchema.default({}, log.createChild('build-schema'));
 
@@ -53,7 +53,6 @@ export default async function (argv: { local?: boolean; snapshot?: boolean }, lo
 
       recursiveCopy(pkg.build.replace('src', fragment), path.join(pkg.dist, fragment), log);
     }
-    // rimraf.sync(pkg.build);
   }
 
   log.info('Copying resources...');
@@ -163,19 +162,19 @@ function build(log: logging.Logger) {
   }
 }
 
-function clean(logger: logging.Logger) {
+async function clean(logger: logging.Logger) {
   const distDir = path.join(__dirname, './../../target');
+  return new Promise((resolve, reject) => {
+    logger.info(`Cleaning... `);
+    if (!fs.existsSync(distDir)) {
+      resolve();
+    }
+    logger.info(`    removing 'target/' directory`);
 
-  logger.info(`Cleaning... `);
-  if (!fs.existsSync(distDir)) {
-    return;
-  }
-  logger.info(`    removing 'target/' directory`);
-  try {
-    rimraf.sync(distDir);
-  } catch (e) {
-    rimraf.sync(distDir);
-  }
+    rimraf(distDir, () => {
+      resolve();
+    });
+  });
 }
 
 function recursiveCopy(from: string, to: string, logger: logging.Logger) {
