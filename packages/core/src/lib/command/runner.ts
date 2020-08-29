@@ -1,12 +1,11 @@
 import { readFileSync } from 'fs';
 import * as path from 'path';
 
-import { schema } from '@angular-devkit/core';
 import { Logger } from '@wdtk/core/util';
 import { strings, tags } from '@wdtk/core/util';
 
-import { parseJson, JsonParseMode, JsonObject } from './../json';
-import { isJsonObject } from './../json';
+import { CoreSchemaRegistry, JsonParseMode, JsonObject, UriHandler } from './../json';
+import { isJsonObject, parseJson } from './../json';
 
 import { CommandDescriptor, SubCommandDescriptor, CommandMapOptions, CommandWorkspace, CommandMap } from './types';
 import { CommandNotFoundException } from './exceptions';
@@ -17,7 +16,7 @@ import { parseArguments } from './arguments';
 import { ParseArgumentException } from './arguments';
 
 export interface RunCommandOptions {
-  uriHandler: schema.UriHandler;
+  uriHandler: UriHandler;
   commands: CommandMap;
   workspace: CommandWorkspace;
   log?: Logger;
@@ -33,7 +32,7 @@ export async function runCommand(args: string[], opts: RunCommandOptions): Promi
     log = Logger.getLogger();
   }
 
-  const registry = new schema.CoreSchemaRegistry([]);
+  const registry = new CoreSchemaRegistry([]);
   registry.registerUriHandler(uriHandler);
 
   let commandName: string | undefined = undefined;
@@ -148,7 +147,7 @@ export async function runCommand(args: string[], opts: RunCommandOptions): Promi
 async function loadCommandDescriptor(
   name: string,
   schemaPath: string,
-  registry: schema.CoreSchemaRegistry
+  registry: CoreSchemaRegistry
 ): Promise<CommandDescriptor> {
   const schemaContent = readFileSync(schemaPath, 'utf-8');
   const schema = parseJson(schemaContent, JsonParseMode.Loose, { path: schemaPath });
