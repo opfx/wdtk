@@ -2,10 +2,10 @@ import * as fs from 'fs';
 import * as path from 'path';
 
 import { SemVer } from '@wdtk/core/util';
-import { findUp } from '@wdtk/core/util';
+import { findUp, strings, tags } from '@wdtk/core/util';
 
 import { CoreSchemaRegistry, CommandMap, CommandDescriptor } from '@wdtk/core';
-import { getCommandDescriptor } from '@wdtk/core';
+import { getCommandDescriptor, getCommandName } from '@wdtk/core';
 
 const dbgEnv = process.env['WX_DEBUG'];
 
@@ -31,20 +31,31 @@ const clis = {
 (async () => {
   const argv: string[] = process.argv.slice(2);
 
-  // choose between the workspace and global CLI for each of the CLI(s)
-  // the CLI downgrade themselves to the workspace installation if the version
-  // installed in the workspace is lower than the global version
+  // if we don't have a local (workspace) copy of the cli use the global one
+  // otherwise always use the local copy
+  for (const cli in clis) {
+    const globalCliInfo = getCliInfo(clis[cli]['name'], 'global');
+    const localCliInfo = getCliInfo(clis[cli]['name'], 'local');
+    if (!localCliInfo.path) {
+      clis[cli]['info'] = globalCliInfo;
+      if (isDebug) {
+        console.debug(`using global '${cli}' : ${clis[cli]['name']}@${clis[cli]['info'].version}`);
+      }
+    } else {
+      clis[cli]['info'] = localCliInfo;
+      if (isDebug) {
+        console.debug(`using local '${cli}' : ${clis[cli]['name']}@${clis[cli]['info'].version}`);
+      }
+    }
+  }
 
-  const wxCli = getCliInfo('@wdtk/cli', 'local');
-  const ngCli = getCliInfo('@angular/cli', 'local');
-
-  clis.wx['info'] = wxCli;
-  clis.ng['info'] = ngCli;
-
+  // get the commands supported by each cli
   for (const cli in clis) {
     clis[cli]['commands'] = getCliCommandMap(clis[cli]['info']);
   }
 
+  // find out which cli supports the given command
+  // if all support it, the wx copy of the command should be executed
   let registry = new CoreSchemaRegistry([]);
   registry.registerUriHandler((uri: string) => {
     if (uri.startsWith('wx-cli://')) {
@@ -52,7 +63,7 @@ const clis = {
       return Promise.resolve(JSON.parse(content));
     }
     if (uri.startsWith('ng-cli://')) {
-      const content = fs.readFileSync(path.join(ngCli.path, uri.substr('ng-cli://'.length)), 'utf-8');
+      const content = fs.readFileSync(path.join(clis.ng['info'].path, uri.substr('ng-cli://'.length)), 'utf-8');
 
       return Promise.resolve(JSON.parse(content));
     }
@@ -69,7 +80,43 @@ const clis = {
     }
   }
 
+  // none of the cli support the command
+  // display a help message and exit
   if (!commandDescriptor) {
+    // get the command name
+    let name = getCommandName(argv);
+
+    if (!name) {
+      // this should never happen
+      process.exit(1);
+    }
+
+    // merge all the commands
+    let commands: CommandMap = {};
+
+    for (const cli in clis) {
+      const cliCommands = clis[cli]['commands'];
+      commands = { ...cliCommands, ...commands };
+    }
+
+    const commandsDistance = {} as { [name: string]: number };
+
+    const allCommands = Object.keys(commands).sort((a, b) => {
+      if (!(a in commandsDistance)) {
+        commandsDistance[a] = strings.levenshtein(a, name);
+      }
+      if (!(b in commandsDistance)) {
+        commandsDistance[b] = strings.levenshtein(b, name);
+      }
+      return commandsDistance[a] - commandsDistance[b];
+    });
+
+    console.error(tags.stripIndents`
+    The specified command ("${name}") is invalid. For a list of available options,
+    run "wx help".
+    Did you mean "${allCommands[0]}"?
+    `);
+
     process.exit(1);
   }
 
@@ -77,7 +124,8 @@ const clis = {
     console.debug(`using ${commandCli.name}@${commandCli.info.version} to execute '${commandDescriptor.name}' command`);
   }
 
-  loadCli(commandCli);
+  // invoke the cli that supports the command
+  invokeCli(commandCli);
 })()
   .then(() => {})
   .catch((e) => {
@@ -86,7 +134,7 @@ const clis = {
     process.exit(127);
   });
 
-function loadCli(commandCli: any) {
+function invokeCli(commandCli: any) {
   let commandCliInit = commandCli.info.path;
   let commandCliInitExtension = '.js';
   const fragments = [];

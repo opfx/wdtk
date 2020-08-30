@@ -144,14 +144,12 @@ export async function runCommand(args: string[], opts: RunCommandOptions): Promi
   }
 }
 
-export async function getCommandDescriptor(
-  args: string[],
-  commands: CommandMap,
-  registry: CoreSchemaRegistry
-): Promise<CommandDescriptor> {
-  let descriptor: CommandDescriptor | null = null;
+/**
+ * Returns the command name or alias from the list of arguments.
+ * @param args
+ */
+export function getCommandName(args: string[]): string {
   let commandName: string | undefined = undefined;
-
   for (let i = 0; i < args.length; i++) {
     const arg = args[i];
 
@@ -161,6 +159,26 @@ export async function getCommandDescriptor(
       break;
     }
   }
+  return commandName;
+}
+
+export async function getCommandDescriptor(
+  args: string[],
+  commands: CommandMap,
+  registry: CoreSchemaRegistry
+): Promise<CommandDescriptor> {
+  let descriptor: CommandDescriptor | null = null;
+  let commandName: string | undefined = getCommandName(args);
+
+  // for (let i = 0; i < args.length; i++) {
+  //   const arg = args[i];
+
+  //   if (!arg.startsWith('-')) {
+  //     commandName = arg;
+  //     args = args.slice(i, 1);
+  //     break;
+  //   }
+  // }
 
   if (!commandName) {
     if (args.length === 1 && args[0] === '-version') {
