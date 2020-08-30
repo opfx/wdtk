@@ -144,6 +144,66 @@ export async function runCommand(args: string[], opts: RunCommandOptions): Promi
   }
 }
 
+export async function getCommandDescriptor(
+  args: string[],
+  commands: CommandMap,
+  registry: CoreSchemaRegistry
+): Promise<CommandDescriptor> {
+  let descriptor: CommandDescriptor | null = null;
+  let commandName: string | undefined = undefined;
+
+  for (let i = 0; i < args.length; i++) {
+    const arg = args[i];
+
+    if (!arg.startsWith('-')) {
+      commandName = arg;
+      args = args.slice(i, 1);
+      break;
+    }
+  }
+
+  if (!commandName) {
+    if (args.length === 1 && args[0] === '-version') {
+      commandName = 'version';
+    } else {
+      commandName = 'help';
+    }
+  }
+
+  if (commandName in commands) {
+    descriptor = await loadCommandDescriptor(commandName, commands[commandName], registry);
+  } else {
+    const commandNames = Object.keys(commands);
+
+    // optimize loading for common aliases
+    if (commandName.length === 1) {
+      commandNames.sort((a, b) => {
+        const aMatch = a[0] === commandName;
+        const bMatch = b[0] === commandName;
+        if (aMatch && !bMatch) {
+          return -1;
+        }
+        if (!aMatch && bMatch) {
+          return 1;
+        }
+        return 0;
+      });
+    }
+
+    for (const name of commandNames) {
+      const aliasDesc = await loadCommandDescriptor(name, commands[name], registry);
+      const aliases = aliasDesc.aliases;
+
+      if (aliases && aliases.some((alias) => alias === commandName)) {
+        commandName = name;
+        descriptor = aliasDesc;
+        break;
+      }
+    }
+  }
+  return descriptor;
+}
+
 async function loadCommandDescriptor(
   name: string,
   schemaPath: string,

@@ -41,7 +41,8 @@
       "skipFiles": ["<node_internals>/**"],
       "program": "${workspaceFolder}\\bin\\wx",
       // "outFiles": ["${workspaceFolder}/**/*.js"],
-      "args": ["generate"]
+      "args": ["generate"],
+      "env": { "WX_DISABLE_VERSION_CHECK": "true" }
     }
   ]
 }

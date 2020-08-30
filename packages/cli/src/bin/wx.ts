@@ -23,5 +23,6 @@ if (version[0] < 10 || version[0] === 11 || (version[0] === 10 && version[1] < 1
 
   process.exitCode = 3;
 } else {
-  require('../lib/init');
+  // require('../lib/init');
+  require('../lib/boot');
 }

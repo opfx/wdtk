@@ -26,7 +26,8 @@
         "name": "wx",
         "skipFiles": ["<node_internals>/**"],
         "program": "./../../bin/wx",
-        "args": ["version"]
+        "args": ["version"],
+        "env": { "WX_DEBUG": true }
       }
     ],
     "compounds": []
