@@ -11,7 +11,7 @@
     "types": "./index.d.ts"
   },
   "dependencies": {
-    "@angular-devkit/core": "9.1.12",
+    "@angular-devkit/core": "^10.0.8",
     "ansi-colors": "4.1.1",
     "semver": "5.7.1",
     "tslib": "^2.0.1"

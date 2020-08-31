@@ -15,7 +15,7 @@
     }
   },
   "dependencies": {
-    "@angular/cli": "9.1.12",
+    "@angular/cli": "^10.0.8",
     "@wdtk/core": "0.0.0",
     "tslib": "^2.0.1"
   },
