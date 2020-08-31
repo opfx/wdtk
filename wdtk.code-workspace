@@ -7,10 +7,14 @@
     {
       "name": "core",
       "path": "packages/core"
+    },
+    {
+      "name": "root",
+      "path": "."
     }
   ],
   "settings": {
-    "terminal.integrated.cwd": "./../../",
+    // "terminal.integrated.cwd": "./../../",
     "files.eol": "\n",
     "files.exclude": {
       "**/node_modules": true
@@ -26,8 +30,8 @@
         "name": "wx",
         "skipFiles": ["<node_internals>/**"],
         "program": "./../../bin/wx",
-        "args": ["version"],
-        "env": { "WX_DEBUG": true }
+        "args": ["gigi"],
+        "env": { "WX_DEBUG": false }
       }
     ],
     "compounds": []
