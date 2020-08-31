@@ -133,7 +133,11 @@ export default async function (argv: { local?: boolean; snapshot?: boolean }, lo
             switch (setting) {
               case 'bin':
               // fallthrough
+              case 'builders':
+              // fallthrough
               case 'main':
+              // fallthrough
+              case 'schematics':
               // fallthrough
               case 'types':
                 packageJson[setting] = publishConfig[setting];
