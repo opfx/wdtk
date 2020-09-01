@@ -1,6 +1,6 @@
 {
   "$schema": "http://json-schema.org/schema",
-  "$id": "wx-cli://commands/version.json",
+  "$id": "wx-cli://commands/version/schema.json",
   "description": "Outputs wdtk CLI version.",
   "$longDescription": "",
   "$aliases": ["v"],

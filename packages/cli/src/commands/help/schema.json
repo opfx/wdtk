@@ -1,6 +1,6 @@
 {
   "$schema": "http://json-schema.org/schema",
-  "$id": "wx-cli://commands/help.json",
+  "$id": "wx-cli://commands/help/schema.json",
   "description": "Lists available commands and their short descriptions.",
   "$longDescription": "./help-long.md",
   "$aliases": [],
