@@ -1,4 +1,4 @@
 {
-  "help": "./commands/help.json",
-  "version": "./commands/version.json"
+  "help": "./commands/help/schema.json",
+  "version": "./commands/version/schema.json"
 }

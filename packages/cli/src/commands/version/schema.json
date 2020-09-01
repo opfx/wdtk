@@ -5,7 +5,7 @@
   "$longDescription": "",
   "$aliases": ["v"],
   "$scope": "all",
-  "$impl": "./version-command#VersionCommand",
+  "$impl": "./index#VersionCommand",
   "type": "object",
-  "allOf": [{ "$ref": "./.definitions.json#/definitions/base" }]
+  "allOf": [{ "$ref": "./../definitions.json#/definitions/base" }]
 }

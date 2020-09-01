@@ -3,7 +3,7 @@ import * as path from 'path';
 import { Command } from '@wdtk/core';
 import { findUp } from '@wdtk/core/util';
 import { tags } from '@wdtk/core/util';
-import { Schema as VersionCommandSchema } from './version';
+import { Schema as VersionCommandSchema } from './schema';
 
 export class VersionCommand extends Command<VersionCommandSchema> {
   async run() {

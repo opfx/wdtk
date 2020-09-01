@@ -7,7 +7,7 @@
  */
 import { Command } from '@wdtk/core';
 import { colors } from '@wdtk/core/util';
-import { Schema as HelpCommandSchema } from './help';
+import { Schema as HelpCommandSchema } from './schema';
 
 export class HelpCommand extends Command<HelpCommandSchema> {
   async run() {

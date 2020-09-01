@@ -5,7 +5,7 @@
   "$longDescription": "./help-long.md",
   "$aliases": [],
   "$scope": "all",
-  "$impl": "./help-command#HelpCommand",
+  "$impl": "./index#HelpCommand",
   "type": "object",
-  "allOf": [{ "$ref": "./.definitions.json#/definitions/base" }]
+  "allOf": [{ "$ref": "./../definitions.json#/definitions/base" }]
 }
