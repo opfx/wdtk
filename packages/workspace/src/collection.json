@@ -1,0 +1,11 @@
+{
+  "name": "@wdtk/workspace",
+  "version": "0.1",
+  "schematics": {
+    "wx-new": {
+      "description": "Creates a new workspace",
+      "factory": "./schematics/wx-new/index",
+      "schema": "./schematics/wx-new/schema.json"
+    }
+  }
+}

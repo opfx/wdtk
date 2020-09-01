@@ -1,0 +1,23 @@
+{
+  "name": "@wdtk/workspace",
+  "version": "0.0.0",
+  "main": "./src/index.ts",
+  "schematics": "./src/collection.json",
+  "scripts": {
+    "build": "npm -v"
+  },
+  "publishConfig": {
+    "schematics": "./collection.json",
+    "main": "index.js",
+    "types": "./index.d.ts"
+  },
+  "dependencies": {
+    "@angular-devkit/core": "^10.0.8",
+    "@angular-devkit/schematics": "^10.0.8",
+    "@wdtk/core": "0.0.0",
+    "tslib": "^2.0.1"
+  },
+  "devDependencies": {
+    "jest": "25.2.3"
+  }
+}

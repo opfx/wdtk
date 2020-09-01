@@ -1,0 +1,10 @@
+{
+  "$schema": "@angular-devkit/architect/src/builders-schema.json",
+  "builders": {
+    "run-commands": {
+      "implementation": "./builders/run-commands/",
+      "schema": "./builders/run-commands/schema.json",
+      "description": "Run any custom commands with 'wx'"
+    }
+  }
+}

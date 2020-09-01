@@ -28,7 +28,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@angular-devkit/schematics@npm:10.0.8":
+"@angular-devkit/schematics@npm:10.0.8, @angular-devkit/schematics@npm:^10.0.8":
   version: 10.0.8
   resolution: "@angular-devkit/schematics@npm:10.0.8"
   dependencies:
@@ -869,6 +869,18 @@ __metadata:
   bin:
     admin: ./bin/admin
     wx: ./bin/wx
+  languageName: unknown
+  linkType: soft
+
+"@wdtk/workspace@workspace:packages/workspace":
+  version: 0.0.0-use.local
+  resolution: "@wdtk/workspace@workspace:packages/workspace"
+  dependencies:
+    "@angular-devkit/core": ^10.0.8
+    "@angular-devkit/schematics": ^10.0.8
+    "@wdtk/core": 0.0.0
+    jest: 25.2.3
+    tslib: ^2.0.1
   languageName: unknown
   linkType: soft
 
