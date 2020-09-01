@@ -42,7 +42,7 @@ export async function runCommand(args: string[], opts: RunCommandOptions): Promi
 
     if (!arg.startsWith('-')) {
       commandName = arg;
-      args = args.slice(i, 1);
+      args.splice(i, 1);
       break;
     }
   }
@@ -93,27 +93,7 @@ export async function runCommand(args: string[], opts: RunCommandOptions): Promi
   }
 
   if (!descriptor) {
-    const e = new CommandNotFoundException(commandName);
-    throw e;
-
-    // const commandsDistance = {} as { [name: string]: number };
-    // const name = commandName;
-    // const allCommands = Object.keys(commands).sort((a, b) => {
-    //   if (!(a in commandsDistance)) {
-    //     commandsDistance[a] = strings.levenshtein(a, name);
-    //   }
-    //   if (!(b in commandsDistance)) {
-    //     commandsDistance[b] = strings.levenshtein(b, name);
-    //   }
-    //   return commandsDistance[a] - commandsDistance[b];
-    // });
-    // const cliName = process.title.split(' ')[0];
-    // log.error(tags.stripIndents`
-    // The specified command ("${commandName}") is invalid. For a list of available options,
-    // run "${cliName} help".
-    // Did you mean "${allCommands[0]}"?
-    // `);
-    // return 1;
+    throw new CommandNotFoundException(commandName);
   }
 
   try {
@@ -155,7 +135,6 @@ export function getCommandName(args: string[]): string {
 
     if (!arg.startsWith('-')) {
       commandName = arg;
-      args = args.slice(i, 1);
       break;
     }
   }
@@ -169,16 +148,6 @@ export async function getCommandDescriptor(
 ): Promise<CommandDescriptor> {
   let descriptor: CommandDescriptor | null = null;
   let commandName: string | undefined = getCommandName(args);
-
-  // for (let i = 0; i < args.length; i++) {
-  //   const arg = args[i];
-
-  //   if (!arg.startsWith('-')) {
-  //     commandName = arg;
-  //     args = args.slice(i, 1);
-  //     break;
-  //   }
-  // }
 
   if (!commandName) {
     if (args.length === 1 && args[0] === '-version') {
