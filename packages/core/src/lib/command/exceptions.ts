@@ -10,3 +10,9 @@ export class CommandNotFoundException extends CoreException {
     super(`Failed to find '${commandName}'command.`);
   }
 }
+
+export class UnknownCollectionException extends CoreException {
+  constructor(collectionName: string) {
+    super(`Invalid collection '${collectionName}'.`);
+  }
+}

@@ -7,3 +7,4 @@ export interface SchemaRegistry extends schema.SchemaRegistry {}
 export const visitJsonSchema = schema.visitJsonSchema;
 export const parseJsonPointer = schema.parseJsonPointer;
 export const getTypesOfSchema = schema.getTypesOfSchema;
+export const transforms = schema.transforms;
