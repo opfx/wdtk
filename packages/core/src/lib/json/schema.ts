@@ -8,3 +8,5 @@ export const visitJsonSchema = schema.visitJsonSchema;
 export const parseJsonPointer = schema.parseJsonPointer;
 export const getTypesOfSchema = schema.getTypesOfSchema;
 export const transforms = schema.transforms;
+export interface PromptDefinition extends schema.PromptDefinition {}
+export type PromptProvider = schema.PromptProvider;

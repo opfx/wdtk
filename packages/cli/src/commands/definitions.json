@@ -26,6 +26,22 @@
           "description": "When true, disables interactive input prompts for options with a default."
         }
       }
+    },
+    "schematic": {
+      "properties": {
+        "dryRun": {
+          "type": "boolean",
+          "default": false,
+          "aliases": ["d"],
+          "description": "When true, runs through and reports activity without writing out results."
+        },
+        "force": {
+          "type": "boolean",
+          "default": false,
+          "aliases": ["f"],
+          "description": "When true, forces overwriting of existing files."
+        }
+      }
     }
   }
 }

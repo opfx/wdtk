@@ -1,4 +1,5 @@
 {
   "help": "./commands/help/schema.json",
+  "new": "./commands/new/schema.json",
   "version": "./commands/version/schema.json"
 }
