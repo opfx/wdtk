@@ -8,8 +8,8 @@ describe('Ng New Schematic', () => {
   };
   it('should create workspace files', async () => {
     const options = { ...defaultOptions };
-    const tree = await schematicRunner.runSchematicAsync('wx-new', options).toPromise();
+    const tree = await schematicRunner.runSchematicAsync('ng-new', options).toPromise();
     const files = tree.files;
-    expect(files).toContain('/bar/sample.json');
+    expect(files).toContain('/bar/package.json');
   });
 });

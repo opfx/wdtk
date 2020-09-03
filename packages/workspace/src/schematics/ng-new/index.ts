@@ -1,4 +1,4 @@
-import { chain, schematic } from '@angular-devkit/schematics';
+import { chain, move, schematic } from '@angular-devkit/schematics';
 import { Rule, SchematicContext, Tree } from '@angular-devkit/schematics';
 
 import { Schema as NgNewOptions } from './schema';
@@ -8,7 +8,7 @@ interface NormalizedOptions extends NgNewOptions {
 export default function (options: NgNewOptions): Rule {
   const opts = normalizeOptions(options);
   return (host: Tree, ctx: SchematicContext) => {
-    return chain([schematic('workspace', { ...opts })]);
+    return chain([schematic('workspace', { ...opts }), move('/', opts.directory)]);
   };
 }
 
