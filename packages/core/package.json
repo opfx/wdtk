@@ -11,8 +11,8 @@
     "types": "./index.d.ts"
   },
   "dependencies": {
-    "@angular-devkit/core": "^10.0.8",
-    "@angular-devkit/schematics": "^10.0.8",
+    "@angular-devkit/core": "^9.1.12",
+    "@angular-devkit/schematics": "^9.1.12",
     "ansi-colors": "4.1.1",
     "inquirer": "^7.3.3",
     "semver": "5.7.1",
