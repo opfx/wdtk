@@ -16,6 +16,7 @@
     "ansi-colors": "4.1.1",
     "inquirer": "^7.3.3",
     "semver": "5.7.1",
+    "strip-json-comments": "3.1.1",
     "tslib": "^2.0.1"
   },
   "devDependencies": {

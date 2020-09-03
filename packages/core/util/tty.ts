@@ -18,5 +18,6 @@ export function isTTY(): boolean {
     return _isTruthy(force);
   }
 
-  return !!process.stdout.isTTY && !_isTruthy(process.env['CI']);
+  // return !!process.stdout.isTTY && !_isTruthy(process.env['CI']);
+  return true;
 }

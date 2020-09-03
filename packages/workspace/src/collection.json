@@ -2,10 +2,16 @@
   "name": "@wdtk/workspace",
   "version": "0.1",
   "schematics": {
-    "wx-new": {
+    "ng-new": {
       "description": "Creates a new workspace",
-      "factory": "./schematics/wx-new/index",
-      "schema": "./schematics/wx-new/schema.json"
+      "factory": "./schematics/ng-new/index",
+      "schema": "./schematics/ng-new/schema.json"
+    },
+    "workspace": {
+      "description": "Creates an empty workspace",
+      "factory": "./schematics/workspace/index",
+      "schema": "./schematics/workspace/schema.json",
+      "hidden": true
     }
   }
 }
