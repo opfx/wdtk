@@ -2,6 +2,12 @@
   "name": "@wdtk/workspace",
   "version": "0.1",
   "schematics": {
+    "application": {
+      "aliases": ["app"],
+      "description": "Creates an application",
+      "factory": "./schematics/application/index",
+      "schema": "./schematics/application/schema.json"
+    },
     "ng-new": {
       "description": "Creates a new workspace",
       "factory": "./schematics/ng-new/index",
