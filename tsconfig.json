@@ -18,7 +18,8 @@
     "baseUrl": ".",
     "rootDirs": [".", "./target"],
     "paths": {
-      "@wdtk/core/util": ["./packages/core/util/index"]
+      "@wdtk/core/util": ["./packages/core/util/index"],
+      "@wdtk/core/schematics": ["./packages/core/schematics/index"]
     }
   },
   "exclude": ["lib/**", "scripts/**", "./target/build"]

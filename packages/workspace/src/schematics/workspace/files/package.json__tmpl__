@@ -4,10 +4,8 @@
   "license": "SEE LICENSE IN LICENSE",
   "private": true,
   "scripts": {
-  
+    "wx": "wx"
   },
-  "private": true,
   "dependencies": {},
-  "devDependencies": {   
-  }
+  "devDependencies": {}
 }

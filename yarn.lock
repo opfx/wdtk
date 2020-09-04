@@ -848,6 +848,7 @@ __metadata:
     ansi-colors: 4.1.1
     inquirer: ^7.3.3
     jest: 25.2.3
+    jsonc-parser: 2.3.0
     semver: 5.7.1
     strip-json-comments: 3.1.1
     tslib: ^2.0.1
@@ -3886,6 +3887,13 @@ fsevents@^2.1.2:
   bin:
     json5: lib/cli.js
   checksum: 957e4937106cf59975aa0281e68911534d65c8a25be5b4d3559aa55eba351ccab516a943a60ba33e461e4b8af749939986e311de910cbcfd197410b57d971741
+  languageName: node
+  linkType: hard
+
+"jsonc-parser@npm:2.3.0":
+  version: 2.3.0
+  resolution: "jsonc-parser@npm:2.3.0"
+  checksum: 182cc34ed81a584c56e23f9dbf3d588851fd3a4cecc5184dba00a8e97d8b1aed012db5dd5ea859c81a25ea9dd5e7ee3d7cd13fedbd9ef20d684109d2b8112306
   languageName: node
   linkType: hard
 
