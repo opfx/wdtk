@@ -652,7 +652,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@schematics/angular@npm:9.1.12":
+"@schematics/angular@npm:9.1.12, @schematics/angular@npm:^9.1.12":
   version: 9.1.12
   resolution: "@schematics/angular@npm:9.1.12"
   dependencies:
@@ -825,6 +825,18 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@wdtk/angular@workspace:packages/angular":
+  version: 0.0.0-use.local
+  resolution: "@wdtk/angular@workspace:packages/angular"
+  dependencies:
+    "@angular-devkit/schematics": ^9.1.12
+    "@schematics/angular": ^9.1.12
+    "@wdtk/core": 0.0.0
+    jest: 25.2.3
+    tslib: ^2.0.1
+  languageName: unknown
+  linkType: soft
+
 "@wdtk/cli@workspace:packages/cli":
   version: 0.0.0-use.local
   resolution: "@wdtk/cli@workspace:packages/cli"
@@ -851,6 +863,17 @@ __metadata:
     jsonc-parser: 2.3.0
     semver: 5.7.1
     strip-json-comments: 3.1.1
+    tslib: ^2.0.1
+  languageName: unknown
+  linkType: soft
+
+"@wdtk/php@workspace:packages/php":
+  version: 0.0.0-use.local
+  resolution: "@wdtk/php@workspace:packages/php"
+  dependencies:
+    "@angular-devkit/schematics": ^9.1.12
+    "@wdtk/core": 0.0.0
+    jest: 25.2.3
     tslib: ^2.0.1
   languageName: unknown
   linkType: soft

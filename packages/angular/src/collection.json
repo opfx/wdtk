@@ -1,0 +1,12 @@
+{
+  "name": "@wdtk/angular",
+  "version": "0.1",
+  "schematics": {
+    "application": {
+      "aliases": ["app"],
+      "description": "Creates an Angular application.",
+      "factory": "./schematics/application/index",
+      "schema": "./schematics/application/schema.json"
+    }
+  }
+}
