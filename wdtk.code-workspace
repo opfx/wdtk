@@ -9,6 +9,10 @@
       "path": "packages/core"
     },
     {
+      "name": "workspace",
+      "path": "packages/workspace"
+    },
+    {
       "name": "root",
       "path": "."
     }
