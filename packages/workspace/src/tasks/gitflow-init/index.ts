@@ -1,19 +1,19 @@
 import { TaskConfiguration, TaskConfigurationGenerator } from '@angular-devkit/schematics';
 
 export const GitFlowInitTaskName = 'gitflow-init';
-export interface GitFlowInitFactoryOptions {
+export interface GitFlowInitTaskFactoryOptions {
   rootDirectory?: string;
 }
-export interface GitFlowInitOptions {
+export interface GitFlowInitTaskOptions {
   workingDirectory?: string;
 }
 
-export class GitFlowInitTask implements TaskConfigurationGenerator<GitFlowInitOptions> {
+export class GitFlowInitTask implements TaskConfigurationGenerator<GitFlowInitTaskOptions> {
   private workingDirectory: string;
 
   constructor(workingDirectory?: string);
-  constructor(options: Partial<GitFlowInitOptions>);
-  constructor(options?: string | Partial<GitFlowInitOptions>) {
+  constructor(options: Partial<GitFlowInitTaskOptions>);
+  constructor(options?: string | Partial<GitFlowInitTaskOptions>) {
     if (typeof options === 'string') {
       this.workingDirectory = options;
     }
@@ -24,7 +24,7 @@ export class GitFlowInitTask implements TaskConfigurationGenerator<GitFlowInitOp
     }
   }
 
-  toConfiguration(): TaskConfiguration<GitFlowInitOptions> {
+  toConfiguration(): TaskConfiguration<GitFlowInitTaskOptions> {
     return {
       name: GitFlowInitTaskName,
       options: {
