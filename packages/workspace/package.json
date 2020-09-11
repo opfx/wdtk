@@ -3,9 +3,7 @@
   "version": "0.0.0",
   "main": "./src/index.ts",
   "schematics": "./src/collection.json",
-  "scripts": {
-    "build": "npm -v"
-  },
+  "scripts": {},
   "publishConfig": {
     "schematics": "./collection.json",
     "main": "index.js",
@@ -15,6 +13,7 @@
     "@angular-devkit/core": "^9.1.12",
     "@angular-devkit/schematics": "^9.1.12",
     "@wdtk/core": "0.0.0",
+    "ora": "^5.1.0",
     "tslib": "^2.0.1"
   },
   "devDependencies": {
