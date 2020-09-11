@@ -1,6 +1,7 @@
 import * as path from 'path';
 import { CommandWorkspace } from './types';
 import { findUp } from '@wdtk/core/util';
+import { config } from 'process';
 
 const knownWorkspaceConfigFiles = {};
 
@@ -9,17 +10,31 @@ export function insideWorkspace(): boolean {
 }
 
 export function getCommandWorkspace(workspaceFiles: string[] = []): CommandWorkspace {
-  const cwd = process.cwd();
+  const root = process.cwd();
+  if (workspaceFiles.length === 0) {
+    // if no files were provided search for the usual suspects
+    workspaceFiles.push('.wx.json');
+    workspaceFiles.push('.angular.json');
+    workspaceFiles.push('angular.json');
+  }
 
-  const configFile = 'wx.json';
-
-  const workspaceConfigFile = findUp(configFile, cwd);
+  let configFile: string;
+  let workspaceConfigFile: string;
+  workspaceFiles.forEach((file) => {
+    if (!configFile) {
+      workspaceConfigFile = findUp(file, root);
+      if (workspaceConfigFile) {
+        configFile = file;
+      }
+    }
+  });
 
   if (workspaceConfigFile === null) {
     return null;
   }
-  const root = path.dirname(workspaceConfigFile);
+
   return {
     root,
+    configFile,
   };
 }

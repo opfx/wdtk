@@ -1,6 +1,6 @@
-import { strings } from '@angular-devkit/core';
+import * as Path from 'path';
 import { Logger } from '@wdtk/core/util';
-import { colors } from '@wdtk/core/util';
+import { colors, strings, tags } from '@wdtk/core/util';
 import { Arguments, Option, SubCommandDescriptor } from './types';
 import { CommandContext, CommandDescriptor, CommandDescriptorMap, CommandScope, CommandWorkspace } from './types';
 
@@ -24,7 +24,28 @@ export abstract class Command<T extends CommandOptions = CommandOptions> {
     return;
   }
 
-  protected async validateScope(scope?: CommandScope): Promise<void> {}
+  protected async validateScope(scope?: CommandScope): Promise<void> {
+    switch (scope === undefined ? this.descriptor.scope : scope) {
+      case CommandScope.OutWorkspace:
+        if (this.workspace.configFile) {
+          this.log.fatal(tags.oneLine`
+          The '${this.descriptor.name}' command requires to be run outside of a workspace,
+          but a workspace definition was found at '${Path.join(this.workspace.root, this.workspace.configFile)}'.`);
+          throw 1;
+        }
+        break;
+      case CommandScope.InWorkspace:
+        if (this.workspace.configFile) {
+          this.log.fatal(tags.oneLine`
+          The '${this.descriptor.name}' command requires to be run in a workspace,
+          but a workspace definition could not be found.
+          `);
+          throw 1;
+        }
+
+        break;
+    }
+  }
 
   abstract async run(args: T & Arguments): Promise<number | void>;
 

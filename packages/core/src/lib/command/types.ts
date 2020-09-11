@@ -137,6 +137,7 @@ export interface CommandConstructor {
 }
 export interface CommandWorkspace {
   root: string;
+  configFile?: string;
 }
 export interface CommandMap {
   [key: string]: string;
@@ -166,11 +167,11 @@ export interface CommandConstructor {
  * Scope of the command.
  */
 export enum CommandScope {
-  InProject = 'in',
-  OutProject = 'out',
+  InWorkspace = 'in',
+  OutWorkspace = 'out',
   Everywhere = 'all',
 
-  Default = InProject,
+  Default = InWorkspace,
 }
 
 /**
