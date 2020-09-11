@@ -1,9 +1,13 @@
 import { strings } from '@angular-devkit/core';
 import { apply, chain, empty, mergeWith, move, schematic, noop } from '@angular-devkit/schematics';
 import { Rule, SchematicContext, Tree } from '@angular-devkit/schematics';
+import { RepositoryInitializerTask } from '@angular-devkit/schematics/tasks';
 
-import { Schema as NgNewOptions } from './schema';
+import { GitFlowInitTask } from './../../tasks';
+
 import { Schema as WorkspaceOptions } from './../workspace/schema';
+import { Schema as NgNewOptions } from './schema';
+
 interface NormalizedOptions extends NgNewOptions {}
 
 export default function (options: NgNewOptions): Rule {
@@ -36,8 +40,10 @@ function normalizeOptions(host: Tree, options: NgNewOptions): NormalizedOptions 
 
 function addTasks(options: NormalizedOptions): Rule {
   return (host: Tree, ctx: SchematicContext) => {
-    // if (!options.skipGit) {
-    // ctx.addTask(new RepositoryInitializerTask(options.directory));
-    // }
+    if (!options.skipGit) {
+      const commit = typeof options.commit === 'object' ? options.commit : !!options.commit ? {} : false;
+      const gitInitTask = ctx.addTask(new RepositoryInitializerTask(options.directory, commit));
+      ctx.addTask(new GitFlowInitTask(options.directory), [gitInitTask]);
+    }
   };
 }

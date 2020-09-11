@@ -17,6 +17,27 @@
     "directory": {
       "description": "The directory name to create the workspace in.",
       "type": "string"
+    },
+    "skipGit": {
+      "description": "When true, does not initialize a git repository.",
+      "type": "boolean",
+      "default": false
+    },
+    "commit": {
+      "description": "Initial git repository commit information.",
+      "oneOf": [
+        { "type": "boolean" },
+        {
+          "type": "object",
+          "properties": {
+            "name": { "type": "string" },
+            "email": { "type": "string", "format": "email" },
+            "message": { "type": "string" }
+          },
+          "required": ["name", "email"]
+        }
+      ],
+      "default": true
     }
   },
   "required": ["name"]
