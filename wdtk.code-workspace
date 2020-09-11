@@ -27,17 +27,7 @@
     "jest.pathToJest": "yarn jest"
   },
   "launch": {
-    "configurations": [
-      {
-        "type": "node",
-        "request": "launch",
-        "name": "wx",
-        "skipFiles": ["<node_internals>/**"],
-        "program": "./../../bin/wx",
-        "args": ["gigi"],
-        "env": { "WX_DEBUG": false }
-      }
-    ],
+    "configurations": [],
     "compounds": []
   }
 }
