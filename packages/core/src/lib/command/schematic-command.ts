@@ -1,11 +1,11 @@
 import * as Path from 'path';
 import * as Inquirer from 'inquirer';
 import { virtualFs, normalize, workspaces } from '@angular-devkit/core';
-import { NodeJsSyncHost, fs } from '@angular-devkit/core/node';
+import { NodeJsSyncHost } from '@angular-devkit/core/node';
 
 import { formats, workflow } from '@angular-devkit/schematics';
 import { DryRunEvent, UnsuccessfulWorkflowExecution } from '@angular-devkit/schematics';
-import { FileSystemCollection, FileSystemEngine } from '@angular-devkit/schematics/tools';
+import { FileSystemCollection, FileSystemEngine, NodeModulesEngineHost } from '@angular-devkit/schematics/tools';
 import { FileSystemSchematic, FileSystemSchematicDescription } from '@angular-devkit/schematics/tools';
 import { NodeWorkflow } from '@angular-devkit/schematics/tools';
 import { validateOptionsWithSchema } from '@angular-devkit/schematics/tools';
@@ -171,6 +171,10 @@ export abstract class SchematicCommand<T extends SchematicSchema & CommandOption
 
   protected getEngine(): FileSystemEngine {
     return this.workflow.engine;
+  }
+
+  protected getEngineHost(): NodeModulesEngineHost {
+    return this.workflow.engineHost;
   }
 
   protected getSchematic(collection: FileSystemCollection, schematicName: string, allowPrivate?: boolean): FileSystemSchematic {
