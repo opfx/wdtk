@@ -21,8 +21,10 @@ export class NewCommand extends SchematicCommand<NewCommandSchema> {
   }
 
   async run(options: NewCommandSchema & Arguments): Promise<number | void> {
+    const rootDirectory = normalize(this.workspace.root);
     const engineHost = this.getEngineHost();
-    engineHost.registerTaskExecutor(WorkspaceTask.GitFlowInit, { rootDirectory: normalize(this.workspace.root) });
+    engineHost.registerTaskExecutor(WorkspaceTask.GitFlowInit, { rootDirectory });
+    engineHost.registerTaskExecutor(WorkspaceTask.YarnInit, { rootDirectory });
     return this.runSchematic({
       collectionName: this.collectionName,
       schematicName: this.schematicName,
