@@ -1,9 +1,5 @@
-import * as path from 'path';
 import { CommandWorkspace } from './types';
 import { findUp } from '@wdtk/core/util';
-import { config } from 'process';
-
-const knownWorkspaceConfigFiles = {};
 
 export function insideWorkspace(): boolean {
   return getCommandWorkspace() !== null;
