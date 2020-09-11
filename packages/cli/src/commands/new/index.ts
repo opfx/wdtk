@@ -5,7 +5,7 @@
  * Use of this source code is governed by an MIT-style license that can be
  * found in the LICENSE file at https://angular.io/license
  */
-
+import { normalize } from '@angular-devkit/core';
 import { Arguments, SchematicCommand } from '@wdtk/core';
 import { WorkspaceTask } from '@wdtk/workspace';
 
@@ -21,8 +21,8 @@ export class NewCommand extends SchematicCommand<NewCommandSchema> {
   }
 
   async run(options: NewCommandSchema & Arguments): Promise<number | void> {
-    const engineHost = (this.workflow as any)._engineHost;
-    engineHost.registerTaskExecutor(WorkspaceTask.GitFlowInit);
+    const engineHost = this.getEngineHost();
+    engineHost.registerTaskExecutor(WorkspaceTask.GitFlowInit, { rootDirectory: normalize(this.workspace.root) });
     return this.runSchematic({
       collectionName: this.collectionName,
       schematicName: this.schematicName,
