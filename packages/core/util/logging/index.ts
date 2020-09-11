@@ -16,4 +16,14 @@ export class Logger extends logging.Logger {
     }
     return Logger.logger;
   }
+
+  static getLoggerA(verbose: boolean) {
+    return createConsoleLogger(verbose, process.stdout, process.stderr, {
+      info: (s) => (supportsColor ? s : removeColor(s)),
+      debug: (s) => (supportsColor ? s : removeColor(s)),
+      warn: (s) => (supportsColor ? colors.bold.yellow(s) : removeColor(s)),
+      error: (s) => (supportsColor ? colors.bold.red(s) : removeColor(s)),
+      fatal: (s) => (supportsColor ? colors.bold.red(s) : removeColor(s)),
+    });
+  }
 }

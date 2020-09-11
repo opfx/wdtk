@@ -19,8 +19,8 @@ export interface NodeDependency {
 
 const ALL_DEPENDENCY_TYPE = [NodeDependencyType.Default, NodeDependencyType.Dev, NodeDependencyType.Optional, NodeDependencyType.Peer];
 
-export function addPackageJsonDependency(tree: Tree, dependency: NodeDependency, packageJsonPath: string = DEFAULT_PACKAGE_JSON_PATH): void {
-  const json = new JsonFile(tree, packageJsonPath);
+export function addPackageJsonDependency(host: Tree, dependency: NodeDependency, packageJsonPath: string = DEFAULT_PACKAGE_JSON_PATH): void {
+  const json = new JsonFile(host, packageJsonPath);
   if (json.error) {
     throw json.error;
   }

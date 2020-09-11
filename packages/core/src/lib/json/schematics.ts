@@ -26,10 +26,7 @@ export function readJsonInTree<T = any>(host: Tree, path: string): T {
  * @param callback Manipulation of the JSON data
  * @returns A rule which updates a JSON file file in a Tree
  */
-export function updateJsonInTree<T = any, O = T>(
-  path: string,
-  callback: (json: T, context: SchematicContext) => O
-): Rule {
+export function updateJsonInTree<T = any, O = T>(path: string, callback: (json: T, context: SchematicContext) => O): Rule {
   return (host: Tree, context: SchematicContext): Tree => {
     if (!host.exists(path)) {
       host.create(path, serializeJson(callback({} as T, context)));

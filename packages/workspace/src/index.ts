@@ -1,1 +1,1 @@
-export const workspacX = 'sample';
+export * from './tasks';

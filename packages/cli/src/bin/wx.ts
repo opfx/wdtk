@@ -2,7 +2,7 @@
 
 // polyfill rxjs observable to avoid issues with multiple version fo Observable installed in node_modules
 // https://twitter.com/BenLesh/status/1192478226385428483?s=20
-(Symbol as any).observable = Symbol('observable polyfill');
+// (Symbol as any).observable = Symbol('observable polyfill');
 
 try {
   process.title = 'wx ' + Array.from(process.argv).slice(2).join(' ');

@@ -11,10 +11,7 @@
       "skipFiles": ["<node_internals>/**"],
       "program": "${workspaceFolder}\\scripts\\tools\\quicktype.js",
       // "outFiles": ["${workspaceFolder}/**/*.js"],
-      "args": [
-        "D:\\work\\opfx\\proj\\wdtk\\wdtk\\packages\\cli\\src\\commands\\version.json",
-        "D:\\work\\opfx\\proj\\wdtk\\wdtk\\dist\\version.ts"
-      ]
+      "args": ["D:\\work\\opfx\\proj\\wdtk\\wdtk\\packages\\cli\\src\\commands\\version.json", "D:\\work\\opfx\\proj\\wdtk\\wdtk\\dist\\version.ts"]
     },
     {
       "type": "node",
@@ -39,9 +36,8 @@
       "request": "launch",
       "name": "wx",
       "skipFiles": ["<node_internals>/**"],
-      "program": "${workspaceFolder}\\bin\\wx",
-      // "outFiles": ["${workspaceFolder}/**/*.js"],
-      "args": ["new", "sample"],
+      "program": "${workspaceFolder}/bin/wx",
+      "args": ["new", "work", "--dry-run", "--verbose"],
       "env": { "WX_DEBUG": "true", "WX_DISABLE_VERSION_CHECK": "true" }
     }
   ]

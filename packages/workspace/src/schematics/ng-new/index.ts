@@ -1,21 +1,43 @@
-import { chain, move, schematic } from '@angular-devkit/schematics';
+import { strings } from '@angular-devkit/core';
+import { apply, chain, empty, mergeWith, move, schematic, noop } from '@angular-devkit/schematics';
 import { Rule, SchematicContext, Tree } from '@angular-devkit/schematics';
 
 import { Schema as NgNewOptions } from './schema';
-interface NormalizedOptions extends NgNewOptions {
-  directory: string;
-}
+import { Schema as WorkspaceOptions } from './../workspace/schema';
+interface NormalizedOptions extends NgNewOptions {}
+
 export default function (options: NgNewOptions): Rule {
-  const opts = normalizeOptions(options);
   return (host: Tree, ctx: SchematicContext) => {
-    return chain([schematic('workspace', { ...opts }), move('/', opts.directory)]);
+    options = normalizeOptions(host, options);
+    const workspaceOptions: WorkspaceOptions = {
+      name: options.name,
+    };
+    return chain([
+      mergeWith(
+        apply(empty(), [
+          // create the workspace
+          schematic('workspace', workspaceOptions),
+          move(options.directory),
+        ])
+      ), //
+      addTasks(options),
+    ]);
+  };
+}
+function normalizeOptions(host: Tree, options: NgNewOptions): NormalizedOptions {
+  options.name = strings.dasherize(options.name);
+  if (!options.directory) {
+    options.directory = options.name;
+  }
+  return {
+    ...options,
   };
 }
 
-function normalizeOptions(opts: NgNewOptions): NormalizedOptions {
-  const directory = opts.directory || opts.name;
-  return {
-    ...opts,
-    directory,
+function addTasks(options: NormalizedOptions): Rule {
+  return (host: Tree, ctx: SchematicContext) => {
+    // if (!options.skipGit) {
+    // ctx.addTask(new RepositoryInitializerTask(options.directory));
+    // }
   };
 }

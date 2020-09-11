@@ -141,13 +141,11 @@ export abstract class SchematicCommand<T extends SchematicSchema & CommandOption
 
       // Display <collectionName:schematicName> if this is not the default collectionName,
       // otherwise just show the schematicName.
-      const displayName =
-        collectionName == (await this.getDefaultSchematicCollection()) ? schematicName : schematicNames[0];
+      const displayName = collectionName == (await this.getDefaultSchematicCollection()) ? schematicName : schematicNames[0];
 
       const schematicOptions = subCommandOption.subcommands[schematicNames[0]].options;
       const schematicArgs = schematicOptions.filter((x) => x.positional !== undefined);
-      const argDisplay =
-        schematicArgs.length > 0 ? ' ' + schematicArgs.map((a) => `<${strings.dasherize(a.name)}>`).join(' ') : '';
+      const argDisplay = schematicArgs.length > 0 ? ' ' + schematicArgs.map((a) => `<${strings.dasherize(a.name)}>`).join(' ') : '';
 
       this.log.info(tags.oneLine`
         usage: ng ${this.log.name} ${displayName}${argDisplay}
@@ -175,11 +173,7 @@ export abstract class SchematicCommand<T extends SchematicSchema & CommandOption
     return this.workflow.engine;
   }
 
-  protected getSchematic(
-    collection: FileSystemCollection,
-    schematicName: string,
-    allowPrivate?: boolean
-  ): FileSystemSchematic {
+  protected getSchematic(collection: FileSystemCollection, schematicName: string, allowPrivate?: boolean): FileSystemSchematic {
     return collection.createSchematic(schematicName, allowPrivate);
   }
 
@@ -305,8 +299,7 @@ export abstract class SchematicCommand<T extends SchematicSchema & CommandOption
       args = await this.parseArguments(schematicOptions || [], opts);
     }
 
-    const allowAdditionProperties =
-      typeof schematic.description.schemaJson === 'object' && schematic.description.schemaJson.additionalOptions;
+    const allowAdditionProperties = typeof schematic.description.schemaJson === 'object' && schematic.description.schemaJson.additionalOptions;
 
     if (args['--'] && !allowAdditionProperties) {
       args['--'].forEach((additional) => {
@@ -370,7 +363,8 @@ export abstract class SchematicCommand<T extends SchematicSchema & CommandOption
           collection: collectionName,
           schematic: schematicName,
           options: input,
-          logger: this.log,
+          // logger: this.log,
+          logger: Logger.getLoggerA(debug),
           allowPrivate: this.allowPrivateSchematics,
         })
         .subscribe({
@@ -426,10 +420,7 @@ export abstract class SchematicCommand<T extends SchematicSchema & CommandOption
     }
 
     try {
-      const { workspace } = await workspaces.readWorkspace(
-        this.workspace.root,
-        workspaces.createWorkspaceHost(this.host)
-      );
+      const { workspace } = await workspaces.readWorkspace(this.workspace.root, workspaces.createWorkspaceHost(this.host));
       this._workspace = workspace;
     } catch (err) {
       if (!this.allowMissingWorkspace) {

@@ -1,11 +1,11 @@
 {
   "$schema": "http://json-schema.org/schema",
-  "id": "SchematicsWorkspaceWorkspace",
+  "id": "WdtkWorkspaceSchematicsWorkspace",
   "title": "Creates an empty workspace.",
   "type": "object",
   "properties": {
     "name": {
-      "description": "The name of the workspace.",
+      "description": "The name of the new workspace.",
       "type": "string",
       "$default": {
         "$source": "argv",
@@ -14,5 +14,5 @@
       "x-prompt": "What name would you like to use for the workspace?"
     }
   },
-  "required": ["name"]
+  "required": []
 }

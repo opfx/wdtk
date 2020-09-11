@@ -1,14 +1,9 @@
 {
   "$schema": "http://json-schema.org/schema",
-  "id": "SchematicsWorkspaceNgNew",
+  "id": "WdtkWorkspaceSchematicsNgNew",
   "title": "Workspace Ng New Options Schema",
   "type": "object",
   "properties": {
-    "directory": {
-      "description": "The directory name to create the workspace in.",
-      "type": "string",
-      "x-prompt": "What directory name."
-    },
     "name": {
       "description": "The name of the new workspace.",
       "type": "string",
@@ -17,7 +12,11 @@
         "$source": "argv",
         "index": 0
       },
-      "x-prompt": "What name would like to use for the new workspace:"
+      "x-prompt": "What name would you like to use for the workspace?"
+    },
+    "directory": {
+      "description": "The directory name to create the workspace in.",
+      "type": "string"
     }
   },
   "required": ["name"]
