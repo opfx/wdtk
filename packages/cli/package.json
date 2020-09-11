@@ -5,9 +5,7 @@
   "bin": {
     "wx": "./src/bin/wx.ts"
   },
-  "scripts": {
-    "build": "npm -v"
-  },
+  "scripts": {},
   "publishConfig": {
     "main": "./lib/cli/index.js",
     "bin": {
