@@ -40,7 +40,10 @@ function normalizeOptions(host: Tree, options: NgNewOptions): NormalizedOptions 
 
 function addTasks(options: NormalizedOptions): Rule {
   return (host: Tree, ctx: SchematicContext) => {
-    let yarnInitTask = ctx.addTask(new YarnInitTask(options.directory));
+    let yarnInitTask;
+    if (!options.skipYarn) {
+      yarnInitTask = ctx.addTask(new YarnInitTask(options.directory));
+    }
     if (!options.skipGit) {
       const commit = typeof options.commit === 'object' ? options.commit : !!options.commit ? {} : false;
       const gitInitTask = ctx.addTask(new RepositoryInitializerTask(options.directory, commit), yarnInitTask ? [yarnInitTask] : []);

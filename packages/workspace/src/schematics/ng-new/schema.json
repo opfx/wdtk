@@ -38,6 +38,11 @@
         }
       ],
       "default": true
+    },
+    "skipYarn": {
+      "description": "When true, does not initialize yarn 2.",
+      "type": "boolean",
+      "default": false
     }
   },
   "required": ["name"]
