@@ -5,7 +5,7 @@
  * Use of this source code is governed by an MIT-style license that can be
  * found in the LICENSE file at https://angular.io/license
  */
-import { normalize } from '@angular-devkit/core';
+import { normalize, getSystemPath } from '@angular-devkit/core';
 import { Arguments, SchematicCommand } from '@wdtk/core';
 import { WorkspaceTask } from '@wdtk/workspace';
 
@@ -21,7 +21,9 @@ export class NewCommand extends SchematicCommand<NewCommandSchema> {
   }
 
   async run(options: NewCommandSchema & Arguments): Promise<number | void> {
-    const rootDirectory = normalize(this.workspace.root);
+    // let workspaceRoot = normalize(this.workspace.root);
+    // const rootDirectory = workspaceRoot && getSystemPath(workspaceRoot);
+    const rootDirectory = this.workspace.root;
     const engineHost = this.getEngineHost();
     engineHost.registerTaskExecutor(WorkspaceTask.GitFlowInit, { rootDirectory });
     engineHost.registerTaskExecutor(WorkspaceTask.YarnInit, { rootDirectory });

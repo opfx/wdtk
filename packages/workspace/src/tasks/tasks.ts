@@ -9,8 +9,8 @@ export class WorkspaceTask {
     create: (options) => import('./gitflow-init/executor').then((mod) => mod.default(options)),
   };
 
-  static readonly YarnInit: TaskExecutorFactory<YarnInitTaskFactoryOptions>={
-    name:YarnInitTaskName,
-    create:(options) => import('./yarn-init/executor').then((mod)=>mod.default(options));
+  static readonly YarnInit: TaskExecutorFactory<YarnInitTaskFactoryOptions> = {
+    name: YarnInitTaskName,
+    create: (options) => import('./yarn-init/executor').then((mod) => mod.default(options)),
   };
 }

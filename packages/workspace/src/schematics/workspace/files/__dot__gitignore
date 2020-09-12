@@ -1,5 +1,10 @@
 # See http://help.github.com/ignore-files/ for more about ignoring files.
 
+# yarn files 
+.yarn/cache
+.yarn/install-state.gz
+.yarn/build-state.yml
+
 # compiled output
 /dist
 /tmp

@@ -3,7 +3,7 @@ import { apply, chain, empty, mergeWith, move, schematic, noop } from '@angular-
 import { Rule, SchematicContext, Tree } from '@angular-devkit/schematics';
 import { RepositoryInitializerTask } from '@angular-devkit/schematics/tasks';
 
-import { GitFlowInitTask } from './../../tasks';
+import { GitFlowInitTask, YarnInitTask } from './../../tasks';
 
 import { Schema as WorkspaceOptions } from './../workspace/schema';
 import { Schema as NgNewOptions } from './schema';
@@ -40,9 +40,10 @@ function normalizeOptions(host: Tree, options: NgNewOptions): NormalizedOptions 
 
 function addTasks(options: NormalizedOptions): Rule {
   return (host: Tree, ctx: SchematicContext) => {
+    let yarnInitTask = ctx.addTask(new YarnInitTask(options.directory));
     if (!options.skipGit) {
       const commit = typeof options.commit === 'object' ? options.commit : !!options.commit ? {} : false;
-      const gitInitTask = ctx.addTask(new RepositoryInitializerTask(options.directory, commit));
+      const gitInitTask = ctx.addTask(new RepositoryInitializerTask(options.directory, commit), yarnInitTask ? [yarnInitTask] : []);
       ctx.addTask(new GitFlowInitTask(options.directory), [gitInitTask]);
     }
   };
