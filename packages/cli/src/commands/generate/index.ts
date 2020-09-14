@@ -5,9 +5,11 @@ import { Schema as GenerateCommandOptions } from './schema';
 
 export class GenerateCommand extends SchematicCommand<GenerateCommandOptions> {
   async initialize(options: GenerateCommandOptions & Arguments) {
-    const [collectionName, schematicName] = await this.parseSchematicInfo(options);
+    let [collectionName, schematicName] = await this.parseSchematicInfo(options);
     if (!schematicName) {
-      this.determineSchematic();
+      const schematic = await this.determineSchematic();
+      const collection = await this.determineCollection(schematic);
+      [collectionName, schematicName] = [collection, schematic];
     }
     this.collectionName = collectionName;
     this.schematicName = schematicName;
@@ -15,25 +17,36 @@ export class GenerateCommand extends SchematicCommand<GenerateCommandOptions> {
     await super.initialize(options);
   }
   async run(options: GenerateCommandOptions & Arguments): Promise<number | void> {
-    // this.log.debug(`Running 'generate' command`);
-    throw new Error(`here ${this.collectionName}:${this.schematicName}`);
-    return;
+    if (!this.schematicName || !this.collectionName) {
+      return this.printHelp();
+    }
 
-    // return this.runSchematic({
-    //   collectionName: this.collectionName,
-    //   schematicName: this.schematicName,
-    //   schematicOptions: options['--'] || [],
-    //   debug: !!options.verbose,
-    //   dryRun: !!options.dryRun,
-    //   force: !!options.force,
-    // });
+    return this.runSchematic({
+      collectionName: this.collectionName,
+      schematicName: this.schematicName,
+      schematicOptions: options['--'] || [],
+      debug: !!options.verbose,
+      dryRun: !!options.dryRun,
+      force: !!options.force,
+    });
+  }
+
+  private async determineCollection(schematic: string): Promise<string> {
+    return new Promise<string>((resolve) => {
+      Inquirer.prompt({ message: `What type of ${schematic}?`, name: 'collection', type: 'list', choices: [{ name: 'Angular', value: 'angular' }] }).then(
+        (answer) => {
+          return resolve(`@wdtk/${answer.collection}`);
+        }
+      );
+    });
   }
 
   private async determineSchematic(): Promise<string> {
-    return '';
-    // return new Promise<string>((resolve)=>{
-    //   Inquirer.prompt()
-    // })
+    return new Promise<string>((resolve) => {
+      Inquirer.prompt([{ message: `What would like to generate?`, type: 'string', name: 'schematic' }]).then((answer) => {
+        return resolve(answer.schematic);
+      });
+    });
   }
 
   private async parseSchematicInfo(options: { schematic?: string }): Promise<[string, string | undefined]> {

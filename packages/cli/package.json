@@ -16,6 +16,7 @@
     "@angular/cli": "^9.1.12",
     "@wdtk/core": "0.0.0",
     "@wdtk/workspace": "0.0.0",
+    "inquirer": "^7.3.3",
     "tslib": "^2.0.1"
   },
   "devDependencies": {
