@@ -5,6 +5,8 @@ describe('Ng New Schematic', () => {
   const schematicRunner = new SchematicTestRunner('@wdtk/workspace', require.resolve('../../collection.json'));
   const defaultOptions: WxNewOptions = {
     name: 'bar',
+    skipYarn: true,
+    skipGit: true,
   };
   it('should create workspace files', async () => {
     const options = { ...defaultOptions };
