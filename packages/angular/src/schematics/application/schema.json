@@ -14,6 +14,78 @@
         "index": 0
       },
       "x-prompt": "What name would you like to use for the application?"
+    },
+    "directory": {
+      "description": "The directory of the new application.",
+      "type": "string"
+    },
+    "inlineStyle": {
+      "description": "When true, includes styles inline in the root component.ts file. Only CSS styles can be included inline.",
+      "type": "boolean",
+      "default": false,
+      "alias": "s"
+    },
+    "inlineTemplate": {
+      "description": "When true, includes template inline in the root component.ts file. Default is false, meaning that an external template file is created and referenced in the root component.ts file.",
+      "type": "boolean",
+      "default": false,
+      "alias": "t"
+    },
+    "viewEncapsulation": {
+      "description": "The view encapsulation strategy to use in the new application.",
+      "enum": ["Emulated", "Native", "Node", "ShadowDom"],
+      "type": "string"
+    },
+    "minimal": {
+      "description": "When true creates a bare-bones project without any testing framework.",
+      "type": "boolean",
+      "default": false
+    },
+    "routing": {
+      "description": "When true, creates a routing NgModule",
+      "type": "boolean",
+      "default": false,
+      "x-prompt": "Would you like to add Angular routing?"
+    },
+    "prefix": {
+      "alias": "p",
+      "description": "A prefix to apply to generated selectors.",
+      "type": "string",
+      "format": "html-selector",
+      "default": "app"
+    },
+    "style": {
+      "description": "The file extension of preprocessor to use for style files.",
+      "type": "string",
+      "default": "scss",
+      "enum": ["css", "scss", "sass", "less", "styl"],
+      "x-prompt": {
+        "message": "Which stylesheet format would like to use?",
+        "type": "list",
+        "items": [
+          { "value": "css", "label": "CSS" },
+          { "value": "scss", "label": "SCSS   [ https://sass-lang.com/documentation/syntax#scss                ]" },
+          { "value": "sass", "label": "Sass   [ https://sass-lang.com/documentation/syntax#the-indented-syntax ]" },
+          { "value": "less", "label": "Less   [ http://lesscss.org                                             ]" },
+          { "value": "styl", "label": "Stylus [ http://stylus-lang.com                                         ]" }
+        ]
+      }
+    },
+    "skipTests": {
+      "alias": "S",
+      "description": "When true, does not create 'spec.ts' test files for the app.",
+      "type": "boolean",
+      "default": true
+    },
+    "skipPackageJson": {
+      "description": "When true, does not add dependencies to the 'package.json' file.",
+      "type": "boolean",
+      "default": false
+    },
+    "skipInstall": {
+      "description": "Skip installing dependencies",
+      "type": "boolean",
+      "default": false
     }
   },
   "required": ["name"]

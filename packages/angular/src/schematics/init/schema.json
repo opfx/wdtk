@@ -1,0 +1,14 @@
+{
+  "$schema": "http://json-schema.org/schema",
+  "id": "WdtkAngularSchematicsInit",
+  "title": "Angular Init Options Schema",
+  "type": "object",
+  "description": "Adds support for Angular projects to the workspace.",
+  "properties": {
+    "skipInstall": {
+      "description": "When true, does skips formatting the files.",
+      "type": "boolean",
+      "default": "false"
+    }
+  }
+}

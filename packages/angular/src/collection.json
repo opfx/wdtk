@@ -7,6 +7,13 @@
       "description": "Creates an Angular application.",
       "factory": "./schematics/application/index",
       "schema": "./schematics/application/schema.json"
+    },
+    "init": {
+      "aliases": ["ng-add"],
+      "description": "Adds support for working with Angular projects in the workspace.",
+      "factory": "./schematics/init/index",
+      "schema": "./schematics/init/schema.json",
+      "hidden": "true"
     }
   }
 }
