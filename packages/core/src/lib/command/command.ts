@@ -35,7 +35,7 @@ export abstract class Command<T extends CommandOptions = CommandOptions> {
         }
         break;
       case CommandScope.InWorkspace:
-        if (this.workspace.configFile) {
+        if (!this.workspace.configFile) {
           this.log.fatal(tags.oneLine`
           The '${this.descriptor.name}' command requires to be run in a workspace,
           but a workspace definition could not be found.
