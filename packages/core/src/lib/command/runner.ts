@@ -120,6 +120,9 @@ export async function runCommand(args: string[], opts: RunCommandOptions): Promi
       }
       return 1;
     }
+    if (log) {
+      log.fatal(`${e.message}`);
+    }
     throw e;
   }
 }
@@ -141,11 +144,7 @@ export function getCommandName(args: string[]): string {
   return commandName;
 }
 
-export async function getCommandDescriptor(
-  args: string[],
-  commands: CommandMap,
-  registry: CoreSchemaRegistry
-): Promise<CommandDescriptor> {
+export async function getCommandDescriptor(args: string[], commands: CommandMap, registry: CoreSchemaRegistry): Promise<CommandDescriptor> {
   let descriptor: CommandDescriptor | null = null;
   let commandName: string | undefined = getCommandName(args);
 
@@ -191,11 +190,7 @@ export async function getCommandDescriptor(
   return descriptor;
 }
 
-async function loadCommandDescriptor(
-  name: string,
-  schemaPath: string,
-  registry: CoreSchemaRegistry
-): Promise<CommandDescriptor> {
+async function loadCommandDescriptor(name: string, schemaPath: string, registry: CoreSchemaRegistry): Promise<CommandDescriptor> {
   const schemaContent = readFileSync(schemaPath, 'utf-8');
   const schema = parseJson(schemaContent, JsonParseMode.Loose, { path: schemaPath });
   if (!isJsonObject(schema)) {
