@@ -37,7 +37,11 @@
       "name": "wx",
       "skipFiles": ["<node_internals>/**"],
       "program": "${workspaceFolder}/bin/wx",
-      "args": ["new", "work", "--dry-run", "--verbose"],
+      "cwd": "${workspaceFolder}/../work",
+      "console": "integratedTerminal",
+      // "args": ["new", "work", "--dry-run", "--verbose"],
+      // "args": ["generate", "--dry-run", "--verbose"],
+      "args": ["generate", "@wdtk/angular:app", "sample1", "--verbose", "--directory", "apps/sample"],
       "env": { "WX_DEBUG": "true", "WX_DISABLE_VERSION_CHECK": "true" }
     }
   ]
