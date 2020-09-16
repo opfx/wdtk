@@ -12,9 +12,80 @@ const workspaceDependencies: NodeDependency[] = [
     version: versions.Angular,
   },
   {
-    name: '@angular/compiler-cli',
+    name: '@angular/common',
+    type: NodeDependencyType.Default,
+    version: versions.Angular,
+  },
+  {
+    name: '@angular/compiler',
+    type: NodeDependencyType.Default,
+    version: versions.Angular,
+  },
+  {
+    name: '@angular/core',
+    type: NodeDependencyType.Default,
+    version: versions.Angular,
+  },
+  {
+    name: '@angular/forms',
+    type: NodeDependencyType.Default,
+    version: versions.Angular,
+  },
+  {
+    name: '@angular/platform-browser',
+    type: NodeDependencyType.Default,
+    version: versions.Angular,
+  },
+  {
+    name: '@angular/platform-browser-dynamic',
+    type: NodeDependencyType.Default,
+    version: versions.Angular,
+  },
+  {
+    name: '@angular/router',
+    type: NodeDependencyType.Default,
+    version: versions.Angular,
+  },
+  {
+    name: 'rxjs',
+    type: NodeDependencyType.Default,
+    version: versions.Rxjs,
+  },
+  {
+    name: 'tslib',
+    type: NodeDependencyType.Default,
+    version: versions.TsLib,
+  },
+  {
+    name: 'zone.js',
+    type: NodeDependencyType.Default,
+    version: versions.ZoneJs,
+  },
+  // dev dependencies
+  {
+    name: '@angular/cli',
     type: NodeDependencyType.Dev,
     version: versions.Angular,
+  },
+  {
+    name: '@types/node',
+    type: NodeDependencyType.Dev,
+    version: versions.NodeTypes,
+  },
+  {
+    name: 'codelyzer',
+    type: NodeDependencyType.Dev,
+    version: versions.Codelyzer,
+  },
+  {
+    name: 'ts-node',
+    type: NodeDependencyType.Dev,
+    version: versions.TsNode,
+  },
+  {
+    name: 'tslint',
+    type: NodeDependencyType.Dev,
+    version: versions.TsLint,
   },
 ];
 export default function (options: InitOptions): Rule {
