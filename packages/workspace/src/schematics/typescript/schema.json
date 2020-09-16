@@ -1,0 +1,19 @@
+{
+  "$schema": "http://json-schema.org/schema",
+  "id": "WdtkWorkspaceSchematicsTypescript",
+  "title": "Adds typescript support to the workspace.",
+  "type": "object",
+  "properties": {
+    "skipInstall": {
+      "description": "When true, does not install dependency packages.",
+      "type": "boolean",
+      "default": false
+    },
+    "strict": {
+      "description": "Creates a setup with stricter type checking options.",
+      "type": "boolean",
+      "default": false
+    }
+  },
+  "required": []
+}

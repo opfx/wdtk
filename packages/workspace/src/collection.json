@@ -13,6 +13,12 @@
       "factory": "./schematics/ng-new/index",
       "schema": "./schematics/ng-new/schema.json"
     },
+    "typescript": {
+      "description": "Creates an empty workspace",
+      "factory": "./schematics/typescript/index",
+      "schema": "./schematics/typescript/schema.json",
+      "hidden": true
+    },
     "workspace": {
       "description": "Creates an empty workspace",
       "factory": "./schematics/workspace/index",
