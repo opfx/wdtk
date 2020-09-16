@@ -9,5 +9,15 @@
     ".yarn": true,
     "**/node_modules": true,
     "**/dist": true
-  }
+  },
+   "cSpell.words": [  
+  ],
+  "cSpell.ignorePaths": [
+    "**/package.json",
+    "**/yarn.lock",
+    "**/node_modules/**",
+    "**/vscode-extension/**",
+    "**/.git/objects/**",
+    ".vscode"
+  ]
 }
