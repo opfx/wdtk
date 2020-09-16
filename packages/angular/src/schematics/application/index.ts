@@ -3,7 +3,6 @@ import { chain, externalSchematic, move, schematic } from '@angular-devkit/schem
 
 import { strings } from '@wdtk/core/util';
 import { readJsonInTree, getWorkspaceConfigPath } from '@wdtk/core';
-import { addLintConfig } from '@wdtk/core';
 
 import { Schema as ApplicationOptions } from './schema';
 
