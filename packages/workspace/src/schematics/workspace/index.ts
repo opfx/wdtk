@@ -1,5 +1,5 @@
 import { strings } from '@angular-devkit/core';
-import { apply, applyTemplates, chain, mergeWith, template, url } from '@angular-devkit/schematics';
+import { apply, applyTemplates, chain, mergeWith, url } from '@angular-devkit/schematics';
 import { Rule, SchematicsException, SchematicContext, Tree } from '@angular-devkit/schematics';
 import { NodeDependency, NodeDependencyType } from '@wdtk/core';
 import { addWorkspaceDependencies } from '@wdtk/core';
@@ -29,7 +29,6 @@ export default function (options: WorkspaceOptions): Rule {
   }
   return (host: Tree, ctx: SchematicContext) => {
     options = normalizeOptions(host, options);
-    // const templateSource = apply(url('./files'), [template({ dot: '.', tmpl: '', strings, ...options })]);
     const templateSource = apply(url('./files'), [applyTemplates({ dot: '.', strings, ...options })]);
     return chain([mergeWith(templateSource), addWorkspaceDependencies(workspaceDependencies)]);
   };
@@ -37,6 +36,9 @@ export default function (options: WorkspaceOptions): Rule {
 
 function normalizeOptions(host: Tree, options: WorkspaceOptions): NormalizedOptions {
   options.name = strings.dasherize(options.name);
+  if (!options.newProjectRoot) {
+    options.newProjectRoot = 'projects';
+  }
   return {
     ...options,
   };

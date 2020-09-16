@@ -7,7 +7,7 @@
     "wx": "wx"
   },
    "workspaces": [
-    "packages/*"
+    "<%= strings.dasherize(newProjectRoot) %>/*"
   ],
   "dependencies": {},
   "devDependencies": {}

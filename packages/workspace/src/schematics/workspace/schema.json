@@ -12,6 +12,11 @@
         "index": 0
       },
       "x-prompt": "What name would you like to use for the workspace?"
+    },
+    "newProjectRoot": {
+      "description": "The path where new projects will be created.",
+      "type": "string",
+      "visible": "false"
     }
   },
   "required": []

@@ -1,7 +1,7 @@
 {
   "version": 1,
   "projects": {},
-  "newProjectRoot": "projects",
+  "newProjectRoot": "<%= strings.dasherize(newProjectRoot) %>",
   "cli": {     
     "defaultCollection": "@wdtk/workspace",
     "packageManager": "yarn"
