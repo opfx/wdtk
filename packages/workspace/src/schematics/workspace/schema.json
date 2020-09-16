@@ -16,7 +16,8 @@
     "newProjectRoot": {
       "description": "The path where new projects will be created.",
       "type": "string",
-      "visible": "false"
+      "default": "projects",
+      "x-prompt": "What directory should be used for projects?"
     }
   },
   "required": []
