@@ -6,6 +6,9 @@
   "scripts": {
     "wx": "wx"
   },
+   "workspaces": [
+    "packages/*"
+  ],
   "dependencies": {},
   "devDependencies": {}
 }

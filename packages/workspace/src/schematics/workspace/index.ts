@@ -1,5 +1,5 @@
 import { strings } from '@angular-devkit/core';
-import { apply, chain, mergeWith, template, url } from '@angular-devkit/schematics';
+import { apply, applyTemplates, chain, mergeWith, template, url } from '@angular-devkit/schematics';
 import { Rule, SchematicsException, SchematicContext, Tree } from '@angular-devkit/schematics';
 import { NodeDependency, NodeDependencyType } from '@wdtk/core';
 import { addWorkspaceDependencies } from '@wdtk/core';
@@ -14,6 +14,11 @@ const workspaceDependencies: NodeDependency[] = [
     type: NodeDependencyType.Dev,
     version: versions.Wdtk,
   },
+  {
+    name: 'prettier',
+    type: NodeDependencyType.Dev,
+    version: versions.Prettier,
+  },
 ];
 
 interface NormalizedOptions extends WorkspaceOptions {}
@@ -24,7 +29,8 @@ export default function (options: WorkspaceOptions): Rule {
   }
   return (host: Tree, ctx: SchematicContext) => {
     options = normalizeOptions(host, options);
-    const templateSource = apply(url('./files'), [template({ dot: '.', tmpl: '', strings, ...options })]);
+    // const templateSource = apply(url('./files'), [template({ dot: '.', tmpl: '', strings, ...options })]);
+    const templateSource = apply(url('./files'), [applyTemplates({ dot: '.', strings, ...options })]);
     return chain([mergeWith(templateSource), addWorkspaceDependencies(workspaceDependencies)]);
   };
 }
