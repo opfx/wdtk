@@ -48,7 +48,7 @@
       "name": "wx (generate)",
       "skipFiles": ["<node_internals>/**"],
       "program": "${workspaceFolder}/bin/wx",
-      "cwd": "${workspaceFolder}/../work",
+      "cwd": "${workspaceFolder}/../work/workspace",
       "console": "integratedTerminal",
       // "args": ["generate", "--dry-run", "--verbose"],
       "args": ["generate", "@wdtk/angular:app", "sample1", "--verbose", "--directory", "apps/sample"],

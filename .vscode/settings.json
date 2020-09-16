@@ -12,7 +12,12 @@
     "**/dist": true,
     "**target": true
   },
-  "cSpell.words": ["devkit", "wdtk"],
+  "cSpell.words": [
+    "Codelyzer",
+    "dasherize",
+    "devkit",
+    "wdtk"
+  ],
   "cSpell.ignorePaths": [
     "**/package.json",
     "**/yarn.lock",
