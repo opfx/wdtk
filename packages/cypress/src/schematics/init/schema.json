@@ -1,0 +1,15 @@
+{
+  "$schema": "http://json-schema.org/schema",
+  "id": "WdtkCypressSchematicsInit",
+  "title": "Cypress Init Options Schema",
+  "type": "object",
+  "description": "Adds Cypress support to the workspace.",
+  "properties": {
+    "skipInstall": {
+      "description": "When true, does skips formatting the files.",
+      "type": "boolean",
+      "default": "false"
+    }
+  },
+  "required": []
+}

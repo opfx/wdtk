@@ -1,0 +1,23 @@
+{
+  "$schema": "http://json-schema.org/schema",
+  "id": "WdtkCypressSchematicsProject",
+  "title": "Cypress Project Options Schema",
+  "type": "object",
+  "description": "Generates a Cypress E2E project.",
+  "properties": {
+    "project": {
+      "type": "string",
+      "description": "The name of the frontend project to test."
+    },
+    "name": {
+      "type": "string",
+      "description": "Name of the E2E Project",
+      "$default": {
+        "$source": "argv",
+        "index": 0
+      },
+      "x-prompt": "What name would you like to use for the e2e project?"
+    }
+  },
+  "required": ["name"]
+}

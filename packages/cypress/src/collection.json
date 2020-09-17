@@ -1,0 +1,19 @@
+{
+  "name": "@wdtk/cypress",
+  "version": "0.1",
+  "schematics": {
+    "init": {
+      "aliases": ["ng-add"],
+      "description": "Adds Cypress support to the workspace.",
+      "factory": "./schematics/init/index",
+      "schema": "./schematics/init/schema.json",
+      "hidden": true
+    },
+    "project": {
+      "description": "Creates an Cypress E2E project.",
+      "factory": "./schematics/project/index",
+      "schema": "./schematics/project/schema.json",
+      "hidden": true
+    }
+  }
+}
