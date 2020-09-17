@@ -8,6 +8,14 @@
  */
 'use strict';
 
+// polyfill rxjs observable to avoid issues with multiple version fo Observable installed in node_modules
+// https://github.com/ReactiveX/rxjs/issues/4415#issuecomment-655810007
+if (typeof Symbol === 'function') {
+    if (!Symbol.observable) {
+        Symbol.observable = Symbol('observable');
+    }
+}
+
 require('./../lib/bootstrap');
 
 const packages = require('./../lib/packages').packages;
