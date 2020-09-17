@@ -834,6 +834,8 @@ __metadata:
     "@wdtk/core": 0.0.0
     jest: 25.2.3
     tslib: ^2.0.1
+  peerDependencies:
+    "@wdtk/workspace": "*"
   languageName: unknown
   linkType: soft
 

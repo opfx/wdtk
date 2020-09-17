@@ -1,4 +1,5 @@
-import { chain, Rule, SchematicContext, Tree } from '@angular-devkit/schematics';
+import { Rule, SchematicContext, Tree } from '@angular-devkit/schematics';
+import { chain, externalSchematic } from '@angular-devkit/schematics';
 import { addWorkspaceDependencies, NodeDependency, NodeDependencyType } from '@wdtk/core';
 
 import { versions } from './../../versions';
@@ -52,11 +53,6 @@ const workspaceDependencies: NodeDependency[] = [
     version: versions.Rxjs,
   },
   {
-    name: 'tslib',
-    type: NodeDependencyType.Default,
-    version: versions.TsLib,
-  },
-  {
     name: 'zone.js',
     type: NodeDependencyType.Default,
     version: versions.ZoneJs,
@@ -67,29 +63,12 @@ const workspaceDependencies: NodeDependency[] = [
     type: NodeDependencyType.Dev,
     version: versions.Angular,
   },
-  {
-    name: '@types/node',
-    type: NodeDependencyType.Dev,
-    version: versions.NodeTypes,
-  },
-  {
-    name: 'codelyzer',
-    type: NodeDependencyType.Dev,
-    version: versions.Codelyzer,
-  },
-  {
-    name: 'ts-node',
-    type: NodeDependencyType.Dev,
-    version: versions.TsNode,
-  },
-  {
-    name: 'tslint',
-    type: NodeDependencyType.Dev,
-    version: versions.TsLint,
-  },
 ];
 export default function (options: InitOptions): Rule {
   return (host: Tree, ctx: SchematicContext) => {
-    return chain([addWorkspaceDependencies(workspaceDependencies)]);
+    return chain([
+      externalSchematic('@wdtk/workspace', 'typescript', { skipInstall: true }), //
+      addWorkspaceDependencies(workspaceDependencies),
+    ]);
   };
 }

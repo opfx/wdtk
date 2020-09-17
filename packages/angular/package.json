@@ -15,6 +15,9 @@
     "@wdtk/core": "0.0.0",
     "tslib": "^2.0.1"
   },
+  "peerDependencies": {
+    "@wdtk/workspace": "*"
+  },
   "devDependencies": {
     "jest": "25.2.3"
   }
