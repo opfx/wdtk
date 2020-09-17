@@ -36,7 +36,7 @@ const workspaceDependencies: NodeDependency[] = [
   {
     name: 'typescript',
     type: NodeDependencyType.Dev,
-    version: versions.TsNode,
+    version: versions.Typescript,
   },
 ];
 
