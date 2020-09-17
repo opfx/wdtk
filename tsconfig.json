@@ -19,7 +19,7 @@
     "rootDirs": [".", "./target"],
     "paths": {
       "@wdtk/core/util": ["./packages/core/util/index"],
-      "@wdtk/core/schematics": ["./packages/core/schematics/index"]
+      "@wdtk/core/testing": ["./packages/core/testing/index"]
     }
   },
   "exclude": ["lib/**", "scripts/**", "./target/build"]
