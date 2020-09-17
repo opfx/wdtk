@@ -13,7 +13,7 @@
       "description": "Adds support for working with Angular projects in the workspace.",
       "factory": "./schematics/init/index",
       "schema": "./schematics/init/schema.json",
-      "hidden": "true"
+      "hidden": true
     }
   }
 }
