@@ -4,9 +4,13 @@
   "license": "SEE LICENSE IN LICENSE",
   "private": true,
   "scripts": {
-    "wx": "wx"
+    "wx": "wx",
+    "start": "wx start",
+    "build": "wx build",
+    "lint": "wx lint",
+    "e2e": "wx e2e"
   },
-   "workspaces": [
+  "workspaces": [
     "<%= strings.dasherize(newProjectRoot) %>/*"
   ],
   "dependencies": {},
