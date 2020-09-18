@@ -1,6 +1,6 @@
 {
   "$schema": "http://json-schema.org/schema",
-  "$id": "wx-cli://commands/.definitions.json",
+  "$id": "wx-cli://commands/definitions.json",
 
   "definitions": {
     "base": {
