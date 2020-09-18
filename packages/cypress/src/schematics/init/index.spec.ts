@@ -38,5 +38,6 @@ describe('cypress init schematic', () => {
     const packageJson = getJsonFileContent(tree, '/package.json');
 
     expect(packageJson.devDependencies['cypress']).toBe(`${versions.Cypress}`);
+    expect(packageJson.devDependencies['@wdtk/cypress']).toBe(`${versions.Wdtk}`);
   });
 });
