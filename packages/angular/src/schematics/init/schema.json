@@ -4,11 +4,24 @@
   "title": "Angular Init Options Schema",
   "type": "object",
   "description": "Adds support for Angular projects to the workspace.",
+
   "properties": {
+    "e2eTestRunner": {
+      "type": "string",
+      "description": "The test runner to use for e2e tests.",
+      "enum": ["protractor", "cypress", "none"],
+      "default": "cypress"
+    },
     "skipInstall": {
-      "description": "When true, does skips formatting the files.",
       "type": "boolean",
-      "default": "false"
+      "description": "Skip installing after adding @wdtk/angular dependencies.",
+      "default": false
+    },
+    "unitTestRunner": {
+      "type": "string",
+      "description": "The test runner to use for unit tests.",
+      "enum": ["karma", "jest", "none"],
+      "default": "jest"
     }
   }
 }

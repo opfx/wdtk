@@ -13,6 +13,7 @@
     "@angular-devkit/schematics": "^9.1.12",
     "@schematics/angular": "^9.1.12",
     "@wdtk/core": "0.0.0",
+    "@wdtk/cypress": "0.0.0",
     "tslib": "^2.0.1"
   },
   "peerDependencies": {
