@@ -2,10 +2,8 @@ import { Tree } from '@angular-devkit/schematics';
 import { SchematicTestRunner, UnitTestTree } from '@angular-devkit/schematics/testing';
 
 import { createEmptyWorkspace, getJsonFileContent } from '@wdtk/core/testing';
-import { notDeepEqual } from 'assert';
 
 import { Schema as InitOptions } from './schema';
-import { E2ETestRunner } from './schema';
 
 const schematicCollection = '@wdtk/angular';
 const schematicName = 'init';
