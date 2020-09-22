@@ -1,13 +1,11 @@
 import { Tree } from '@angular-devkit/schematics';
 import { SchematicTestRunner, UnitTestTree } from '@angular-devkit/schematics/testing';
 import { JsonParseMode, parseJson } from '@wdtk/core';
+import { getJsonFileContent } from '@wdtk/core/testing';
+
 import { versions } from './../../versions';
 import { Schema as WorkspaceOptions } from './schema';
 
-// tslint:disable-next-line: no-any
-function getJsonFileContent(tree: UnitTestTree, path: string): any {
-  return parseJson(tree.readContent(path).toString(), JsonParseMode.Loose);
-}
 describe('workspace schematic', () => {
   const schematicRunner = new SchematicTestRunner('@wdtk/workspace', require.resolve('../../collection.json'));
   const runSchematic = async (opts: WorkspaceOptions): Promise<UnitTestTree> => {
@@ -30,8 +28,15 @@ describe('workspace schematic', () => {
   it('should have the latest version of wdtk in package.json', async () => {
     const expectedVersion = `^${versions.Wdtk.replace('~', '').replace('^', '')}`;
     const tree = await runSchematic(defaultOptions);
-    const packageJson = getJsonFileContent(tree, '/package.json');
+    const { devDependencies } = getJsonFileContent(tree, '/package.json');
 
-    expect(packageJson.devDependencies['@wdtk/cli']).toBe(expectedVersion);
+    expect(devDependencies['@wdtk/cli']).toBe(expectedVersion);
+  });
+
+  it(`should add dependency on '@wdtk/workspace' in package.json`, async () => {
+    const tree = await runSchematic(defaultOptions);
+    const { devDependencies } = getJsonFileContent(tree, '/package.json');
+
+    expect(devDependencies['@wdtk/workspace']).toBeDefined();
   });
 });

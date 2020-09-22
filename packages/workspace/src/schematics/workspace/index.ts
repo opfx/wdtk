@@ -15,6 +15,11 @@ const workspaceDependencies: NodeDependency[] = [
     version: versions.Wdtk,
   },
   {
+    name: '@wdtk/workspace',
+    type: NodeDependencyType.Dev,
+    version: versions.Wdtk,
+  },
+  {
     name: 'prettier',
     type: NodeDependencyType.Dev,
     version: versions.Prettier,
