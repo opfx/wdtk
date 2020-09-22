@@ -4,12 +4,13 @@ import { JsonParseMode, parseJson } from '@wdtk/core';
 
 export * from './mock-builder-context';
 
-export function createEmptyWorkspace(host: Tree = null): Tree {
-  if (!host) {
-    host = Tree.empty();
+export function createEmptyWorkspace(tree: Tree = null): Tree {
+  if (!tree) {
+    tree = Tree.empty();
   }
-  host.create('/package.json', JSON.stringify({ name: 'empty', dependencies: {}, devDependencies: {} }));
-  return host;
+  tree.create('/package.json', JSON.stringify({ name: 'empty', dependencies: {}, devDependencies: {} }));
+  tree.create('/.angular.json', JSON.stringify({ version: 1, projects: {}, newProjectRoot: '' }));
+  return tree;
 }
 
 // tslint:disable-next-line: no-any
