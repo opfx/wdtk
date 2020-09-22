@@ -1,0 +1,29 @@
+{
+  "folders": [
+    {
+      "name": "Cypress",
+      "path": "packages/cypress/src"
+    },
+    {
+      "name": "Core",
+      "path": "packages/core"
+    },
+    {
+      "name": "root",
+      "path": "."
+    }
+  ],
+  "settings": {
+    // "terminal.integrated.cwd": "./../../",
+    "files.eol": "\n",
+    "files.exclude": {
+      "**/node_modules": true
+    },
+    "cSpell.words": ["wdtk"],
+    "jest.pathToJest": "yarn jest"
+  },
+  "launch": {
+    "configurations": [],
+    "compounds": []
+  }
+}

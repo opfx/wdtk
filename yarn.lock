@@ -1817,12 +1817,33 @@ __metadata:
     "@wdtk/core": 0.0.0
     fork-ts-checker-webpack-plugin: ^3.1.1
     jest: 25.2.3
+    ts-loader: ^8.0.4
     tsconfig-paths-webpack-plugin: 3.2.0
     tslib: ^2.0.1
     webpack-node-externals: 1.7.2
   peerDependencies:
     "@wdtk/workspace": "*"
     cypress: ">= 3 < 5"
+  languageName: unknown
+  linkType: soft
+
+"@wdtk/jest@workspace:packages/jest":
+  version: 0.0.0-use.local
+  resolution: "@wdtk/jest@workspace:packages/jest"
+  dependencies:
+    "@angular-devkit/architect": ^0.901.12
+    "@angular-devkit/schematics": ^9.1.12
+    "@cypress/webpack-preprocessor": ~4.1.2
+    "@schematics/angular": ^9.1.12
+    "@wdtk/core": 0.0.0
+    fork-ts-checker-webpack-plugin: ^3.1.1
+    jest: 25.2.3
+    ts-loader: ^8.0.4
+    tsconfig-paths-webpack-plugin: 3.2.0
+    tslib: ^2.0.1
+    webpack-node-externals: 1.7.2
+  peerDependencies:
+    "@wdtk/workspace": "*"
   languageName: unknown
   linkType: soft
 
@@ -5679,7 +5700,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"loader-utils@npm:^1.4.0":
+"loader-utils@npm:^1.0.2, loader-utils@npm:^1.4.0":
   version: 1.4.0
   resolution: "loader-utils@npm:1.4.0"
   dependencies:
@@ -5955,7 +5976,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"micromatch@npm:^4.0.2":
+"micromatch@npm:^4.0.0, micromatch@npm:^4.0.2":
   version: 4.0.2
   resolution: "micromatch@npm:4.0.2"
   dependencies:
@@ -8465,6 +8486,21 @@ resolve@1.1.7:
   bin:
     ts-jest: cli.js
   checksum: dcd5639f38c52acef8206f640c6659e265aaa3b791969bb5e79ef7fd73b3a18ddf47829f8314efea31744ffab5b8b3591b0417f332e66c229b6930d4d80cdad0
+  languageName: node
+  linkType: hard
+
+"ts-loader@npm:^8.0.4":
+  version: 8.0.4
+  resolution: "ts-loader@npm:8.0.4"
+  dependencies:
+    chalk: ^2.3.0
+    enhanced-resolve: ^4.0.0
+    loader-utils: ^1.0.2
+    micromatch: ^4.0.0
+    semver: ^6.0.0
+  peerDependencies:
+    typescript: "*"
+  checksum: 2cfdba8538d076fc851ea2ebf02aa39d859e4e62d509fe2004a06c867f5861d7f9cd43ea3b471a09a03b386da0e94a37727400efa7087f814a8d3c6fde431ed1
   languageName: node
   linkType: hard
 

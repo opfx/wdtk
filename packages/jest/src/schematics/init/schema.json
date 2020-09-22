@@ -1,0 +1,21 @@
+{
+  "$schema": "http://json-schema.org/schema",
+  "id": "WdtkJestSchematicsInit",
+  "title": "Jest Init Options Schema",
+  "type": "object",
+  "description": "Adds Jest support to the workspace.",
+  "properties": {
+    "babelJest": {
+      "type": "boolean",
+      "alias": "babel-jest",
+      "description": "Use babel-jest instead of ts-jest",
+      "default": false
+    },
+    "supportTsx": {
+      "type": "boolean",
+      "description": "Setup tsx support",
+      "default": false
+    }
+  },
+  "required": []
+}
