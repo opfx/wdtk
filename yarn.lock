@@ -1834,15 +1834,9 @@ __metadata:
   dependencies:
     "@angular-devkit/architect": ^0.901.12
     "@angular-devkit/schematics": ^9.1.12
-    "@cypress/webpack-preprocessor": ~4.1.2
-    "@schematics/angular": ^9.1.12
     "@wdtk/core": 0.0.0
-    fork-ts-checker-webpack-plugin: ^3.1.1
     jest: 25.2.3
-    ts-loader: ^8.0.4
-    tsconfig-paths-webpack-plugin: 3.2.0
-    tslib: ^2.0.1
-    webpack-node-externals: 1.7.2
+    rxjs: ^6.6.3
   peerDependencies:
     "@wdtk/workspace": "*"
   languageName: unknown
@@ -7570,6 +7564,15 @@ resolve@1.1.7:
   dependencies:
     tslib: ^1.9.0
   checksum: 9b16cd36093b87ce454726f14783e204b80431e6657d36191877e4d9d4b0713c73e5ee8b45be336b081d47b10cd016b3812ea3bd4b27bf87942b1410aa18ee04
+  languageName: node
+  linkType: hard
+
+"rxjs@npm:^6.6.3":
+  version: 6.6.3
+  resolution: "rxjs@npm:6.6.3"
+  dependencies:
+    tslib: ^1.9.0
+  checksum: 61a3da6db947f69b7d805df3a619d8f60678b7372c4d571dd63e45ef3532be984a88307ea0aa2cd8d2578b62c3c022186e8da9dca47c9c1b8c9ecba6f5581deb
   languageName: node
   linkType: hard
 
