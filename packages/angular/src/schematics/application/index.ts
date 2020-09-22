@@ -30,8 +30,8 @@ export default function (applicationOptions: ApplicationOptions): Rule {
       // opts.e2eTestRunner === 'protractor' ? move(e2eProjectRoot, opts.e2eProjectRoot) : removeE2eProject(opts),
       // opts.e2eTestRunner === 'protractor' ? updateE2eProject(opts): noop(),
       // // move(appProjectRoot, opts.appProjectRoot),
-      // opts.e2eTestRunner === 'protractor' ? noop() : e2eRemoveProject(opts, e2eProjectRoot),
-      // opts.e2eTestRunner === 'cypress' ? externalSchematic('@wdtk/cypress', 'project', { name: 'e2e', project: opts.name }) : noop(),
+      opts.e2eTestRunner === 'protractor' ? noop() : e2eRemoveProject(opts, e2eProjectRoot),
+      opts.e2eTestRunner === 'cypress' ? externalSchematic('@wdtk/cypress', 'project', { project: opts.name }) : noop(),
     ]);
   };
 }
