@@ -1,12 +1,13 @@
+import { join, normalize } from '@angular-devkit/core';
 import { Rule, SchematicContext, Tree } from '@angular-devkit/schematics';
 import { chain, externalSchematic, move, noop, schematic } from '@angular-devkit/schematics';
 
 import { strings } from '@wdtk/core/util';
-import { readJsonInTree, getWorkspaceConfigPath, updateWorkspaceDefinition, JsonFile } from '@wdtk/core';
+import { readJsonInTree, getWorkspaceConfigPath, updateWorkspaceDefinition, getWorkspaceDefinition } from '@wdtk/core';
 
 import { Schema } from './schema';
 
-interface ApplicationOptions extends Schema {
+export interface ApplicationOptions extends Schema {
   appProjectRoot: string;
   e2eProjectRoot: string;
 }
@@ -18,11 +19,12 @@ export default function (opts: ApplicationOptions): Rule {
     const workspaceJson = readJsonInTree(tree, getWorkspaceConfigPath(tree));
     const appProjectRoot = workspaceJson.newProjectRoot ? `${workspaceJson.newProjectRoot}/${opts.name}` : opts.name;
     const e2eProjectRoot = workspaceJson.newProjectRoot ? `${workspaceJson.newProjectRoot}/${opts.name}/e2e` : `${opts.name}/e2e`;
+
     return chain([
       schematic('init', { ...opts }),
       externalSchematic('@schematics/angular', 'application', {
         ...opts,
-
+        skipTests: opts.unitTestRunner === 'none' ? true : opts.skipTests,
         skipInstall: true,
         skipPackageJson: false,
       }),
@@ -30,6 +32,7 @@ export default function (opts: ApplicationOptions): Rule {
       // opts.e2eTestRunner === 'protractor' ? move(e2eProjectRoot, opts.e2eProjectRoot) : removeE2eProject(opts),
       // opts.e2eTestRunner === 'protractor' ? updateE2eProject(opts): noop(),
       // // move(appProjectRoot, opts.appProjectRoot),
+      setupUnitTestRunner(opts),
       opts.e2eTestRunner === 'protractor' ? noop() : e2eRemoveProject(opts, e2eProjectRoot),
       opts.e2eTestRunner === 'cypress' ? externalSchematic('@wdtk/cypress', 'project', { project: opts.name }) : noop(),
     ]);
@@ -43,6 +46,75 @@ function normalizeOptions(tree: Tree, opts: ApplicationOptions): ApplicationOpti
     ...opts,
     appProjectRoot: appDirectory,
     e2eProjectRoot: e2eDirectory,
+  };
+}
+
+function setupUnitTestRunner(opts: ApplicationOptions): Rule {
+  return (tree: Tree, ctx: SchematicContext) => {
+    if (opts.unitTestRunner === 'jest') {
+      return chain([
+        removeKarmaSupport(opts), //
+        externalSchematic('@wdtk/jest', 'project', { project: opts.name, setupFile: 'angular' }),
+      ]);
+    }
+    if (opts.unitTestRunner === 'none') {
+      return removeKarmaSupport(opts);
+    }
+  };
+}
+
+function removeKarmaSupport(opts: ApplicationOptions) {
+  return chain([
+    // (tree: Tree, ctx: SchematicContext) => {
+    //   const workspace = await getWorkspaceDefinition(tree);
+    //   const project = workspace.projects.get(opts.name);
+    //   ctx.logger.debug(`Removing karma files... ${opts.appProjectRoot}`);
+    //   if (tree.read(`${opts.appProjectRoot}/karma.conf.js`)) {
+    //     ctx.logger.debug(`${opts.appProjectRoot}/karma.conf.js`);
+    //     tree.delete(`${opts.appProjectRoot}/karma.conf.js`);
+    //   }
+    //   if (tree.read(`${opts.appProjectRoot}/tsconfig.spec.json`)) {
+    //     tree.delete(`${opts.appProjectRoot}/tsconfig.spec.json`);
+    //   }
+    //   if (tree.read(`${opts.appProjectRoot}/src/test.ts`)) {
+    //     tree.delete(`${opts.appProjectRoot}/src/test.ts`);
+    //   }
+    //   return tree;
+    // },
+    removeKarmaFiles(opts),
+    updateWorkspaceDefinition((workspace) => {
+      const project = workspace.projects.get(opts.name);
+      project.targets.delete('test');
+
+      const lintTarget = project.targets.get('lint');
+      if (lintTarget && lintTarget.options && Array.isArray(lintTarget.options.tsConfig)) {
+        lintTarget.options.tsConfig = lintTarget.options.tsConfig.filter((currTsConfig: string) => !currTsConfig.includes('tsconfig.spec.json'));
+      }
+    }),
+  ]);
+}
+
+function removeKarmaFiles(opts: ApplicationOptions): Rule {
+  return async (tree: Tree, ctx: SchematicContext) => {
+    const workspace = await getWorkspaceDefinition(tree);
+    const project = workspace.projects.get(opts.name);
+    const root = normalize(project.root);
+    ctx.logger.debug(`Removing 'karma' files from ${root}...`);
+
+    if (tree.exists(`${root}/karma.conf.js`)) {
+      ctx.logger.debug(` * ${root}/karma.conf.js`);
+      tree.delete(`${root}/karma.conf.js`);
+    }
+
+    if (tree.exists(`${root}/tsconfig.spec.json`)) {
+      ctx.logger.debug(` * ${root}/tsconfig.spec.json`);
+      tree.delete(`${root}/tsconfig.spec.json`);
+    }
+
+    if (tree.exists(`${root}/src/test.ts`)) {
+      ctx.logger.debug(` * ${root}/src/test.ts`);
+      tree.delete(`${root}/src/test.ts`);
+    }
   };
 }
 

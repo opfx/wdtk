@@ -98,7 +98,7 @@
       "type": "string",
       "enum": ["karma", "jest", "none"],
       "description": "Test runner to use for unit tests",
-      "default": "karma"
+      "default": "jest"
     }
   },
   "required": ["name"]
