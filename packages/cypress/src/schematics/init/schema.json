@@ -6,7 +6,7 @@
   "description": "Adds Cypress support to the workspace.",
   "properties": {
     "skipInstall": {
-      "description": "When true, does skips formatting the files.",
+      "description": "Skip installing after adding @wdtk/cypress",
       "type": "boolean",
       "default": "false"
     }
