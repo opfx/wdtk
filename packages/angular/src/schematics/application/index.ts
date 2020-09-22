@@ -4,18 +4,18 @@ import { chain, externalSchematic, move, noop, schematic } from '@angular-devkit
 import { strings } from '@wdtk/core/util';
 import { readJsonInTree, getWorkspaceConfigPath, updateWorkspaceDefinition, JsonFile } from '@wdtk/core';
 
-import { Schema as ApplicationOptions } from './schema';
+import { Schema } from './schema';
 
-interface NormalizedOptions extends ApplicationOptions {
+interface ApplicationOptions extends Schema {
   appProjectRoot: string;
   e2eProjectRoot: string;
 }
-export default function (applicationOptions: ApplicationOptions): Rule {
-  return (host: Tree, ctx: SchematicContext) => {
+export default function (opts: ApplicationOptions): Rule {
+  return (tree: Tree, ctx: SchematicContext) => {
     ctx.logger.debug(`Running '@wdtk/angular:application' schematic`);
-    const opts = normalizeOptions(host, applicationOptions);
+    opts = normalizeOptions(tree, opts);
 
-    const workspaceJson = readJsonInTree(host, getWorkspaceConfigPath(host));
+    const workspaceJson = readJsonInTree(tree, getWorkspaceConfigPath(tree));
     const appProjectRoot = workspaceJson.newProjectRoot ? `${workspaceJson.newProjectRoot}/${opts.name}` : opts.name;
     const e2eProjectRoot = workspaceJson.newProjectRoot ? `${workspaceJson.newProjectRoot}/${opts.name}/e2e` : `${opts.name}/e2e`;
     return chain([
@@ -36,7 +36,7 @@ export default function (applicationOptions: ApplicationOptions): Rule {
   };
 }
 
-function normalizeOptions(host: Tree, opts: ApplicationOptions): NormalizedOptions {
+function normalizeOptions(tree: Tree, opts: ApplicationOptions): ApplicationOptions {
   const appDirectory = opts.directory ? strings.dasherize(opts.directory) : strings.dasherize(opts.name);
   const e2eDirectory = opts.directory ? strings.dasherize(opts.directory) : strings.dasherize(opts.name);
   return {
@@ -46,27 +46,27 @@ function normalizeOptions(host: Tree, opts: ApplicationOptions): NormalizedOptio
   };
 }
 
-function e2eRemoveProject(options: NormalizedOptions, e2eProjectRoot: string): Rule {
-  return (host: Tree, ctx: SchematicContext) => {
+function e2eRemoveProject(opts: ApplicationOptions, e2eProjectRoot: string): Rule {
+  return (tree: Tree, ctx: SchematicContext) => {
     ctx.logger.debug(`Removing protractor e2e project`);
     return chain([
-      (host) => {
-        if (host.read(`${e2eProjectRoot}/src/app.e2e-spec.ts`)) {
-          host.delete(`${e2eProjectRoot}/src/app.e2e-spec.ts`);
+      (tree) => {
+        if (tree.read(`${e2eProjectRoot}/src/app.e2e-spec.ts`)) {
+          tree.delete(`${e2eProjectRoot}/src/app.e2e-spec.ts`);
         }
-        if (host.read(`${e2eProjectRoot}/src/app.po.ts`)) {
-          host.delete(`${e2eProjectRoot}/src/app.po.ts`);
+        if (tree.read(`${e2eProjectRoot}/src/app.po.ts`)) {
+          tree.delete(`${e2eProjectRoot}/src/app.po.ts`);
         }
-        if (host.read(`${e2eProjectRoot}/protractor.conf.js`)) {
-          host.delete(`${e2eProjectRoot}/protractor.conf.js`);
+        if (tree.read(`${e2eProjectRoot}/protractor.conf.js`)) {
+          tree.delete(`${e2eProjectRoot}/protractor.conf.js`);
         }
-        if (host.read(`${e2eProjectRoot}/tsconfig.json`)) {
-          host.delete(`${e2eProjectRoot}/tsconfig.json`);
+        if (tree.read(`${e2eProjectRoot}/tsconfig.json`)) {
+          tree.delete(`${e2eProjectRoot}/tsconfig.json`);
         }
       },
-      (host) => {
+      (tree) => {
         return updateWorkspaceDefinition((workspace) => {
-          const project = workspace.projects.get(options.name);
+          const project = workspace.projects.get(opts.name);
           project.targets.delete('e2e');
         });
       },
@@ -74,8 +74,8 @@ function e2eRemoveProject(options: NormalizedOptions, e2eProjectRoot: string): R
   };
 }
 
-function e2eUpdateProject(options: NormalizedOptions): Rule {
-  return (host: Tree, ctx: SchematicContext) => {
+function e2eUpdateProject(opts: ApplicationOptions): Rule {
+  return (tree: Tree, ctx: SchematicContext) => {
     ctx.logger.debug('Updating existing e2e project');
   };
 }
