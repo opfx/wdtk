@@ -1,6 +1,6 @@
 import { normalize } from '@angular-devkit/core';
 import { Rule, SchematicContext, SchematicsException, Tree } from '@angular-devkit/schematics';
-import { apply, applyTemplates, chain, mergeWith, move, url } from '@angular-devkit/schematics';
+import { apply, applyTemplates, chain, mergeWith, move, schematic, url } from '@angular-devkit/schematics';
 
 import { updateWorkspaceDefinition, offsetFromRoot, getWorkspaceDefinition } from '@wdtk/core';
 
@@ -13,7 +13,7 @@ interface ProjectOptions extends Schema {
 export default function (options: ProjectOptions): Rule {
   return async (tree: Tree, ctx: SchematicContext) => {
     options = await normalizeOptions(tree, options);
-    return chain([setupWorkspaceDefinition(options), generateFiles(options)]);
+    return chain([schematic('init', { ...options }), setupWorkspaceDefinition(options), generateFiles(options)]);
   };
 }
 
@@ -23,6 +23,7 @@ function generateFiles(opts: ProjectOptions): Rule {
       apply(url('./files'), [
         applyTemplates({
           ...opts,
+          ext: 'ts',
           offsetFromRoot: offsetFromRoot(opts.root),
         }),
         move(opts.root),
