@@ -1,9 +1,10 @@
 import { join, normalize } from '@angular-devkit/core';
 
-import { noop, Rule, SchematicContext, SchematicsException, Tree } from '@angular-devkit/schematics';
-import { apply, applyTemplates, chain, filter, mergeWith, move, schematic, url } from '@angular-devkit/schematics';
+import { Rule, SchematicContext, SchematicsException, Tree } from '@angular-devkit/schematics';
+import { apply, applyTemplates, chain, filter, mergeWith, move, noop, schematic, url } from '@angular-devkit/schematics';
 
 import { updateJsonInTree, offsetFromRoot, getWorkspaceDefinition, updateWorkspaceDefinition } from '@wdtk/core';
+import { getProjectDefinition } from '@wdtk/core';
 import { tags } from '@wdtk/core/util';
 import { Schema } from './schema';
 
@@ -24,7 +25,12 @@ export default function (opts: ProjectOptions): Rule {
 }
 
 function checkTestTargetDoesNotExist(opts: ProjectOptions): Rule {
-  return (tree: Tree, ctx: SchematicContext) => {};
+  return async (tree: Tree, ctx: SchematicContext) => {
+    const project = await getProjectDefinition(tree, opts.project);
+    if (project.targets.get('test')) {
+      throw new SchematicsException(`The ${opts.project} already has a 'test' target.`);
+    }
+  };
 }
 
 function setupTsConfig(opts: ProjectOptions): Rule {
@@ -61,7 +67,7 @@ function generateFiles(opts: ProjectOptions): Rule {
           offsetFromRoot: offsetFromRoot(opts.root),
         }),
         opts.setupFile === 'none' ? filter((file) => file !== '/src/test-setup.ts') : noop(),
-        opts.babelJest ? noop() : filter((file) => file !== 'babel-jest.config.js'),
+        opts.babelJest ? noop() : filter((file) => file !== 'babel-jest.config.json'),
         move(opts.root),
       ])
     );
