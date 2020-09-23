@@ -1,19 +1,52 @@
-import { normalize } from '@angular-devkit/core';
+import { join, normalize } from '@angular-devkit/core';
 import { Rule, SchematicContext, SchematicsException, Tree } from '@angular-devkit/schematics';
 import { apply, applyTemplates, chain, mergeWith, move, schematic, url } from '@angular-devkit/schematics';
 
-import { updateWorkspaceDefinition, offsetFromRoot, getWorkspaceDefinition } from '@wdtk/core';
+import { updateWorkspaceDefinition, offsetFromRoot, getProjectDefinition, getWorkspaceDefinition, updateJsonInTree } from '@wdtk/core';
+import { tags } from '@wdtk/core/util';
 
 import { Schema } from './schema';
 
-interface ProjectOptions extends Schema {
-  root: string;
+export interface ProjectOptions extends Schema {
+  projectRoot: string;
 }
 
-export default function (options: ProjectOptions): Rule {
+export default function (opts: ProjectOptions): Rule {
   return async (tree: Tree, ctx: SchematicContext) => {
-    options = await normalizeOptions(tree, options);
-    return chain([schematic('init', { ...options }), setupWorkspaceDefinition(options), generateFiles(options)]);
+    opts = await normalizeOptions(tree, opts);
+    return chain([
+      schematic('init', { ...opts }), //
+      checkTestTargetDoesNotExist(opts),
+      setupTsConfig(opts),
+      setupWorkspaceDefinition(opts),
+      generateFiles(opts),
+    ]);
+  };
+}
+
+function checkTestTargetDoesNotExist(opts: ProjectOptions): Rule {
+  return async (tree: Tree, ctx: SchematicContext) => {
+    const project = await getProjectDefinition(tree, opts.project);
+    if (project.targets.get('e2e')) {
+      throw new SchematicsException(`The ${opts.project} already has a 'e2e' target.`);
+    }
+  };
+}
+
+function setupTsConfig(opts: ProjectOptions): Rule {
+  return (tree: Tree, ctx: SchematicContext) => {
+    const tsProjectConfigFile = join(normalize(opts.projectRoot), 'tsconfig.json');
+    if (!tree.exists(tsProjectConfigFile)) {
+      throw new SchematicsException(tags.stripIndents`
+      Failed to locate ${tsProjectConfigFile}. Please create it.
+      `);
+    }
+    return updateJsonInTree(tsProjectConfigFile, (tsConfig) => {
+      if (tsConfig.references) {
+        tsConfig.references.push({ path: './tsconfig.e2e.json' });
+      }
+      return tsConfig;
+    });
   };
 }
 
@@ -24,9 +57,9 @@ function generateFiles(opts: ProjectOptions): Rule {
         applyTemplates({
           ...opts,
           ext: 'ts',
-          offsetFromRoot: offsetFromRoot(opts.root),
+          offsetFromRoot: offsetFromRoot(opts.projectRoot),
         }),
-        move(opts.root),
+        move(opts.projectRoot),
       ])
     );
   };
@@ -46,7 +79,7 @@ function setupWorkspaceDefinition(opts: ProjectOptions): Rule {
       name: 'e2e',
       builder: '@wdtk/cypress:cypress',
       options: {
-        config: config,
+        cypressConfig: config,
         tsConfig: e2eTsConfig,
         devServerTarget: `${opts.project}:serve`,
       },
@@ -70,9 +103,9 @@ async function normalizeOptions(tree: Tree, opts: ProjectOptions): Promise<Proje
   if (!project) {
     throw new SchematicsException(`Project name "${opts.project}" doesn't not exist.`);
   }
-  const root = normalize(project.root);
+  const projectRoot = normalize(project.root);
   return {
     ...opts,
-    root,
+    projectRoot,
   };
 }

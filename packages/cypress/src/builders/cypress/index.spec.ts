@@ -18,7 +18,7 @@ import { getInstalledCypressVersion } from './../../util/version';
 const Cypress = require('cypress');
 const builderName = '@wdtk/cypress:cypress';
 const builderOpts: JsonObject & CypressBuilderOptions = {
-  config: 'apps/my-app-e2e/cypress.json',
+  cypressConfig: 'apps/my-app-e2e/cypress.json',
   parallel: false,
   tsConfig: 'apps/my-app-e2e/tsconfig.json',
   devServerTarget: 'my-app:serve',
@@ -128,7 +128,7 @@ describe('Cypress builder', () => {
       await run.stop();
       expect(cypressRun).toHaveBeenCalledWith(
         expect.objectContaining({
-          project: Path.dirname(opts.config),
+          project: Path.dirname(opts.cypressConfig),
         })
       );
       done();
@@ -145,8 +145,8 @@ describe('Cypress builder', () => {
       await run.stop();
       expect(cypressRun).toHaveBeenCalledWith(
         expect.objectContaining({
-          project: Path.dirname(opts.config),
-          configFile: Path.basename(opts.config),
+          project: Path.dirname(opts.cypressConfig),
+          configFile: Path.basename(opts.cypressConfig),
         })
       );
       done();

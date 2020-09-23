@@ -6,7 +6,7 @@
   "pluginsFile": "./e2e/plugins/index",
   "supportFile": "./e2e/support/index.<%= ext %>",
   "video": true,
-  "videosFolder": "<%= offsetFromRoot %>dist/cypress/<%= root %>/videos",
-  "screenshotsFolder": "<%= offsetFromRoot %>dist/cypress/<%= root %>/screenshots",
+  "videosFolder": "<%= offsetFromRoot %>dist/cypress/<%= projectRoot %>/videos",
+  "screenshotsFolder": "<%= offsetFromRoot %>dist/cypress/<%= projectRoot %>/screenshots",
   "chromeWebSecurity": false
 }

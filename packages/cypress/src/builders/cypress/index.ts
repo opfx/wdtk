@@ -49,9 +49,9 @@ export function execute(opts: CypressBuilderOptions, ctx: BuilderContext): Obser
  */
 function initCypress(baseUrl: string, opts: CypressBuilderOptions): Observable<BuilderOutput> {
   // cypress expects the folder containing the 'cypress.json'
-  const projectFolderPath = Path.dirname(opts.config);
+  const projectFolderPath = Path.dirname(opts.cypressConfig);
   (<any>opts).project = projectFolderPath;
-  (<any>opts).configFile = Path.basename(opts.config);
+  (<any>opts).configFile = Path.basename(opts.cypressConfig);
   if (baseUrl) {
     (<any>opts).config = { baseUrl: baseUrl };
   }
