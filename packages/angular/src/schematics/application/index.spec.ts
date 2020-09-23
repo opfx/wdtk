@@ -21,7 +21,10 @@ describe(`angular application schematic`, () => {
     workspaceTree = createEmptyWorkspace();
   });
 
-  it(`should do something`, async () => {});
+  it(`should generate required files`, async () => {
+    const tree = await runSchematic({ name: 'test-app' });
+    expect(tree.exists('/test-app/tsconfig.json'));
+  });
 
   describe(`--unit-test-runner`, () => {
     describe(`jest (default)`, async () => {
