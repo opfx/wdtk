@@ -6,6 +6,7 @@ import { apply, applyTemplates, chain, filter, mergeWith, move, noop, schematic,
 import { updateJsonInTree, offsetFromRoot, getWorkspaceDefinition, updateWorkspaceDefinition } from '@wdtk/core';
 import { getProjectDefinition } from '@wdtk/core';
 import { tags } from '@wdtk/core/util';
+import ts = require('typescript');
 import { Schema } from './schema';
 
 export interface ProjectOptions extends Schema {
@@ -19,6 +20,7 @@ export default function (opts: ProjectOptions): Rule {
       schematic('init', opts), //
       checkTestTargetDoesNotExist(opts),
       generateFiles(opts),
+      setupTsConfig(opts),
       setupWorkspaceDefinition(opts),
     ]);
   };
@@ -42,17 +44,23 @@ function setupTsConfig(opts: ProjectOptions): Rule {
       `);
     }
     return updateJsonInTree(tsProjectConfigFile, (tsConfig) => {
-      const oldTypes = tsConfig.compilerOptions.types || [];
-      const newTypes = new Set([...oldTypes, 'node', 'jest']);
-      const types = Array.from(newTypes);
-      return {
-        ...tsConfig,
-        compilerOptions: {
-          ...tsConfig.compilerOptions,
-          types,
-        },
-      };
+      if (tsConfig.references) {
+        tsConfig.references.push({ path: './tsconfig.spec.json' });
+      }
+      return tsConfig;
     });
+    // return updateJsonInTree(tsProjectConfigFile, (tsConfig) => {
+    //   const oldTypes = tsConfig.compilerOptions.types || [];
+    //   const newTypes = new Set([...oldTypes, 'node', 'jest']);
+    //   const types = Array.from(newTypes);
+    //   return {
+    //     ...tsConfig,
+    //     compilerOptions: {
+    //       ...tsConfig.compilerOptions,
+    //       types,
+    //     },
+    //   };
+    // });
   };
 }
 

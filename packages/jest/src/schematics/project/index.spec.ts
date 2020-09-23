@@ -1,6 +1,6 @@
 import { Tree } from '@angular-devkit/schematics';
 import { SchematicTestRunner, UnitTestTree } from '@angular-devkit/schematics/testing';
-import { getWorkspaceDefinition, updateWorkspaceDefinition } from '@wdtk/core';
+import { getWorkspaceDefinition, updateWorkspaceDefinition, updateJsonInTree } from '@wdtk/core';
 
 import { createEmptyWorkspace, getJsonFileContent } from '@wdtk/core/testing';
 
@@ -38,6 +38,19 @@ describe(`jest project schematic`, () => {
             builder: '@angular-devkit/build-angular:tslint',
             options: { tsConfig: [] },
           });
+        }),
+        workspaceTree
+      )
+      .toPromise();
+    // add project's tsconfig
+    workspaceTree = await schematicRunner
+      .callRule(
+        updateJsonInTree('test-project/tsconfig.json', (json) => {
+          return {
+            files: [],
+            include: [],
+            references: [],
+          };
         }),
         workspaceTree
       )
