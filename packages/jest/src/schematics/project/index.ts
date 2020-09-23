@@ -67,7 +67,7 @@ function generateFiles(opts: ProjectOptions): Rule {
           offsetFromRoot: offsetFromRoot(opts.root),
         }),
         opts.setupFile === 'none' ? filter((file) => file !== '/src/test-setup.ts') : noop(),
-        opts.babelJest ? noop() : filter((file) => file !== 'babel-jest.config.json'),
+        opts.babelJest ? noop() : filter((file) => file !== '/babel-jest.config.json'),
         move(opts.root),
       ])
     );
