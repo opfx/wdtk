@@ -1,8 +1,8 @@
 import { Tree } from '@angular-devkit/schematics';
 import { SchematicTestRunner, UnitTestTree } from '@angular-devkit/schematics/testing';
-import { getWorkspaceDefinition, updateWorkspaceDefinition } from '@wdtk/core';
+import { getProjectDefinition } from '@wdtk/core';
 
-import { createEmptyWorkspace, getJsonFileContent } from '@wdtk/core/testing';
+import { createEmptyWorkspace } from '@wdtk/core/testing';
 
 import { Schema as ApplicationOptions } from './schema';
 
@@ -69,5 +69,19 @@ describe(`angular application schematic`, () => {
         expect(specFilesPresent).toEqual(false);
       });
     });
+  });
+
+  describe(`--e2e-test-runner`, () => {
+    describe(`cypress (default)`, () => {
+      it(`should remove 'protractor' tsconfig from the 'lint' target`, async () => {
+        const tree = await runSchematic({ name: 'test-app' });
+        const project = await getProjectDefinition(tree, 'test-app');
+        const lintTarget = project.targets.get('lint');
+        const tsConfigPaths: string[] = <any>lintTarget.options.tsConfig;
+        const protractorTsConfigExists = tsConfigPaths.some((tsConfigPath) => tsConfigPath.includes('e2e/tsconfig.json'));
+        expect(protractorTsConfigExists).toBe(false);
+      });
+    });
+    describe(`none`, () => {});
   });
 });

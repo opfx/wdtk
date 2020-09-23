@@ -33,7 +33,7 @@ export default function (opts: ApplicationOptions): Rule {
       // opts.e2eTestRunner === 'protractor' ? updateE2eProject(opts): noop(),
       // move(appProjectRoot, opts.appProjectRoot),
       setupUnitTestRunner(opts),
-      opts.e2eTestRunner === 'protractor' ? noop() : e2eRemoveProject(opts, e2eProjectRoot),
+      opts.e2eTestRunner === 'protractor' ? noop() : removeProtractorSupport(opts, e2eProjectRoot),
       opts.e2eTestRunner === 'cypress' ? externalSchematic('@wdtk/cypress', 'project', { project: opts.name }) : noop(),
     ]);
   };
@@ -115,7 +115,7 @@ function removeKarmaFiles(opts: ApplicationOptions): Rule {
   };
 }
 
-function e2eRemoveProject(opts: ApplicationOptions, e2eProjectRoot: string): Rule {
+function removeProtractorSupport(opts: ApplicationOptions, e2eProjectRoot: string): Rule {
   return (tree: Tree, ctx: SchematicContext) => {
     ctx.logger.debug(`Removing protractor e2e project`);
     return chain([
@@ -137,6 +137,13 @@ function e2eRemoveProject(opts: ApplicationOptions, e2eProjectRoot: string): Rul
         return updateWorkspaceDefinition((workspace) => {
           const project = workspace.projects.get(opts.name);
           project.targets.delete('e2e');
+
+          const lintTarget = project.targets.get('lint');
+          if (lintTarget && lintTarget.options && Array.isArray(lintTarget.options.tsConfig)) {
+            lintTarget.options.tsConfig = lintTarget.options.tsConfig.filter(
+              (currTsConfig: string) => !(currTsConfig.includes('tsconfig.json') && currTsConfig.includes('/e2e/'))
+            );
+          }
         });
       },
     ]);
