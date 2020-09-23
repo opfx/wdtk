@@ -21,7 +21,7 @@ module.exports = {
   },<% if (supportTsx) { %>
     moduleFileExtensions: ['ts', 'tsx', 'js', 'jsx'],<% } else { %>
     moduleFileExtensions: ['ts', 'js', 'html'],<% } %><% } %>
-  coverageDirectory: '<%= offsetFromRoot %>coverage/<%= root %>'<% if(!skipSerializers) { %>,
+  coverageDirectory: '<%= offsetFromRoot %>coverage/<%= projectRoot %>'<% if(!skipSerializers) { %>,
   snapshotSerializers: [
     'jest-preset-angular/build/AngularNoNgAttributesSnapshotSerializer.js',
     'jest-preset-angular/build/AngularSnapshotSerializer.js',

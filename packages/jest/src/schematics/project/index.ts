@@ -6,11 +6,11 @@ import { apply, applyTemplates, chain, filter, mergeWith, move, noop, schematic,
 import { updateJsonInTree, offsetFromRoot, getWorkspaceDefinition, updateWorkspaceDefinition } from '@wdtk/core';
 import { getProjectDefinition } from '@wdtk/core';
 import { tags } from '@wdtk/core/util';
-import ts = require('typescript');
+
 import { Schema } from './schema';
 
 export interface ProjectOptions extends Schema {
-  root: string;
+  projectRoot: string;
 }
 
 export default function (opts: ProjectOptions): Rule {
@@ -37,7 +37,7 @@ function checkTestTargetDoesNotExist(opts: ProjectOptions): Rule {
 
 function setupTsConfig(opts: ProjectOptions): Rule {
   return (tree: Tree, ctx: SchematicContext) => {
-    const tsProjectConfigFile = join(normalize(opts.root), 'tsconfig.json');
+    const tsProjectConfigFile = join(normalize(opts.projectRoot), 'tsconfig.json');
     if (!tree.exists(tsProjectConfigFile)) {
       throw new SchematicsException(tags.stripIndents`
       Failed to locate ${tsProjectConfigFile}. Please create it.
@@ -49,18 +49,6 @@ function setupTsConfig(opts: ProjectOptions): Rule {
       }
       return tsConfig;
     });
-    // return updateJsonInTree(tsProjectConfigFile, (tsConfig) => {
-    //   const oldTypes = tsConfig.compilerOptions.types || [];
-    //   const newTypes = new Set([...oldTypes, 'node', 'jest']);
-    //   const types = Array.from(newTypes);
-    //   return {
-    //     ...tsConfig,
-    //     compilerOptions: {
-    //       ...tsConfig.compilerOptions,
-    //       types,
-    //     },
-    //   };
-    // });
   };
 }
 
@@ -72,11 +60,11 @@ function generateFiles(opts: ProjectOptions): Rule {
           dot: '.',
           ...opts,
           transformer: opts.babelJest ? 'babel-jest' : 'ts-jest',
-          offsetFromRoot: offsetFromRoot(opts.root),
+          offsetFromRoot: offsetFromRoot(opts.projectRoot),
         }),
         opts.setupFile === 'none' ? filter((file) => file !== '/src/test-setup.ts') : noop(),
         opts.babelJest ? noop() : filter((file) => file !== '/babel-jest.config.json'),
-        move(opts.root),
+        move(opts.projectRoot),
       ])
     );
   };
@@ -127,9 +115,9 @@ async function normalizeOptions(tree: Tree, opts: ProjectOptions): Promise<Proje
   if (opts.supportTsx || opts.babelJest) {
     opts.skipSerializers = true;
   }
-  const root = normalize(project.root);
+  const projectRoot = normalize(project.root);
   return {
     ...opts,
-    root,
+    projectRoot,
   };
 }
