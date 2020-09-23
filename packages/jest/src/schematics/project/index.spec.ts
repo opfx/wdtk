@@ -88,7 +88,8 @@ describe(`jest project schematic`, () => {
         'jest-preset-angular/build/AngularNoNgAttributesSnapshotSerializer.js',
         'jest-preset-angular/build/AngularSnapshotSerializer.js',
         'jest-preset-angular/build/HTMLCommentSerializer.js'
-      ]
+      ],
+      testPathIgnorePatterns: ['/e2e/']
     };`.replace(/[ \t\r]+/g, '')
     );
   });
