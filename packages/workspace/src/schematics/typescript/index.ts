@@ -1,5 +1,5 @@
 import { Rule, SchematicContext, Tree } from '@angular-devkit/schematics';
-import { apply, applyTemplates, chain, mergeWith, url } from '@angular-devkit/schematics';
+import { apply, applyTemplates, chain, filter, mergeWith, noop, url } from '@angular-devkit/schematics';
 
 import { addWorkspaceDependencies, NodeDependency, NodeDependencyType } from '@wdtk/core';
 
@@ -41,8 +41,21 @@ const workspaceDependencies: NodeDependency[] = [
 ];
 
 export default function (options: TypescriptOptions): Rule {
-  return (host: Tree, ctx: SchematicContext) => {
-    const templateSource = apply(url('./files'), [applyTemplates({ dot: '.', ...options })]);
+  return (tree: Tree, ctx: SchematicContext) => {
+    let skipTsLint = false;
+    let skipTsConfig = false;
+    if (tree.exists('tslint.json')) {
+      skipTsLint = true;
+    }
+    if (tree.exists('tsconfig.json')) {
+      skipTsConfig = true;
+    }
+
+    const templateSource = apply(url('./files'), [
+      applyTemplates({ dot: '.', ...options }),
+      skipTsLint ? filter((file) => file !== '/tslint.json') : noop(),
+      skipTsConfig ? filter((file) => file !== '/tsconfig.json') : noop(),
+    ]);
     return chain([mergeWith(templateSource), addWorkspaceDependencies(workspaceDependencies)]);
   };
 }
