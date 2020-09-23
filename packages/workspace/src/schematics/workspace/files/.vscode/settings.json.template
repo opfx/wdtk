@@ -10,7 +10,8 @@
     "**/node_modules": true,
     "**/dist": true
   },
-   "cSpell.words": [  
+   "cSpell.words": [ 
+     "wdtk" 
   ],
   "cSpell.ignorePaths": [
     "**/package.json",
