@@ -2,10 +2,10 @@ import { versions as latestVersions } from '@wdtk/core';
 
 export const versions = {
   ...latestVersions,
-  Jest: '^25.2.3',
+  Jest: '^26.4.2',
   JestPresetAngular: '8.3.1',
-  JestTypes: '^25.1.4',
-  TsJest: '^25.2.1',
+  JestTypes: '^26.0.14',
+  TsJest: '^26.4.0',
   BabelCore: '7.9.6',
   BabelPresetEnv: '7.9.6',
   BabelPresetTypescript: '7.9.0',
