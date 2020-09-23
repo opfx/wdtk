@@ -1,6 +1,7 @@
 {
   "generate": "./commands/generate/schema.json",
   "help": "./commands/help/schema.json",
+  "remove": "./commands/remove/schema.json",
   "new": "./commands/new/schema.json",
   "version": "./commands/version/schema.json"
 }

@@ -13,6 +13,12 @@
       "factory": "./schematics/ng-new/index",
       "schema": "./schematics/ng-new/schema.json"
     },
+    "remove": {
+      "description": "Removes a project from workspace",
+      "factory": "./schematics/remove/index",
+      "schema": "./schematics/remove/schema.json",
+      "hidden": true
+    },
     "typescript": {
       "description": "Creates an empty workspace",
       "factory": "./schematics/typescript/index",

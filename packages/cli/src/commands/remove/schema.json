@@ -1,0 +1,39 @@
+{
+  "$schema": "http://json-schema.org/schema",
+  "$id": "wx-cli://commands/remove/schema.json",
+  "description": "Removes a project from the workspace.",
+  "$longDescription": "",
+
+  "$aliases": [],
+  "$scope": "in",
+  "type": "object",
+  "$type": "schematic",
+  "$impl": "./index#RemoveCommand",
+
+  "allOf": [
+    {
+      "type": "object",
+      "properties": {
+        "projectName": {
+          "alias": "project",
+          "type": "string",
+          "description": "The project to be removed.",
+          "$default": {
+            "$source": "argv",
+            "index": 0
+          }
+        },
+        "verbose": {
+          "type": "boolean",
+          "default": false,
+          "aliases": ["v"],
+          "description": "When true, adds more details to output logging."
+        }
+      },
+      "required": []
+    },
+    { "$ref": "./../definitions.json#/definitions/base" },
+    { "$ref": "./../definitions.json#/definitions/schematic" },
+    { "$ref": "./../definitions.json#/definitions/interactive" }
+  ]
+}
