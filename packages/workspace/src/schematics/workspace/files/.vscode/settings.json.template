@@ -11,7 +11,10 @@
     "**/dist": true
   },
    "cSpell.words": [ 
-     "wdtk" 
+    "Codelyzer",
+    "dasherize",
+    "devkit",
+    "wdtk" 
   ],
   "cSpell.ignorePaths": [
     "**/package.json",
