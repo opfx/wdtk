@@ -1,0 +1,30 @@
+{
+  "$schema": "http://json-schema.org/schema",
+  "id": "WdtkWorkspaceSchematicsRemove",
+  "title": "Removes a project from workspace.",
+  "type": "object",
+  "properties": {
+    "projectName": {
+      "alias": "project",
+      "type": "string",
+      "description": "The name of the project to remove.",
+      "$default": {
+        "$source": "argv",
+        "index": 0
+      }
+    },
+    "forceRemove": {
+      "aliases": ["force-remove"],
+      "type": "boolean",
+      "description": "When true, the project will be removed even if is still in use.",
+      "default": false
+    },
+    "skipFormat": {
+      "aliases": ["skip-format"],
+      "type": "boolean",
+      "description": "Skip formatting the files.",
+      "default": false
+    }
+  },
+  "required": ["projectName"]
+}
