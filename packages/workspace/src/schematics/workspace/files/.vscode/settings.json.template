@@ -19,5 +19,6 @@
     "**/vscode-extension/**",
     "**/.git/objects/**",
     ".vscode"
-  ]
+  ],
+  "jest.pathToJest": "yarn test"
 }

@@ -8,6 +8,7 @@
     "start": "wx start",
     "build": "wx build",
     "lint": "wx lint",
+    "test": "wx test",
     "e2e": "wx e2e"
   },
   "workspaces": [
