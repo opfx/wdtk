@@ -48,9 +48,6 @@ const karmaWorkspaceDependencies: NodeDependency[] = [
 
 export default function (options: InitOptions): Rule {
   return (tree: Tree, ctx: SchematicContext) => {
-    if (options.defaultPrefix !== (<any>options).prefix) {
-      (<any>options).prefix = options.defaultPrefix;
-    }
     return chain([
       externalSchematic('@wdtk/workspace', 'typescript', { skipInstall: true }), //
       addWorkspaceDependencies(workspaceDependencies),
