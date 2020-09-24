@@ -1,6 +1,6 @@
 {
   "name": "@wdtk/source",
-  "version": "0.3.25",
+  "version": "0.4.1",
   "description": "Development Toolkit",
   "main": "index.js",
   "author": "opfx",

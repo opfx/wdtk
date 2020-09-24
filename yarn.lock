@@ -5,67 +5,67 @@ __metadata:
   version: 4
   cacheKey: 5
 
-"@angular-devkit/architect@npm:0.901.12, @angular-devkit/architect@npm:^0.901.12":
-  version: 0.901.12
-  resolution: "@angular-devkit/architect@npm:0.901.12"
+"@angular-devkit/architect@npm:0.1001.3, @angular-devkit/architect@npm:~0.1001.3":
+  version: 0.1001.3
+  resolution: "@angular-devkit/architect@npm:0.1001.3"
   dependencies:
-    "@angular-devkit/core": 9.1.12
-    rxjs: 6.5.4
-  checksum: cdfa88363003f0ca57805ed7ef72c7094371bdced8c3b18d77b5ac0b127f51b63326f5801776a9709cf416ecaf2c1e661e2ca0a536d08970069ccd01325aa07f
+    "@angular-devkit/core": 10.1.3
+    rxjs: 6.6.2
+  checksum: d0b5b6ce26342041d987932f0e8033d595af2913f00601815ba16c2cbee6bcb1377397e6aca844d0d9acb2bb1cf97da4094ff798b83683067aad5aef3ece778b
   languageName: node
   linkType: hard
 
-"@angular-devkit/core@npm:9.1.12, @angular-devkit/core@npm:^9.1.12":
-  version: 9.1.12
-  resolution: "@angular-devkit/core@npm:9.1.12"
+"@angular-devkit/core@npm:10.1.3, @angular-devkit/core@npm:^10.1.3":
+  version: 10.1.3
+  resolution: "@angular-devkit/core@npm:10.1.3"
   dependencies:
-    ajv: 6.12.3
+    ajv: 6.12.4
     fast-json-stable-stringify: 2.1.0
     magic-string: 0.25.7
-    rxjs: 6.5.4
+    rxjs: 6.6.2
     source-map: 0.7.3
-  checksum: 3b6a00042f425c054494c3115999df48276df19dda52339cc4010839eb2dc22ab4fd13b09c6032f58772f9788a62b29e8bccbd39dbfc42a0a94689406aa621b1
+  checksum: 1d8488354b1201580a40b80bf5eaae23c57a335d31fe2c9955af4caa99c1211447cef3c9c9a5ef730a9b89675aff81e4a9c2c156a03f2a0bca2d217936d88dbf
   languageName: node
   linkType: hard
 
-"@angular-devkit/schematics@npm:9.1.12, @angular-devkit/schematics@npm:^9.1.12":
-  version: 9.1.12
-  resolution: "@angular-devkit/schematics@npm:9.1.12"
+"@angular-devkit/schematics@npm:10.1.3, @angular-devkit/schematics@npm:^10.1.3":
+  version: 10.1.3
+  resolution: "@angular-devkit/schematics@npm:10.1.3"
   dependencies:
-    "@angular-devkit/core": 9.1.12
-    ora: 4.0.3
-    rxjs: 6.5.4
-  checksum: dbad75eb49d36b63f10def0d2d19fc4feb9e7ac4b12c41f28e45a6f55524dd07c2c47678fbd97c607548192a1ec8f2cd3eadf06a428a122603c2068706367f95
+    "@angular-devkit/core": 10.1.3
+    ora: 5.0.0
+    rxjs: 6.6.2
+  checksum: e1e92a8be7b8588ec101d9123ef9586c6059388d82b7fa234e9dab51d042126f01dae658f84d7511369fe8a07dde907379ee1c37029a3ff825ae54d10ae6f2bf
   languageName: node
   linkType: hard
 
-"@angular/cli@npm:^9.1.12":
-  version: 9.1.12
-  resolution: "@angular/cli@npm:9.1.12"
+"@angular/cli@npm:^10.1.3":
+  version: 10.1.3
+  resolution: "@angular/cli@npm:10.1.3"
   dependencies:
-    "@angular-devkit/architect": 0.901.12
-    "@angular-devkit/core": 9.1.12
-    "@angular-devkit/schematics": 9.1.12
-    "@schematics/angular": 9.1.12
-    "@schematics/update": 0.901.12
+    "@angular-devkit/architect": 0.1001.3
+    "@angular-devkit/core": 10.1.3
+    "@angular-devkit/schematics": 10.1.3
+    "@schematics/angular": 10.1.3
+    "@schematics/update": 0.1001.3
     "@yarnpkg/lockfile": 1.1.0
     ansi-colors: 4.1.1
     debug: 4.1.1
     ini: 1.3.5
-    inquirer: 7.1.0
+    inquirer: 7.3.3
     npm-package-arg: 8.0.1
-    npm-pick-manifest: 6.0.0
-    open: 7.0.3
+    npm-pick-manifest: 6.1.0
+    open: 7.2.0
     pacote: 9.5.12
     read-package-tree: 5.3.1
     rimraf: 3.0.2
-    semver: 7.1.3
+    semver: 7.3.2
     symbol-observable: 1.2.0
-    universal-analytics: 0.4.20
-    uuid: 7.0.2
+    universal-analytics: 0.4.23
+    uuid: 8.3.0
   bin:
-    ng: bin/ng
-  checksum: 8dd6bacdb7b68806266808072a9bfa78235e6b939c010ef05a39c479041288f663b1607378b9d95590014c28872fcd28bbe169c319db4d3679a09ad828828e35
+    ng: ./bin/ng
+  checksum: 19f32e5e7635433d338645a91c7e297f7afda16c7dbe0022b0b0e1b10270c81884906cd97412e31dbea1feaf581bd5762bd45e51c781f317553f79324ceccb39
   languageName: node
   linkType: hard
 
@@ -1559,30 +1559,30 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@schematics/angular@npm:9.1.12, @schematics/angular@npm:^9.1.12":
-  version: 9.1.12
-  resolution: "@schematics/angular@npm:9.1.12"
+"@schematics/angular@npm:10.1.3, @schematics/angular@npm:^10.1.3":
+  version: 10.1.3
+  resolution: "@schematics/angular@npm:10.1.3"
   dependencies:
-    "@angular-devkit/core": 9.1.12
-    "@angular-devkit/schematics": 9.1.12
-  checksum: d4daa04585f10a1caafb3f4205cb5fbe096155f2c7587a322b706e4e4933bba05a5595e0b7d33e1a0ed79a42913cddfbe42ea4a035aeae677748319127bbb1b6
+    "@angular-devkit/core": 10.1.3
+    "@angular-devkit/schematics": 10.1.3
+    jsonc-parser: 2.3.0
+  checksum: 75f08667d05bdbbdc3c0fc37c4c53ae827fe3a5be7ba6fec7410917a87789e11b32cf67fae6a5f2614791850b53c90d999e0bd012e318a0e1ea30b39938dc6e8
   languageName: node
   linkType: hard
 
-"@schematics/update@npm:0.901.12":
-  version: 0.901.12
-  resolution: "@schematics/update@npm:0.901.12"
+"@schematics/update@npm:0.1001.3":
+  version: 0.1001.3
+  resolution: "@schematics/update@npm:0.1001.3"
   dependencies:
-    "@angular-devkit/core": 9.1.12
-    "@angular-devkit/schematics": 9.1.12
+    "@angular-devkit/core": 10.1.3
+    "@angular-devkit/schematics": 10.1.3
     "@yarnpkg/lockfile": 1.1.0
     ini: 1.3.5
     npm-package-arg: ^8.0.0
     pacote: 9.5.12
-    rxjs: 6.5.4
-    semver: 7.1.3
+    semver: 7.3.2
     semver-intersect: 1.4.0
-  checksum: cc05f15f7bbf9f75a3981b13fe66d9320cd8fc20449d7636163822df19282e08bfb7e94b8037484be135ed12a09a3f5b4fd6d108a2b6ac93c7621f825bdb48b0
+  checksum: f72d68f4d3876abefdd4c3378814d37fe36c4c54cce3bdfdd27c8133fde2b5a02c26f8a3249f60d4f909908a063c657f893912cac8c0afa9f92b59c200bd7111
   languageName: node
   linkType: hard
 
@@ -1764,8 +1764,8 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@wdtk/angular@workspace:packages/angular"
   dependencies:
-    "@angular-devkit/schematics": ^9.1.12
-    "@schematics/angular": ^9.1.12
+    "@angular-devkit/schematics": ^10.1.3
+    "@schematics/angular": ^10.1.3
     "@wdtk/core": 0.0.0
     "@wdtk/cypress": 0.0.0
     "@wdtk/jest": 0.0.0
@@ -1780,7 +1780,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@wdtk/cli@workspace:packages/cli"
   dependencies:
-    "@angular/cli": ^9.1.12
+    "@angular/cli": ^10.1.3
     "@wdtk/angular": 0.0.0
     "@wdtk/core": 0.0.0
     "@wdtk/workspace": 0.0.0
@@ -1796,8 +1796,8 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@wdtk/core@workspace:packages/core"
   dependencies:
-    "@angular-devkit/core": ^9.1.12
-    "@angular-devkit/schematics": ^9.1.12
+    "@angular-devkit/core": ^10.1.3
+    "@angular-devkit/schematics": ^10.1.3
     ansi-colors: 4.1.1
     inquirer: ^7.3.3
     jest: 25.2.3
@@ -1812,10 +1812,10 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@wdtk/cypress@workspace:packages/cypress"
   dependencies:
-    "@angular-devkit/architect": ^0.901.12
-    "@angular-devkit/schematics": ^9.1.12
+    "@angular-devkit/architect": ~0.1001.3
+    "@angular-devkit/schematics": ^10.1.3
     "@cypress/webpack-preprocessor": ~4.1.2
-    "@schematics/angular": ^9.1.12
+    "@schematics/angular": ^10.1.3
     "@wdtk/core": 0.0.0
     fork-ts-checker-webpack-plugin: ^3.1.1
     jest: 25.2.3
@@ -1833,8 +1833,8 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@wdtk/jest@workspace:packages/jest"
   dependencies:
-    "@angular-devkit/architect": ^0.901.12
-    "@angular-devkit/schematics": ^9.1.12
+    "@angular-devkit/architect": ~0.1001.3
+    "@angular-devkit/schematics": ^10.1.3
     "@wdtk/core": 0.0.0
     jest: 25.2.3
     rxjs: ^6.6.3
@@ -1847,7 +1847,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@wdtk/php@workspace:packages/php"
   dependencies:
-    "@angular-devkit/schematics": ^9.1.12
+    "@angular-devkit/schematics": ^10.1.3
     "@wdtk/core": 0.0.0
     jest: 25.2.3
     tslib: ^2.0.1
@@ -1881,8 +1881,8 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@wdtk/workspace@workspace:packages/workspace"
   dependencies:
-    "@angular-devkit/core": ^9.1.12
-    "@angular-devkit/schematics": ^9.1.12
+    "@angular-devkit/core": ^10.1.3
+    "@angular-devkit/schematics": ^10.1.3
     "@wdtk/core": 0.0.0
     jest: 25.2.3
     ora: ^5.1.0
@@ -1994,7 +1994,19 @@ __metadata:
   languageName: node
   linkType: hard
 
-"ajv@npm:6.12.3, ajv@npm:^6.12.3":
+"ajv@npm:6.12.4":
+  version: 6.12.4
+  resolution: "ajv@npm:6.12.4"
+  dependencies:
+    fast-deep-equal: ^3.1.1
+    fast-json-stable-stringify: ^2.0.0
+    json-schema-traverse: ^0.4.1
+    uri-js: ^4.2.2
+  checksum: 50d72b0a10326732072f5481b1b6bd5a43f8d770878b8f88ba5bb232abb745cefbf7f87a0e64679bd477d4a8bba0b3aea084675bd34943db5279c15907ee658f
+  languageName: node
+  linkType: hard
+
+"ajv@npm:^6.12.3":
   version: 6.12.3
   resolution: "ajv@npm:6.12.3"
   dependencies:
@@ -2789,7 +2801,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"cli-spinners@npm:^2.2.0, cli-spinners@npm:^2.4.0":
+"cli-spinners@npm:^2.4.0":
   version: 2.4.0
   resolution: "cli-spinners@npm:2.4.0"
   checksum: c32291dbcc98363ab22486084354a46e6fd7b9471d0b1c89a5cba1a62a96233f6519cca0ab21a16884f78fe034a7038597eb61e56f3fe11a592c6c2495925600
@@ -2817,13 +2829,6 @@ __metadata:
     slice-ansi: 0.0.4
     string-width: ^1.0.1
   checksum: f860298aa38107f0c7307d5f7c106dcf1b32c6d0d57c5126ac88b78e48e2a904927e1b44b523c5e38fb9f1c01c9c5b49f1d425ba0b8bd1910f9d0ee7e8a74665
-  languageName: node
-  linkType: hard
-
-"cli-width@npm:^2.0.0":
-  version: 2.2.1
-  resolution: "cli-width@npm:2.2.1"
-  checksum: f7c830bddca78d8b2706c213d6ffa4e751988b7f70ec3e871c97a87e12a9e17e9f9652f13a5bfcea0e2e8dbae1da4b0939d59cf2bf8c36979541c624043d6315
   languageName: node
   linkType: hard
 
@@ -3194,7 +3199,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"debug@npm:^3.0.0, debug@npm:^3.1.0":
+"debug@npm:^3.1.0":
   version: 3.2.6
   resolution: "debug@npm:3.2.6"
   dependencies:
@@ -4464,28 +4469,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"inquirer@npm:7.1.0":
-  version: 7.1.0
-  resolution: "inquirer@npm:7.1.0"
-  dependencies:
-    ansi-escapes: ^4.2.1
-    chalk: ^3.0.0
-    cli-cursor: ^3.1.0
-    cli-width: ^2.0.0
-    external-editor: ^3.0.3
-    figures: ^3.0.0
-    lodash: ^4.17.15
-    mute-stream: 0.0.8
-    run-async: ^2.4.0
-    rxjs: ^6.5.3
-    string-width: ^4.1.0
-    strip-ansi: ^6.0.0
-    through: ^2.3.6
-  checksum: 651838e841b5850a10edb5232d8fda9b119f71b9aa53ff8e52457c29729d86338d52175b8c50f77d9311c4b5b367f9d2090acfc4c54b6d643df59130d66b197a
-  languageName: node
-  linkType: hard
-
-"inquirer@npm:^7.3.3":
+"inquirer@npm:7.3.3, inquirer@npm:^7.3.3":
   version: 7.3.3
   resolution: "inquirer@npm:7.3.3"
   dependencies:
@@ -5747,7 +5731,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"lodash@npm:^4.17.15, lodash@npm:^4.17.19":
+"lodash@npm:^4.17.19":
   version: 4.17.20
   resolution: "lodash@npm:4.17.20"
   checksum: c62101d2500c383b5f174a7e9e6fe8098149ddd6e9ccfa85f36d4789446195f5c4afd3cfba433026bcaf3da271256566b04a2bf2618e5a39f6e67f8c12030cb6
@@ -6363,14 +6347,14 @@ __metadata:
   languageName: node
   linkType: hard
 
-"npm-pick-manifest@npm:6.0.0":
-  version: 6.0.0
-  resolution: "npm-pick-manifest@npm:6.0.0"
+"npm-pick-manifest@npm:6.1.0":
+  version: 6.1.0
+  resolution: "npm-pick-manifest@npm:6.1.0"
   dependencies:
     npm-install-checks: ^4.0.0
     npm-package-arg: ^8.0.0
     semver: ^7.0.0
-  checksum: 2afeab06424dc43eb57c579df2c45c3b2de57d8cf30971855801f0a44881218898aa22d13d5747bdf35d3280918f7701a3ba2e6c706cadd9f79e53d2d55ed153
+  checksum: 4dbb81991dd338ac3a44c19da2615e3f9d340e57057c81e50c7e35c03978ec63515644eecc21bd0e07d71bffd05631e4f6695d1011f9f4e152fad66684511bbf
   languageName: node
   linkType: hard
 
@@ -6564,13 +6548,13 @@ __metadata:
   languageName: node
   linkType: hard
 
-"open@npm:7.0.3":
-  version: 7.0.3
-  resolution: "open@npm:7.0.3"
+"open@npm:7.2.0":
+  version: 7.2.0
+  resolution: "open@npm:7.2.0"
   dependencies:
     is-docker: ^2.0.0
     is-wsl: ^2.1.1
-  checksum: 4577accaea709dde0d7a1092076828bb9678247356ced467a628f947c78096429b702b98077d512970807168c081af2c238fdb77cdb100cfce1c4d9f85c5816f
+  checksum: c2f4a018e2906a7300abe1ca5f7712a3b69af6d7e794d9b29a2e5a0b48966ad82cded63f42e5fb2900af2b94a4e2b4360d9beb0f61e0f14c8d53d98551fdf29b
   languageName: node
   linkType: hard
 
@@ -6588,19 +6572,19 @@ __metadata:
   languageName: node
   linkType: hard
 
-"ora@npm:4.0.3":
-  version: 4.0.3
-  resolution: "ora@npm:4.0.3"
+"ora@npm:5.0.0":
+  version: 5.0.0
+  resolution: "ora@npm:5.0.0"
   dependencies:
-    chalk: ^3.0.0
+    chalk: ^4.1.0
     cli-cursor: ^3.1.0
-    cli-spinners: ^2.2.0
+    cli-spinners: ^2.4.0
     is-interactive: ^1.0.0
-    log-symbols: ^3.0.0
+    log-symbols: ^4.0.0
     mute-stream: 0.0.8
     strip-ansi: ^6.0.0
     wcwidth: ^1.0.1
-  checksum: cd84ed2c776b595af9abdef274e17d74ada10bfee88ba919219902a547a0dc853ba24f46f4ec30e589cbb92bae574e406c4169d6f197cf15c279e12a403763ff
+  checksum: ba2c5f92aada785463e47e1351eb2b49380fb1cd8e02bee22b353ca6dc15f47dd5b672fe11dd57262b30de93ca5b6b012c574bdc6f40a35b34f73ebdc8b216ba
   languageName: node
   linkType: hard
 
@@ -7550,16 +7534,7 @@ resolve@1.1.7:
   languageName: node
   linkType: hard
 
-"rxjs@npm:6.5.4":
-  version: 6.5.4
-  resolution: "rxjs@npm:6.5.4"
-  dependencies:
-    tslib: ^1.9.0
-  checksum: 8e2b3c1c5ce1134212145f4ee3abd0ad1d3f84efeba1014490627e1176f15ceaeb8c79954d8473fbe01ee33443438a7a9588d442173145eddb294990d7e62102
-  languageName: node
-  linkType: hard
-
-"rxjs@npm:^6.3.3, rxjs@npm:^6.5.3, rxjs@npm:^6.6.0":
+"rxjs@npm:6.6.2, rxjs@npm:^6.3.3, rxjs@npm:^6.6.0":
   version: 6.6.2
   resolution: "rxjs@npm:6.6.2"
   dependencies:
@@ -7673,12 +7648,12 @@ resolve@1.1.7:
   languageName: node
   linkType: hard
 
-"semver@npm:7.1.3, semver@npm:^7.0.0, semver@npm:^7.1.1":
-  version: 7.1.3
-  resolution: "semver@npm:7.1.3"
+"semver@npm:7.3.2, semver@npm:^7.3.2":
+  version: 7.3.2
+  resolution: "semver@npm:7.3.2"
   bin:
     semver: bin/semver.js
-  checksum: a3e1074182f6acb79aba09ac0547000b6bdc12bf793b47236bdf00dbb1b13d4b574c8f1bc55d89b149a19fbb77351e93f9f254082732d41a959acbe99b1a42b9
+  checksum: bceb46d396d039afb5be2b2860bce1b0a43ecbadc72dde7ebe9c56dd9035ca50d9b8e086208ff9bbe53773ebde0bcfc6fc0842d7358398bca7054bb9ced801e3
   languageName: node
   linkType: hard
 
@@ -7691,12 +7666,12 @@ resolve@1.1.7:
   languageName: node
   linkType: hard
 
-"semver@npm:^7.3.2":
-  version: 7.3.2
-  resolution: "semver@npm:7.3.2"
+"semver@npm:^7.0.0, semver@npm:^7.1.1":
+  version: 7.1.3
+  resolution: "semver@npm:7.1.3"
   bin:
     semver: bin/semver.js
-  checksum: bceb46d396d039afb5be2b2860bce1b0a43ecbadc72dde7ebe9c56dd9035ca50d9b8e086208ff9bbe53773ebde0bcfc6fc0842d7358398bca7054bb9ced801e3
+  checksum: a3e1074182f6acb79aba09ac0547000b6bdc12bf793b47236bdf00dbb1b13d4b574c8f1bc55d89b149a19fbb77351e93f9f254082732d41a959acbe99b1a42b9
   languageName: node
   linkType: hard
 
@@ -8706,14 +8681,14 @@ typescript@3.9.7:
   languageName: node
   linkType: hard
 
-"universal-analytics@npm:0.4.20":
-  version: 0.4.20
-  resolution: "universal-analytics@npm:0.4.20"
+"universal-analytics@npm:0.4.23":
+  version: 0.4.23
+  resolution: "universal-analytics@npm:0.4.23"
   dependencies:
-    debug: ^3.0.0
-    request: ^2.88.0
+    debug: ^4.1.1
+    request: ^2.88.2
     uuid: ^3.0.0
-  checksum: 40fedeb26d9b96a1febfae80c872808a40b6fb7dfd23c5cf4e597c5fc3ca61ce654f23699b0c1df09acdf16bab65658c2b34d09182e628c69d0e1b9afdedafa9
+  checksum: fd9cae3c6760317b251436a3299637749ea4c109f62719fa007de48f4211fa356e9152f7451103c7cb625e171684f68802bb362a5e3e27b69f8a912ad4b029f6
   languageName: node
   linkType: hard
 
@@ -8797,12 +8772,12 @@ typescript@3.9.7:
   languageName: node
   linkType: hard
 
-"uuid@npm:7.0.2":
-  version: 7.0.2
-  resolution: "uuid@npm:7.0.2"
+"uuid@npm:8.3.0":
+  version: 8.3.0
+  resolution: "uuid@npm:8.3.0"
   bin:
     uuid: dist/bin/uuid
-  checksum: 25137594ba74b0ca8bcf582f8c7c2e7556efe621d5cf2459d0c713755cb67c8546768b2d05c62d65a890a44e213551010f169cfa7c6ace4adcdd1bdfab22a627
+  checksum: a2bdb8a3eb80a53506e9657e7e1f70d7600562bf43fa010a645fd1deb7de1686df61c496c6f9826bac4be8db4d1ac1b976dd6fdf3bd083207eec1674507936fb
   languageName: node
   linkType: hard
 
