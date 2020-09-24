@@ -1760,7 +1760,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@wdtk/angular@workspace:packages/angular":
+"@wdtk/angular@0.0.0, @wdtk/angular@workspace:packages/angular":
   version: 0.0.0-use.local
   resolution: "@wdtk/angular@workspace:packages/angular"
   dependencies:
@@ -1781,6 +1781,7 @@ __metadata:
   resolution: "@wdtk/cli@workspace:packages/cli"
   dependencies:
     "@angular/cli": ^9.1.12
+    "@wdtk/angular": 0.0.0
     "@wdtk/core": 0.0.0
     "@wdtk/workspace": 0.0.0
     inquirer: ^7.3.3
