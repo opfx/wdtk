@@ -64,7 +64,7 @@ describe(`angular application schematic`, () => {
         const tree = await runSchematic({ name: 'test-app', unitTestRunner: 'none' } as any);
 
         const specFilesPresent = tree.files.some((file: string) => {
-          return file.includes('spec.ts') && file.includes('/src/');
+          return file.includes('spec.ts') && file.includes('/test-app/src/');
         });
         expect(specFilesPresent).toEqual(false);
       });
@@ -73,6 +73,17 @@ describe(`angular application schematic`, () => {
 
   describe(`--e2e-test-runner`, () => {
     describe(`cypress (default)`, () => {
+      it(`should generate the cypress files`, async () => {
+        const tree = await runSchematic({ name: 'test-app' } as any);
+        expect(tree.exists('/test-app/cypress.json')).toBeTruthy();
+        expect(tree.exists('/test-app/tsconfig.e2e.json')).toBeTruthy();
+      });
+      it(`should generate the 'e2e' target`, async () => {
+        const tree = await runSchematic({ name: 'test-app' } as any);
+        const project = await getProjectDefinition(tree, 'test-app');
+        const e2eTarget = project.targets.get('e2e');
+        expect(e2eTarget.builder).toEqual('@wdtk/cypress:cypress');
+      });
       it(`should remove 'protractor' tsconfig from the 'lint' target`, async () => {
         const tree = await runSchematic({ name: 'test-app' });
         const project = await getProjectDefinition(tree, 'test-app');
@@ -82,6 +93,27 @@ describe(`angular application schematic`, () => {
         expect(protractorTsConfigExists).toBe(false);
       });
     });
-    describe(`none`, () => {});
+    describe(`none`, () => {
+      it(`should not generate protractor files`, async () => {
+        const tree = await runSchematic({ name: 'test-app', e2eTestRunner: 'none' } as any);
+        expect(tree.exists('/test-app/e2e/protractor.conf.js')).toBeFalsy();
+        expect(tree.exists('/test-app/e2e/tsconfig.json')).toBeFalsy();
+        expect(tree.exists('/test-app/e2e/src/app.po.ts')).toBeFalsy();
+        expect(tree.exists('/test-app/e2e/src/app.e2e-spec.ts')).toBeFalsy();
+      });
+      it(`should not generate an 'e2e' target in the project definition`, async () => {
+        const tree = await runSchematic({ name: 'test-app', e2eTestRunner: 'none' } as any);
+        const project = await getProjectDefinition(tree, 'test-app');
+        expect(project.targets.get('e2e')).toBeFalsy();
+      });
+      it(`should not generate an entry in the 'lint' target in the project definition`, async () => {
+        const tree = await runSchematic({ name: 'test-app', e2eTestRunner: 'none' } as any);
+        const project = await getProjectDefinition(tree, 'test-app');
+        const lintTarget = project.targets.get('lint');
+        const tsConfigPaths: string[] = <any>lintTarget.options.tsConfig;
+        const e2eTsConfigExists = tsConfigPaths.some((tsConfigPath) => tsConfigPath.includes('e2e'));
+        expect(e2eTsConfigExists).toBe(false);
+      });
+    });
   });
 });

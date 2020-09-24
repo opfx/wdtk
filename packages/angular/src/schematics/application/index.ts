@@ -16,29 +16,24 @@ import { Schema } from './schema';
 // By wrapping the call to the underlying angular schematic, we get a chance to read the value of the defaultPrefix,
 // AFTER the init schematic wrote it the workspace definition
 export interface ApplicationOptions extends Schema {
+  projectRoot: string;
   appProjectRoot: string;
-  e2eProjectRoot: string;
+  newProjectRoot: string;
 }
 export default function (opts: ApplicationOptions): Rule {
   return async (tree: Tree, ctx: SchematicContext) => {
     ctx.logger.debug(`Running '@wdtk/angular:application' schematic`);
     opts = await normalizeOptions(tree, opts);
 
-    const workspaceJson = readJsonInTree(tree, getWorkspaceConfigPath(tree));
-    const appProjectRoot = workspaceJson.newProjectRoot ? `${workspaceJson.newProjectRoot}/${opts.name}` : opts.name;
-    const e2eProjectRoot = workspaceJson.newProjectRoot ? `${workspaceJson.newProjectRoot}/${opts.name}/e2e` : `${opts.name}/e2e`;
+    const appProjectRoot = opts.newProjectRoot ? `${opts.newProjectRoot}/${opts.name}` : opts.name;
 
     return chain([
       schematic('init', { ...opts }),
       angularAppSchematic(opts),
       generateFiles(opts),
-
-      // opts.e2eTestRunner === 'protractor' ? move(e2eProjectRoot, opts.e2eProjectRoot) : removeE2eProject(opts),
-      // opts.e2eTestRunner === 'protractor' ? updateE2eProject(opts): noop(),
-      // move(appProjectRoot, opts.appProjectRoot),
       setupUnitTestRunner(opts),
-      opts.e2eTestRunner === 'protractor' ? noop() : removeProtractorSupport(opts, e2eProjectRoot),
-      opts.e2eTestRunner === 'cypress' ? externalSchematic('@wdtk/cypress', 'project', { project: opts.name }) : noop(),
+      setupE2eTestRunner(opts),
+      move(appProjectRoot, opts.appProjectRoot),
       formatFiles(opts),
     ]);
   };
@@ -48,6 +43,8 @@ async function normalizeOptions(tree: Tree, opts: ApplicationOptions): Promise<A
   const workspace = await getWorkspaceDefinition(tree);
 
   const newProjectRoot = workspace.extensions.newProjectRoot;
+  const projectRoot = newProjectRoot ? `${newProjectRoot}/${opts.name}` : opts.name;
+
   const appDirectory = opts.directory ? strings.dasherize(opts.directory) : `${newProjectRoot}/${strings.dasherize(opts.name)}`;
   const e2eDirectory = opts.directory ? strings.dasherize(opts.directory) : `${newProjectRoot}/${strings.dasherize(opts.name)}`;
 
@@ -61,7 +58,8 @@ async function normalizeOptions(tree: Tree, opts: ApplicationOptions): Promise<A
   return {
     ...opts,
     appProjectRoot: appDirectory,
-    e2eProjectRoot: e2eDirectory,
+    projectRoot,
+    newProjectRoot,
   } as any;
 }
 
@@ -80,6 +78,7 @@ function angularAppSchematic(opts: ApplicationOptions): Rule {
     });
   };
 }
+
 function generateFiles(opts: ApplicationOptions): Rule {
   return (tree: Tree, ctx: SchematicContext) => {
     return chain([
@@ -89,12 +88,22 @@ function generateFiles(opts: ApplicationOptions): Rule {
             ...opts,
             offsetFromRoot: offsetFromRoot(opts.appProjectRoot),
           }),
-          move(opts.appProjectRoot),
+          move(opts.projectRoot),
         ])
       ),
     ]);
   };
 }
+
+function setupE2eTestRunner(opts: ApplicationOptions): Rule {
+  return (tree: Tree, ctx: SchematicContext) => {
+    return chain([
+      opts.e2eTestRunner !== 'protractor' ? removeProtractorSupport(opts) : noop(),
+      opts.e2eTestRunner === 'cypress' ? externalSchematic('@wdtk/cypress', 'project', { project: opts.name }) : noop(),
+    ]);
+  };
+}
+
 function setupUnitTestRunner(opts: ApplicationOptions): Rule {
   return (tree: Tree, ctx: SchematicContext) => {
     if (opts.unitTestRunner === 'jest') {
@@ -147,23 +156,23 @@ function removeKarmaFiles(opts: ApplicationOptions): Rule {
     }
   };
 }
-
-function removeProtractorSupport(opts: ApplicationOptions, e2eProjectRoot: string): Rule {
+function removeProtractorSupport(opts: ApplicationOptions): Rule {
+  const e2eDirectory = `${opts.projectRoot}/e2e/`;
   return (tree: Tree, ctx: SchematicContext) => {
     ctx.logger.debug(`Removing protractor e2e project`);
     return chain([
       (tree) => {
-        if (tree.read(`${e2eProjectRoot}/src/app.e2e-spec.ts`)) {
-          tree.delete(`${e2eProjectRoot}/src/app.e2e-spec.ts`);
+        if (tree.read(`${e2eDirectory}/src/app.e2e-spec.ts`)) {
+          tree.delete(`${e2eDirectory}/src/app.e2e-spec.ts`);
         }
-        if (tree.read(`${e2eProjectRoot}/src/app.po.ts`)) {
-          tree.delete(`${e2eProjectRoot}/src/app.po.ts`);
+        if (tree.read(`${e2eDirectory}/src/app.po.ts`)) {
+          tree.delete(`${e2eDirectory}/src/app.po.ts`);
         }
-        if (tree.read(`${e2eProjectRoot}/protractor.conf.js`)) {
-          tree.delete(`${e2eProjectRoot}/protractor.conf.js`);
+        if (tree.read(`${e2eDirectory}/protractor.conf.js`)) {
+          tree.delete(`${e2eDirectory}/protractor.conf.js`);
         }
-        if (tree.read(`${e2eProjectRoot}/tsconfig.json`)) {
-          tree.delete(`${e2eProjectRoot}/tsconfig.json`);
+        if (tree.read(`${e2eDirectory}/tsconfig.json`)) {
+          tree.delete(`${e2eDirectory}/tsconfig.json`);
         }
       },
       (tree) => {
@@ -180,11 +189,5 @@ function removeProtractorSupport(opts: ApplicationOptions, e2eProjectRoot: strin
         });
       },
     ]);
-  };
-}
-
-function e2eUpdateProject(opts: ApplicationOptions): Rule {
-  return (tree: Tree, ctx: SchematicContext) => {
-    ctx.logger.debug('Updating existing e2e project');
   };
 }
