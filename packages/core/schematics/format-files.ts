@@ -8,7 +8,7 @@ import { filter, map, mergeMap } from 'rxjs/operators';
 import * as Path from 'path';
 
 export function formatFiles(options: { skipFormat?: boolean } = { skipFormat: false }): Rule {
-  if (options.skipFormat || !prettier) {
+  if (options.skipFormat || !prettier || !process.env.WX_WORKSPACE_ROOT) {
     return noop();
   }
   return (host: Tree, ctx: SchematicContext) => {
