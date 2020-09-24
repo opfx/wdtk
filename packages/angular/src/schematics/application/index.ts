@@ -2,8 +2,8 @@ import { normalize } from '@angular-devkit/core';
 import { Rule, SchematicContext, Tree } from '@angular-devkit/schematics';
 import { apply, applyTemplates, chain, externalSchematic, move, mergeWith, noop, schematic, url } from '@angular-devkit/schematics';
 
-import { readJsonInTree, getWorkspaceConfigPath, updateWorkspaceDefinition, getWorkspaceDefinition, offsetFromRoot } from '@wdtk/core';
-import { formatFiles } from '@wdtk/core/schematics';
+import { readJsonInTree, updateWorkspaceDefinition, getWorkspaceDefinition, offsetFromRoot } from '@wdtk/core';
+import { formatFiles } from '@wdtk/core';
 import { strings } from '@wdtk/core/util';
 import { Schema } from './schema';
 

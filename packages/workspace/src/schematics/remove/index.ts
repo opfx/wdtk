@@ -5,7 +5,7 @@ import { from, Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 
 import { getProjectDefinition, getWorkspaceDefinition, updateWorkspaceDefinition } from '@wdtk/core';
-import { formatFiles } from '@wdtk/core/schematics';
+import { formatFiles } from '@wdtk/core';
 import { tags } from '@wdtk/core/util';
 
 import { Schema as RemoveOptions } from './schema';

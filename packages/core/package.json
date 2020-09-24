@@ -4,7 +4,6 @@
   "description": "Development toolkit - Core Library",
   "main": "./src/index.ts",
   "fragments": [
-    "schematics",
     "testing",
     "util"
   ],

@@ -2,7 +2,7 @@ import { strings } from '@angular-devkit/core';
 import { apply, chain, empty, mergeWith, move, schematic, noop } from '@angular-devkit/schematics';
 import { Rule, SchematicContext, Tree } from '@angular-devkit/schematics';
 import { RepositoryInitializerTask } from '@angular-devkit/schematics/tasks';
-import { formatFiles } from '@wdtk/core/schematics';
+
 import { GitFlowInitTask, YarnInitTask } from './../../tasks';
 
 import { Schema as WorkspaceOptions } from './../workspace/schema';
