@@ -7,7 +7,7 @@ import { from } from 'rxjs';
 import { filter, map, mergeMap } from 'rxjs/operators';
 import * as Path from 'path';
 
-export function formatFiles(options: { skipFormat: boolean } = { skipFormat: false }): Rule {
+export function formatFiles(options: { skipFormat?: boolean } = { skipFormat: false }): Rule {
   if (options.skipFormat || !prettier) {
     return noop();
   }

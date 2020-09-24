@@ -22,7 +22,7 @@ export default function (options: NgNewOptions): Rule {
           // create the workspace
           schematic('workspace', workspaceOptions),
           move(options.directory),
-          formatFiles(),
+          // formatFiles(),
         ])
       ), //
       addTasks(options),

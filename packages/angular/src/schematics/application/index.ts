@@ -3,6 +3,7 @@ import { Rule, SchematicContext, Tree } from '@angular-devkit/schematics';
 import { apply, applyTemplates, chain, externalSchematic, move, mergeWith, noop, schematic, url } from '@angular-devkit/schematics';
 
 import { readJsonInTree, getWorkspaceConfigPath, updateWorkspaceDefinition, getWorkspaceDefinition, offsetFromRoot } from '@wdtk/core';
+import { formatFiles } from '@wdtk/core/schematics';
 import { strings } from '@wdtk/core/util';
 import { Schema } from './schema';
 
@@ -35,6 +36,7 @@ export default function (opts: ApplicationOptions): Rule {
       setupUnitTestRunner(opts),
       opts.e2eTestRunner === 'protractor' ? noop() : removeProtractorSupport(opts, e2eProjectRoot),
       opts.e2eTestRunner === 'cypress' ? externalSchematic('@wdtk/cypress', 'project', { project: opts.name }) : noop(),
+      formatFiles(opts),
     ]);
   };
 }
