@@ -27,7 +27,7 @@ describe(`angular application schematic`, () => {
   });
 
   describe(`--unit-test-runner`, () => {
-    describe(`jest (default)`, async () => {
+    describe(`jest (default)`, () => {
       it(`should not create 'karma' files`, async () => {
         const tree = await runSchematic({ name: 'test-app', unitTestRunner: 'jest' } as any);
         expect(tree.exists('/test-app/karma.conf.js')).toBeFalsy();
