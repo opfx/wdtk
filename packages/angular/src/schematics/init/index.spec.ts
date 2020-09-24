@@ -1,5 +1,6 @@
 import { Tree } from '@angular-devkit/schematics';
 import { SchematicTestRunner, UnitTestTree } from '@angular-devkit/schematics/testing';
+import { getWorkspaceDefinition, updateWorkspaceDefinition } from '@wdtk/core';
 
 import { createEmptyWorkspace, getJsonFileContent } from '@wdtk/core/testing';
 
@@ -41,6 +42,41 @@ describe('init', () => {
     expect(devDependencies['@angular/compiler-cli']).toBeDefined();
     expect(devDependencies['@angular/language-service']).toBeDefined();
     expect(devDependencies['@angular-devkit/build-angular']).toBeDefined();
+  });
+
+  it(`should set the default prefix if it is not set`, async () => {
+    const tree = await runSchematic({ ...defaultOptions, defaultPrefix: 'tp' });
+    const workspace = await getWorkspaceDefinition(tree);
+    expect(workspace.extensions.defaultPrefix).toEqual('tp');
+  });
+
+  it(`should set the default prefix if it is set to an empty string`, async () => {
+    workspaceTree = await schematicRunner
+      .callRule(
+        updateWorkspaceDefinition((workspace) => {
+          workspace.extensions.defaultPrefix = '';
+        }),
+        workspaceTree
+      )
+      .toPromise();
+
+    const tree = await runSchematic({ ...defaultOptions, defaultPrefix: 'tp' });
+    const workspace = await getWorkspaceDefinition(tree);
+    expect(workspace.extensions.defaultPrefix).toEqual('tp');
+  });
+
+  it(`should not overwrite the default prefix if it is already set`, async () => {
+    workspaceTree = await schematicRunner
+      .callRule(
+        updateWorkspaceDefinition((workspace) => {
+          workspace.extensions.defaultPrefix = 'app';
+        }),
+        workspaceTree
+      )
+      .toPromise();
+    let tree = await runSchematic({ ...defaultOptions, defaultPrefix: 'tp' });
+    let workspace = await getWorkspaceDefinition(tree);
+    expect(workspace.extensions.defaultPrefix).toEqual('app');
   });
 
   describe('e2e test runner', () => {

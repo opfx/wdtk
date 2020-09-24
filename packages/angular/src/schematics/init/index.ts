@@ -1,6 +1,6 @@
 import { Rule, SchematicContext, Tree } from '@angular-devkit/schematics';
 import { chain, externalSchematic, noop } from '@angular-devkit/schematics';
-import { addWorkspaceDependencies, NodeDependency, NodeDependencyType } from '@wdtk/core';
+import { addWorkspaceDependencies, updateWorkspaceDefinition, NodeDependency, NodeDependencyType } from '@wdtk/core';
 import { readJsonInTree } from '@wdtk/core';
 
 import { versions } from './../../versions';
@@ -47,13 +47,27 @@ const karmaWorkspaceDependencies: NodeDependency[] = [
 ];
 
 export default function (options: InitOptions): Rule {
-  return (host: Tree, ctx: SchematicContext) => {
+  return (tree: Tree, ctx: SchematicContext) => {
+    if (options.defaultPrefix !== (<any>options).prefix) {
+      (<any>options).prefix = options.defaultPrefix;
+    }
     return chain([
       externalSchematic('@wdtk/workspace', 'typescript', { skipInstall: true }), //
       addWorkspaceDependencies(workspaceDependencies),
       addE2eTestRunnerWorkspaceDependencies(options),
       addUnitTestRunnerWorkspaceDependencies(options),
+      setupWorkspaceDefinition(options),
     ]);
+  };
+}
+
+function setupWorkspaceDefinition(opts: InitOptions): Rule {
+  return async (tree: Tree, ctx: SchematicContext) => {
+    return updateWorkspaceDefinition((workspace) => {
+      if (!workspace.extensions.defaultPrefix || workspace.extensions.defaultPrefix === '') {
+        workspace.extensions.defaultPrefix = opts.defaultPrefix;
+      }
+    });
   };
 }
 

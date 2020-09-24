@@ -7,14 +7,22 @@ import { formatFiles } from '@wdtk/core/schematics';
 import { strings } from '@wdtk/core/util';
 import { Schema } from './schema';
 
+// prefix : if the user does not specify a prefix, the default prefix for the workspace should be used; however
+// the default prefix is established by the 'init' schematic. The 'init' schematic is supposed to ask the user
+// to provide a default prefix only once. Once the defaultPrefix is written to the workspace definition, this
+// schematic can read it from there. This works without problem for all projects except the first one. The first
+// project is problematic because the 'init' schematic, which asks for the defaultPrefix, is called after the options for
+// this schematic have been evaluated.
+// By wrapping the call to the underlying angular schematic, we get a chance to read the value of the defaultPrefix,
+// AFTER the init schematic wrote it the workspace definition
 export interface ApplicationOptions extends Schema {
   appProjectRoot: string;
   e2eProjectRoot: string;
 }
 export default function (opts: ApplicationOptions): Rule {
-  return (tree: Tree, ctx: SchematicContext) => {
+  return async (tree: Tree, ctx: SchematicContext) => {
     ctx.logger.debug(`Running '@wdtk/angular:application' schematic`);
-    opts = normalizeOptions(tree, opts);
+    opts = await normalizeOptions(tree, opts);
 
     const workspaceJson = readJsonInTree(tree, getWorkspaceConfigPath(tree));
     const appProjectRoot = workspaceJson.newProjectRoot ? `${workspaceJson.newProjectRoot}/${opts.name}` : opts.name;
@@ -22,12 +30,7 @@ export default function (opts: ApplicationOptions): Rule {
 
     return chain([
       schematic('init', { ...opts }),
-      externalSchematic('@schematics/angular', 'application', {
-        ...opts,
-        skipTests: opts.unitTestRunner === 'none' ? true : opts.skipTests,
-        skipInstall: true,
-        skipPackageJson: false,
-      }),
+      angularAppSchematic(opts),
       generateFiles(opts),
 
       // opts.e2eTestRunner === 'protractor' ? move(e2eProjectRoot, opts.e2eProjectRoot) : removeE2eProject(opts),
@@ -41,28 +44,56 @@ export default function (opts: ApplicationOptions): Rule {
   };
 }
 
-function normalizeOptions(tree: Tree, opts: ApplicationOptions): ApplicationOptions {
-  const workspaceJson = readJsonInTree(tree, getWorkspaceConfigPath(tree));
-  const appDirectory = opts.directory ? strings.dasherize(opts.directory) : `${workspaceJson.newProjectRoot}/${strings.dasherize(opts.name)}`;
-  const e2eDirectory = opts.directory ? strings.dasherize(opts.directory) : `${workspaceJson.newProjectRoot}/${strings.dasherize(opts.name)}`;
+async function normalizeOptions(tree: Tree, opts: ApplicationOptions): Promise<ApplicationOptions> {
+  const workspace = await getWorkspaceDefinition(tree);
+
+  const newProjectRoot = workspace.extensions.newProjectRoot;
+  const appDirectory = opts.directory ? strings.dasherize(opts.directory) : `${newProjectRoot}/${strings.dasherize(opts.name)}`;
+  const e2eDirectory = opts.directory ? strings.dasherize(opts.directory) : `${newProjectRoot}/${strings.dasherize(opts.name)}`;
+
+  const defaultPrefix: string | undefined = workspace.extensions.defaultPrefix as string;
+  // see prefix comment at the top of the file
+  if (defaultPrefix && defaultPrefix !== '' && opts.prefix === '#useDefault') {
+    opts.prefix = defaultPrefix;
+    (<any>opts).defaultPrefix = defaultPrefix;
+  }
+
   return {
     ...opts,
     appProjectRoot: appDirectory,
     e2eProjectRoot: e2eDirectory,
+  } as any;
+}
+
+function angularAppSchematic(opts: ApplicationOptions): Rule {
+  return async (tree: Tree, ctx: SchematicContext) => {
+    // see the prefix comment at the top of the file
+    if (opts.prefix === '#useDefault') {
+      const workspace = await getWorkspaceDefinition(tree);
+      opts.prefix = workspace.extensions.defaultPrefix as string;
+    }
+    return externalSchematic('@schematics/angular', 'application', {
+      ...opts,
+      skipTests: opts.unitTestRunner === 'none' ? true : opts.skipTests,
+      skipInstall: true,
+      skipPackageJson: false,
+    });
   };
 }
 function generateFiles(opts: ApplicationOptions): Rule {
-  return chain([
-    mergeWith(
-      apply(url('./files'), [
-        applyTemplates({
-          ...opts,
-          offsetFromRoot: offsetFromRoot(opts.appProjectRoot),
-        }),
-        move(opts.appProjectRoot),
-      ])
-    ),
-  ]);
+  return (tree: Tree, ctx: SchematicContext) => {
+    return chain([
+      mergeWith(
+        apply(url('./files'), [
+          applyTemplates({
+            ...opts,
+            offsetFromRoot: offsetFromRoot(opts.appProjectRoot),
+          }),
+          move(opts.appProjectRoot),
+        ])
+      ),
+    ]);
+  };
 }
 function setupUnitTestRunner(opts: ApplicationOptions): Rule {
   return (tree: Tree, ctx: SchematicContext) => {

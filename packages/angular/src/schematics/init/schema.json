@@ -6,6 +6,14 @@
   "description": "Adds support for Angular projects to the workspace.",
 
   "properties": {
+    "defaultPrefix": {
+      "alias": "p",
+      "description": "A prefix to apply to generated selectors.",
+      "type": "string",
+      "format": "html-selector",
+      "x-prompt": "What prefix should be applied by default to generated selectors?",
+      "default": "app"
+    },
     "e2eTestRunner": {
       "type": "string",
       "description": "The test runner to use for e2e tests.",

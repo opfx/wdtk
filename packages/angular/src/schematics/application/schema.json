@@ -53,7 +53,7 @@
       "description": "A prefix to apply to generated selectors.",
       "type": "string",
       "format": "html-selector",
-      "default": "app"
+      "default": "#useDefault"
     },
     "style": {
       "description": "The file extension of preprocessor to use for style files.",
