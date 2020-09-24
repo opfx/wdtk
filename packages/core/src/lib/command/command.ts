@@ -16,11 +16,20 @@ export abstract class Command<T extends CommandOptions = CommandOptions> {
     this.commandMap = map;
   }
 
-  constructor(ctx: CommandContext, public readonly descriptor: CommandDescriptor, protected readonly log: Logger) {
+  constructor(ctx: CommandContext, public readonly descriptor: CommandDescriptor, protected readonly logger: Logger) {
     this.workspace = ctx.workspace;
   }
 
+  /**
+   * @deprecated
+   */
+  get log(): Logger {
+    return this.logger;
+  }
+
   async initialize(options: T & Arguments): Promise<void> {
+    this.logger.debug(`setting WX_WORKSPACE_ROOT environment variable to ${this.workspace.root}`);
+    process.env.WX_WORKSPACE_ROOT = this.workspace.root;
     return;
   }
 
