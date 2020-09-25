@@ -34,7 +34,8 @@ export default function (opts: ApplicationOptions): Rule {
       (tree: Tree, ctx: SchematicContext) => {
         if (tree.exists(`${opts.projectRoot}/tslint.json`)) {
           let json = readJsonInTree(tree, `/${opts.projectRoot}/tslint.json`);
-          if (json.extends !== undefined) {
+          const tslintOffset = `${offsetFromRoot(opts.projectRoot)}tslint.json`;
+          if (json.extends !== tslintOffset) {
             const tsLintContent: any = {
               extends: `${offsetFromRoot(opts.projectRoot)}tslint.json`,
               rules: {
