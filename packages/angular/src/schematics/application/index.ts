@@ -3,6 +3,7 @@ import { Rule, SchematicContext, Tree } from '@angular-devkit/schematics';
 import { apply, applyTemplates, chain, externalSchematic, move, mergeWith, noop, schematic, url } from '@angular-devkit/schematics';
 
 import { updateWorkspaceDefinition, getWorkspaceDefinition, offsetFromRoot } from '@wdtk/core';
+import { readJsonInTree } from '@wdtk/core';
 import { formatFiles } from '@wdtk/core';
 import { strings } from '@wdtk/core/util';
 import { Schema } from './schema';
@@ -28,6 +29,23 @@ export default function (opts: ApplicationOptions): Rule {
     return chain([
       schematic('init', { ...opts }),
       angularAppSchematic(opts),
+      // adjust the tslint.json; from angular 10 it seems the generated tslint.json
+      // for the application is a full copy of the root tslint.json
+      (tree: Tree, ctx: SchematicContext) => {
+        if (tree.exists(`${opts.projectRoot}/tslint.json`)) {
+          let json = readJsonInTree(tree, `/${opts.projectRoot}/tslint.json`);
+          if (json.extends !== undefined) {
+            const tsLintContent: any = {
+              extends: `${offsetFromRoot(opts.projectRoot)}tslint.json`,
+              rules: {
+                'directive-selector': [true, 'attribute', opts.prefix, 'camelCase'],
+                'component-selector': [true, 'element', opts.prefix, 'kebab-case'],
+              },
+            };
+            tree.overwrite(`${opts.projectRoot}/tslint.json`, JSON.stringify(tsLintContent));
+          }
+        }
+      },
       generateFiles(opts),
       setupUnitTestRunner(opts),
       setupE2eTestRunner(opts),
