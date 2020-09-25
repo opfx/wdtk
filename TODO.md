@@ -1,4 +1,6 @@
-1. format the files
+#### @wdtk/cli
+
+1. wx generate --help does not display the help message
 
 #### @wdtk/cypress
 

@@ -29,7 +29,9 @@ const builderOpts: JsonObject & CypressBuilderOptions = {
   watch: false,
 };
 
-describe('Cypress builder', () => {});
+describe('Cypress builder', () => {
+  it(`should do something`, async () => {});
+});
 /*
   let architect: Architect;
   let mockCtx: MockBuilderContext;

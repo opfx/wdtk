@@ -2,7 +2,7 @@ import { normalize } from '@angular-devkit/core';
 import { Rule, SchematicContext, Tree } from '@angular-devkit/schematics';
 import { apply, applyTemplates, chain, externalSchematic, move, mergeWith, noop, schematic, url } from '@angular-devkit/schematics';
 
-import { readJsonInTree, updateWorkspaceDefinition, getWorkspaceDefinition, offsetFromRoot } from '@wdtk/core';
+import { updateWorkspaceDefinition, getWorkspaceDefinition, offsetFromRoot } from '@wdtk/core';
 import { formatFiles } from '@wdtk/core';
 import { strings } from '@wdtk/core/util';
 import { Schema } from './schema';
@@ -17,7 +17,7 @@ import { Schema } from './schema';
 // AFTER the init schematic wrote it the workspace definition
 export interface ApplicationOptions extends Schema {
   projectRoot: string;
-  appProjectRoot: string;
+
   newProjectRoot: string;
 }
 export default function (opts: ApplicationOptions): Rule {
@@ -25,15 +25,12 @@ export default function (opts: ApplicationOptions): Rule {
     ctx.logger.debug(`Running '@wdtk/angular:application' schematic`);
     opts = await normalizeOptions(tree, opts);
 
-    const appProjectRoot = opts.newProjectRoot ? `${opts.newProjectRoot}/${opts.name}` : opts.name;
-
     return chain([
       schematic('init', { ...opts }),
       angularAppSchematic(opts),
       generateFiles(opts),
       setupUnitTestRunner(opts),
       setupE2eTestRunner(opts),
-      move(appProjectRoot, opts.appProjectRoot),
       formatFiles(opts),
     ]);
   };
@@ -43,10 +40,8 @@ async function normalizeOptions(tree: Tree, opts: ApplicationOptions): Promise<A
   const workspace = await getWorkspaceDefinition(tree);
 
   const newProjectRoot = workspace.extensions.newProjectRoot;
-  const projectRoot = newProjectRoot ? `${newProjectRoot}/${opts.name}` : opts.name;
 
-  const appDirectory = opts.directory ? strings.dasherize(opts.directory) : `${newProjectRoot}/${strings.dasherize(opts.name)}`;
-  const e2eDirectory = opts.directory ? strings.dasherize(opts.directory) : `${newProjectRoot}/${strings.dasherize(opts.name)}`;
+  const projectRoot = opts.directory ? strings.dasherize(opts.directory) : `${newProjectRoot}/${strings.dasherize(opts.name)}`;
 
   const defaultPrefix: string | undefined = workspace.extensions.defaultPrefix as string;
   // see prefix comment at the top of the file
@@ -57,7 +52,7 @@ async function normalizeOptions(tree: Tree, opts: ApplicationOptions): Promise<A
 
   return {
     ...opts,
-    appProjectRoot: appDirectory,
+
     projectRoot,
     newProjectRoot,
   } as any;
@@ -86,7 +81,7 @@ function generateFiles(opts: ApplicationOptions): Rule {
         apply(url('./files'), [
           applyTemplates({
             ...opts,
-            offsetFromRoot: offsetFromRoot(opts.appProjectRoot),
+            offsetFromRoot: offsetFromRoot(opts.projectRoot),
           }),
           move(opts.projectRoot),
         ])
