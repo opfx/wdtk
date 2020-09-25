@@ -3,9 +3,9 @@ import { workspaces } from '@angular-devkit/core';
 
 import { WorkspaceDefinition } from './types';
 
-export function getWorkspaceConfigPath(host: Tree) {
+export function getWorkspaceDefinitionPath(tree: Tree) {
   const configFiles = ['.angular.json', 'angular.json'];
-  return configFiles.filter((path) => host.exists(path))[0];
+  return configFiles.filter((path) => tree.exists(path))[0];
 }
 
 /**
