@@ -2,7 +2,7 @@ import { normalize } from '@angular-devkit/core';
 import { Rule, SchematicContext, Tree } from '@angular-devkit/schematics';
 import { apply, applyTemplates, chain, externalSchematic, move, mergeWith, noop, schematic, url } from '@angular-devkit/schematics';
 
-import { updateWorkspaceDefinition, getWorkspaceDefinition, offsetFromRoot } from '@wdtk/core';
+import { updateWorkspaceDefinition, getWorkspaceDefinition, getWorkspaceDefinitionPath, offsetFromRoot, updateJsonInTree } from '@wdtk/core';
 import { readJsonInTree } from '@wdtk/core';
 import { formatFiles } from '@wdtk/core';
 import { strings } from '@wdtk/core/util';
@@ -50,6 +50,7 @@ export default function (opts: ApplicationOptions): Rule {
       generateFiles(opts),
       setupUnitTestRunner(opts),
       setupE2eTestRunner(opts),
+      adjustProjectDefinition(opts),
       formatFiles(opts),
     ]);
   };
@@ -57,7 +58,6 @@ export default function (opts: ApplicationOptions): Rule {
 
 async function normalizeOptions(tree: Tree, opts: ApplicationOptions): Promise<ApplicationOptions> {
   const workspace = await getWorkspaceDefinition(tree);
-
   const newProjectRoot = workspace.extensions.newProjectRoot;
 
   const projectRoot = opts.directory ? strings.dasherize(opts.directory) : `${newProjectRoot}/${strings.dasherize(opts.name)}`;
@@ -109,6 +109,19 @@ function generateFiles(opts: ApplicationOptions): Rule {
   };
 }
 
+function adjustProjectDefinition(opts: ApplicationOptions): Rule {
+  if (opts.name === opts.name.toLowerCase()) {
+    return noop();
+  }
+  return (tree: Tree, ctx: SchematicContext) => {
+    return updateJsonInTree(getWorkspaceDefinitionPath(tree), (json) => {
+      const projectDefinitionJson = json.projects[opts.name];
+      delete json.projects[opts.name];
+      json.projects[opts.name.toLowerCase()] = projectDefinitionJson;
+      return json;
+    });
+  };
+}
 function setupE2eTestRunner(opts: ApplicationOptions): Rule {
   return (tree: Tree, ctx: SchematicContext) => {
     return chain([
