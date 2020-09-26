@@ -2,7 +2,15 @@ import { normalize } from '@angular-devkit/core';
 import { Rule, SchematicContext, Tree } from '@angular-devkit/schematics';
 import { apply, applyTemplates, chain, externalSchematic, move, mergeWith, noop, schematic, url } from '@angular-devkit/schematics';
 
-import { updateWorkspaceDefinition, getWorkspaceDefinition, getWorkspaceDefinitionPath, offsetFromRoot, updateJsonInTree } from '@wdtk/core';
+import {
+  updateWorkspaceDefinition,
+  getWorkspaceDefinition,
+  getWorkspaceDefinitionPath,
+  offsetFromRoot,
+  updateJsonInTree,
+  normalizeProjectName,
+  normalizePackageName,
+} from '@wdtk/core';
 import { readJsonInTree } from '@wdtk/core';
 import { formatFiles } from '@wdtk/core';
 import { strings } from '@wdtk/core/util';
@@ -18,8 +26,8 @@ import { Schema } from './schema';
 // AFTER the init schematic wrote it the workspace definition
 export interface ApplicationOptions extends Schema {
   projectRoot: string;
-
   newProjectRoot: string;
+  packageName: string;
 }
 export default function (opts: ApplicationOptions): Rule {
   return async (tree: Tree, ctx: SchematicContext) => {
@@ -60,7 +68,10 @@ async function normalizeOptions(tree: Tree, opts: ApplicationOptions): Promise<A
   const workspace = await getWorkspaceDefinition(tree);
   const newProjectRoot = workspace.extensions.newProjectRoot;
 
-  const projectRoot = opts.directory ? strings.dasherize(opts.directory) : `${newProjectRoot}/${strings.dasherize(opts.name)}`;
+  opts.name = normalizeProjectName(opts.name);
+  const packageName = normalizePackageName(tree, opts.name);
+
+  const projectRoot = opts.directory ? strings.dasherize(opts.directory) : `${newProjectRoot}/${opts.name}`;
 
   const defaultPrefix: string | undefined = workspace.extensions.defaultPrefix as string;
   // see prefix comment at the top of the file
@@ -71,9 +82,9 @@ async function normalizeOptions(tree: Tree, opts: ApplicationOptions): Promise<A
 
   return {
     ...opts,
-
     projectRoot,
     newProjectRoot,
+    packageName,
   } as any;
 }
 

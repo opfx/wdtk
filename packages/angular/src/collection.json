@@ -14,6 +14,12 @@
       "factory": "./schematics/init/index",
       "schema": "./schematics/init/schema.json",
       "hidden": true
+    },
+    "library": {
+      "aliases": ["lib"],
+      "description": "Creates an Angular library.",
+      "factory": "./schematics/library/index",
+      "schema": "./schematics/library/schema.json"
     }
   }
 }

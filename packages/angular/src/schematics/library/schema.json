@@ -17,6 +17,41 @@
     "directory": {
       "description": "The directory where to create the library.",
       "type": "string"
+    },
+    "entryFile": {
+      "type": "string",
+      "format": "path",
+      "description": "The path at which to create the library's public API file, relative to the workspace root.",
+      "default": "public-api"
+    },
+    "prefix": {
+      "alias": "p",
+      "type": "string",
+      "format": "html-selector",
+      "description": "The prefix to apply to generated selectors.",
+      "default": "#useDefault"
+    },
+    "skipFormat": {
+      "description": "Skip formatting files",
+      "type": "boolean",
+      "default": false
+    },
+    "skipInstall": {
+      "description": "Skip installing dependencies",
+      "type": "boolean",
+      "default": false
+    },
+    "unitTestRunner": {
+      "type": "string",
+      "enum": ["karma", "jest", "none"],
+      "description": "Test runner to use for unit tests",
+      "default": "karma"
+    },
+    "wrapperApp": {
+      "type": "boolean",
+      "description": "When true, creates a wrapper application.",
+      "default": false,
+      "x-prompt": "Would you like to add a wrapper application?"
     }
   }
 }

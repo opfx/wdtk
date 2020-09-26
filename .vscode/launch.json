@@ -53,7 +53,8 @@
       "console": "integratedTerminal",
       // "args": ["generate", "--dry-run", "--verbose"],
       // "args": ["generate", "@wdtk/angular:app", "sample1", "--verbose", "--directory", "apps/sample"],
-      "args": ["generate", "@wdtk/angular:app", "sample1", "--directory", "apps/sample", "--verbose"],
+      // "args": ["generate", "@wdtk/angular:app", "wshop", "--verbose"],
+      "args": ["generate", "@wdtk/angular:lib", "cash-cow", "--verbose"],
       "env": { "WX_DEBUG": "true", "WX_DISABLE_VERSION_CHECK": "true" }
     },
     {
