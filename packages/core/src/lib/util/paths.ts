@@ -19,12 +19,3 @@ export function offsetFromRoot(projectRoot: string | undefined): string {
     return normalizedPath.map(() => '..').join('/');
   }
 }
-
-export function offsetFromRootA(fullPathToSourceDir: string): string {
-  const parts = normalize(fullPathToSourceDir).split('/');
-  let offset = '';
-  for (let i = 0; i < parts.length; ++i) {
-    offset += '../';
-  }
-  return offset;
-}
