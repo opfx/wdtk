@@ -32,7 +32,9 @@ export function updateJsonInTree<T = any, O = T>(path: string, callback: (json: 
       tree.create(path, serializeJson(callback({} as T, context)));
       return tree;
     }
-    tree.overwrite(path, serializeJson(callback(readJsonInTree(tree, path), context)));
+    let json = readJsonInTree(tree, path);
+    callback(json, context);
+    tree.overwrite(path, serializeJson(json));
     return tree;
   };
 }

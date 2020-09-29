@@ -75,7 +75,7 @@ async function normalizeOptions(tree: Tree, opts: ApplicationOptions): Promise<A
 
   const defaultPrefix: string | undefined = workspace.extensions.defaultPrefix as string;
   // see prefix comment at the top of the file
-  if (defaultPrefix && defaultPrefix !== '' && opts.prefix === '#useDefault') {
+  if (defaultPrefix && defaultPrefix !== '' && opts.prefix === 'use-default-prefix') {
     opts.prefix = defaultPrefix;
     (<any>opts).defaultPrefix = defaultPrefix;
   }
@@ -91,7 +91,7 @@ async function normalizeOptions(tree: Tree, opts: ApplicationOptions): Promise<A
 function angularAppSchematic(opts: ApplicationOptions): Rule {
   return async (tree: Tree, ctx: SchematicContext) => {
     // see the prefix comment at the top of the file
-    if (opts.prefix === '#useDefault') {
+    if (opts.prefix === 'use-default-prefix') {
       const workspace = await getWorkspaceDefinition(tree);
       opts.prefix = workspace.extensions.defaultPrefix as string;
     }

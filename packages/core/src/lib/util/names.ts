@@ -20,7 +20,7 @@ export function normalizeProjectName(projectName: string): string {
     throw new SchematicsException(`The project name cannot not be empty.`);
   }
   const lcName = projectName.toLowerCase();
-  const normalizedName = strings.dasherize(lcName);
+  const normalizedName = strings.dasherize(projectName);
   const normalizedNameFragments = normalizedName.split('-');
   if (normalizedNameFragments[0].length >= 3) {
     return normalizedName;

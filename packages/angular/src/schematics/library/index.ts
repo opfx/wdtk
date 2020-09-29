@@ -1,9 +1,11 @@
 import { Rule, SchematicContext, Tree } from '@angular-devkit/schematics';
 import { apply, applyTemplates, chain, externalSchematic, filter, mergeWith, move, noop, schematic, url } from '@angular-devkit/schematics';
 
-import { getWorkspaceDefinition, normalizeProjectName, normalizePackageName, offsetFromRoot } from '@wdtk/core';
+import { getWorkspaceDefinition, normalizeProjectName, normalizePackageName, offsetFromRoot, updateJsonInTree, updateWorkspaceDefinition } from '@wdtk/core';
+import { addProjectDependencies, addWorkspaceDependencies, NodeDependency, NodeDependencyType } from '@wdtk/core';
 import { strings } from '@wdtk/core/util';
-import { result } from 'cypress/types/lodash';
+
+import { versions } from './../../versions';
 
 import { Schema } from './schema';
 
@@ -12,12 +14,28 @@ export interface LibraryOptions extends Schema {
   packageName: string;
 }
 
+const workspaceDependencies: NodeDependency[] = [
+  //
+  { type: NodeDependencyType.Dev, name: 'ng-packagr', version: versions.Angular },
+];
+const projectDependencies: NodeDependency[] = [
+  { type: NodeDependencyType.Default, name: 'tslib', version: versions.TsLib },
+  { type: NodeDependencyType.Peer, name: '@angular/common', version: versions.Angular },
+  { type: NodeDependencyType.Peer, name: '@angular/core', version: versions.Angular },
+];
 export default function (opts: LibraryOptions): Rule {
   return async (tree: Tree, ctx: SchematicContext) => {
     opts = await normalizeOptions(tree, opts);
     return chain([
-      opts.wrapperApp ? schematic('application', opts) : schematic('init', opts), //
+      schematic('init', opts),
+      opts.wrapperApp ? schematic('application', opts) : noop(),
+      addLibraryToWorkspaceDefinition(opts),
       generateFiles(opts),
+
+      addProjectDependencies(opts.name, projectDependencies),
+      addWorkspaceDependencies(workspaceDependencies),
+      setupUnitTestRunner(opts),
+      opts.skipTsConfig ? noop() : adjustWorkspaceTsConfig(opts),
     ]);
   };
 }
@@ -32,7 +50,7 @@ async function normalizeOptions(tree: Tree, opts: Partial<LibraryOptions>): Prom
   const projectRoot = opts.directory ? strings.dasherize(opts.directory) : `${newProjectRoot}/${opts.name}`;
   const defaultPrefix: string | undefined = workspace.extensions.defaultPrefix as string;
   // see prefix comment at the top of the file
-  if (defaultPrefix && defaultPrefix !== '' && opts.prefix === '#useDefault') {
+  if (defaultPrefix && defaultPrefix !== '' && opts.prefix === 'use-default-prefix') {
     opts.prefix = defaultPrefix;
     (<any>opts).defaultPrefix = defaultPrefix;
   }
@@ -46,23 +64,135 @@ function wrapperAppPathFilter(path: string): boolean {
 
   return !toRemoveList.test(path);
 }
+
+function karmaPathFilter(path: string): boolean {
+  const toRemoveList = /(karma.conf.js|test.ts|tsconfig.spec.json).template$/;
+
+  return !toRemoveList.test(path);
+}
 function generateFiles(opts: LibraryOptions): Rule {
   return async (tree: Tree, ctx: SchematicContext) => {
-    if (opts.prefix === '#useDefault') {
+    if (opts.prefix === 'use-default-prefix') {
       const workspace = await getWorkspaceDefinition(tree);
       opts.prefix = workspace.extensions.defaultPrefix as string;
     }
-    return mergeWith(
-      apply(url('./files'), [
-        opts.wrapperApp ? filter(wrapperAppPathFilter) : noop(),
-        applyTemplates({
-          ...opts,
-          offsetFromRoot: offsetFromRoot(opts.projectRoot),
-          dasherize: strings.dasherize,
-          camelize: strings.camelize,
-        }),
-        move(opts.projectRoot),
-      ])
-    );
+    const srcDir = `${opts.projectRoot}/src/lib`;
+    return chain([
+      mergeWith(
+        apply(url('./files'), [
+          opts.wrapperApp ? filter(wrapperAppPathFilter) : noop(),
+          opts.unitTestRunner !== 'karma' ? filter(karmaPathFilter) : noop(),
+          applyTemplates({
+            ...opts,
+            offsetFromRoot: offsetFromRoot(opts.projectRoot),
+            dasherize: strings.dasherize,
+            camelize: strings.camelize,
+          }),
+          move(opts.projectRoot),
+        ])
+      ),
+      externalSchematic('@schematics/angular', 'module', {
+        name: opts.name,
+        commonModule: false,
+        flat: true,
+        path: srcDir,
+        export: true,
+        project: opts.name,
+      }),
+      externalSchematic('@schematics/angular', 'component', {
+        name: opts.name,
+        selector: `${opts.prefix}-${opts.name}`,
+        inlineStyle: true,
+        inlineTemplate: true,
+        flat: true,
+        path: srcDir,
+        export: true,
+        project: opts.name,
+      }),
+      externalSchematic('@schematics/angular', 'service', {
+        name: opts.name,
+        flat: true,
+        path: srcDir,
+        project: opts.name,
+      }),
+    ]);
+  };
+}
+
+function addLibraryToWorkspaceDefinition(opts: LibraryOptions): Rule {
+  // if the library has a wrapper application, the application schematic
+  // will create the project definition
+  if (opts.wrapperApp) {
+    return noop();
+  }
+
+  const projectDefinition = {
+    name: opts.name,
+    root: opts.projectRoot,
+    sourceRoot: `${opts.projectRoot}/src`,
+    projectType: 'library',
+    prefix: opts.prefix,
+    targets: {
+      build: {
+        builder: '@angular-devkit/build-angular:ng-packagr',
+        options: {
+          tsConfig: `${opts.projectRoot}/tsconfig.lib.json`,
+          project: `${opts.projectRoot}/ng-package.json`,
+        },
+        configurations: {
+          production: {
+            tsConfig: `${opts.projectRoot}/tsconfig.lib.prod.json`,
+          },
+        },
+      },
+      test: {
+        builder: '@angular-devkit/build-angular:karma',
+        options: {
+          main: `${opts.projectRoot}/src/test.ts`,
+          tsConfig: `${opts.projectRoot}/tsconfig.spec.json`,
+          karmaConfig: `${opts.projectRoot}/karma.conf.js`,
+        },
+      },
+      lint: {
+        builder: '@angular-devkit/build-angular:tslint',
+        options: {
+          tsConfig: [`${opts.projectRoot}/tsconfig.lib.json`, `${opts.projectRoot}/tsconfig.spec.json`],
+          exclude: ['**/node_modules/**'],
+        },
+      },
+    },
+  };
+  if (opts.unitTestRunner !== 'karma') {
+    delete projectDefinition.targets.test;
+  }
+  return updateWorkspaceDefinition((workspace) => {
+    workspace.projects.add(projectDefinition);
+  });
+}
+
+function adjustWorkspaceTsConfig(opts: LibraryOptions): Rule {
+  return (tree: Tree, ctx: SchematicContext) => {
+    if (!tree.exists('tsconfig.json')) {
+      return tree;
+    }
+    return updateJsonInTree('tsconfig.json', (tsConfig) => {
+      if (!tsConfig.compilerOptions.paths) {
+        tsConfig.compilerOptions.paths = {};
+      }
+      if (!tsConfig.compilerOptions.paths[opts.packageName]) {
+        tsConfig.compilerOptions.paths[opts.packageName] = [];
+      }
+      tsConfig.compilerOptions.paths[opts.packageName].push(`${opts.projectRoot}/src/${opts.entryFile}.ts`);
+    });
+  };
+}
+
+function setupUnitTestRunner(opts: LibraryOptions): Rule {
+  if (opts.unitTestRunner !== 'jest' || opts.wrapperApp) {
+    return noop();
+  }
+
+  return (tree: Tree, ctx: SchematicContext) => {
+    return chain([externalSchematic('@wdtk/jest', 'project', { project: opts.name, setupFile: 'angular' })]);
   };
 }
