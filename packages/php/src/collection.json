@@ -7,6 +7,12 @@
       "description": "Creates a PHP application.",
       "factory": "./schematics/application/index",
       "schema": "./schematics/application/schema.json"
+    },
+    "library": {
+      "aliases": ["lib"],
+      "description": "Creates a PHP library.",
+      "factory": "./schematics/library/index",
+      "schema": "./schematics/library/schema.json"
     }
   }
 }
