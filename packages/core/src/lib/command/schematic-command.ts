@@ -76,7 +76,7 @@ export abstract class SchematicCommand<T extends SchematicSchema & CommandOption
 
         this.descriptor.options.push(...options.filter((x) => !x.hidden));
       } catch (e) {
-        this.log.error(e.message);
+        // this.log.error(e.message);
       }
     }
   }
@@ -148,7 +148,7 @@ export abstract class SchematicCommand<T extends SchematicSchema & CommandOption
       const argDisplay = schematicArgs.length > 0 ? ' ' + schematicArgs.map((a) => `<${strings.dasherize(a.name)}>`).join(' ') : '';
 
       this.log.info(tags.oneLine`
-        usage: ng ${this.log.name} ${displayName}${argDisplay}
+        usage: wx ${this.descriptor.name} ${displayName}${argDisplay}
         ${opts.length > 0 ? `[options]` : ``}
       `);
       this.log.info('');

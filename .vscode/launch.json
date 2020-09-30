@@ -39,7 +39,8 @@
       "program": "${workspaceFolder}/bin/wx",
       "cwd": "${workspaceFolder}/../work",
       "console": "integratedTerminal",
-      "args": ["new", "webkinz", "--directory", "workspace", "--verbose"],
+      // "args": ["new", "webkinz", "--directory", "workspace", "--verbose"],
+      "args": ["new", "--help"],
       "env": { "WX_DEBUG": "true", "WX_DISABLE_VERSION_CHECK": "true" }
     },
 
@@ -54,7 +55,9 @@
       // "args": ["generate", "--dry-run", "--verbose"],
       // "args": ["generate", "@wdtk/angular:app", "sample1", "--verbose", "--directory", "apps/sample"],
       //"args": ["generate", "@wdtk/angular:app", "WShop", "--verbose"],
-      "args": ["generate", "@wdtk/angular:lib", "WShop", "--verbose"],
+      // "args": ["generate", "@wdtk/angular:lib", "WShop", "--verbose"],
+      "args": ["generate", "@wdtk/angulars:app", "--help"],
+      // "args": ["generate"],
       "env": { "WX_DEBUG": "true", "WX_DISABLE_VERSION_CHECK": "true" }
     },
     {
