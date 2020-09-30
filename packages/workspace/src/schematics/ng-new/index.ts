@@ -1,7 +1,7 @@
 import { strings } from '@angular-devkit/core';
 import { apply, chain, empty, mergeWith, move, schematic, noop } from '@angular-devkit/schematics';
 import { Rule, SchematicContext, Tree } from '@angular-devkit/schematics';
-import { RepositoryInitializerTask } from '@angular-devkit/schematics/tasks';
+import { RepositoryInitializerTask, NodePackageInstallTask } from '@angular-devkit/schematics/tasks';
 
 import { GitFlowInitTask, YarnInitTask } from './../../tasks';
 
@@ -10,45 +10,60 @@ import { Schema as NgNewOptions } from './schema';
 
 interface NormalizedOptions extends NgNewOptions {}
 
-export default function (options: NgNewOptions): Rule {
-  return (host: Tree, ctx: SchematicContext) => {
-    options = normalizeOptions(host, options);
+export default function (opts: NgNewOptions): Rule {
+  return (tree: Tree, ctx: SchematicContext) => {
+    opts = normalizeOptions(tree, opts);
     const workspaceOptions: WorkspaceOptions = {
-      name: options.name,
+      name: opts.name,
     };
     return chain([
       mergeWith(
         apply(empty(), [
           // create the workspace
           schematic('workspace', workspaceOptions),
-          move(options.directory),
+          move(opts.directory),
           // formatFiles(),
         ])
       ), //
-      addTasks(options),
+      addTasks(opts),
     ]);
   };
 }
-function normalizeOptions(host: Tree, options: NgNewOptions): NormalizedOptions {
-  options.name = strings.dasherize(options.name);
-  if (!options.directory) {
-    options.directory = options.name;
+function normalizeOptions(tree: Tree, opts: NgNewOptions): NormalizedOptions {
+  opts.name = strings.dasherize(opts.name);
+  if (!opts.directory) {
+    opts.directory = opts.name;
   }
   return {
-    ...options,
+    ...opts,
   };
 }
 
-function addTasks(options: NormalizedOptions): Rule {
-  return (host: Tree, ctx: SchematicContext) => {
+function addTasks(opts: NormalizedOptions): Rule {
+  return (tree: Tree, ctx: SchematicContext) => {
     let yarnInitTask;
-    if (!options.skipYarn) {
-      yarnInitTask = ctx.addTask(new YarnInitTask(options.directory));
+    if (!opts.skipYarn) {
+      yarnInitTask = ctx.addTask(new YarnInitTask(opts.directory));
     }
-    if (!options.skipGit) {
-      const commit = typeof options.commit === 'object' ? options.commit : !!options.commit ? {} : false;
-      const gitInitTask = ctx.addTask(new RepositoryInitializerTask(options.directory, commit), yarnInitTask ? [yarnInitTask] : []);
-      ctx.addTask(new GitFlowInitTask(options.directory), [gitInitTask]);
+
+    let installTask;
+    if (!opts.skipInstall) {
+      installTask = ctx.addTask(
+        new NodePackageInstallTask({
+          workingDirectory: opts.directory,
+          packageManager: 'yarn',
+        }),
+        yarnInitTask ? [yarnInitTask] : []
+      );
+    }
+
+    if (!opts.skipGit) {
+      const gitInitTaskDependencies = [];
+      yarnInitTask ? gitInitTaskDependencies.push(yarnInitTask) : false;
+      installTask ? gitInitTaskDependencies.push(installTask) : false;
+      const commit = typeof opts.commit === 'object' ? opts.commit : !!opts.commit ? {} : false;
+      const gitInitTask = ctx.addTask(new RepositoryInitializerTask(opts.directory, commit), gitInitTaskDependencies);
+      ctx.addTask(new GitFlowInitTask(opts.directory), [gitInitTask]);
     }
   };
 }
