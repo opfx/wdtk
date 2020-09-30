@@ -7,6 +7,7 @@ export const versions = {
   KarmaCoverageIstanbulReporter: '~2.1.0',
   KarmaJasmine: '~3.0.1',
   KarmaJasmineHtmlReporter: '^1.4.2',
+  NgPackager: '^10.1.2',
   Protractor: '~7.0.0',
   JasmineCore: '~3.5.0',
   JasmineSpecReporter: '~4.2.1',
