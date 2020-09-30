@@ -1,7 +1,8 @@
 import { Rule, SchematicContext, Tree } from '@angular-devkit/schematics';
 import { apply, applyTemplates, chain, externalSchematic, filter, mergeWith, move, noop, schematic, url } from '@angular-devkit/schematics';
 
-import { getWorkspaceDefinition, normalizeProjectName, normalizePackageName, offsetFromRoot, updateJsonInTree, updateWorkspaceDefinition } from '@wdtk/core';
+import { formatFiles, getWorkspaceDefinition, normalizeProjectName, normalizePackageName, offsetFromRoot } from '@wdtk/core';
+import { updateJsonInTree, updateWorkspaceDefinition } from '@wdtk/core';
 import { addProjectDependencies, addWorkspaceDependencies, NodeDependency, NodeDependencyType } from '@wdtk/core';
 import { strings } from '@wdtk/core/util';
 
@@ -28,7 +29,7 @@ export default function (opts: LibraryOptions): Rule {
     opts = await normalizeOptions(tree, opts);
     return chain([
       schematic('init', opts),
-      opts.wrapperApp ? schematic('application', opts) : noop(),
+      opts.wrapperApp ? schematic('application', { ...opts, skipFormat: true }) : noop(),
       addLibraryToWorkspaceDefinition(opts),
       generateFiles(opts),
 
@@ -36,6 +37,7 @@ export default function (opts: LibraryOptions): Rule {
       addWorkspaceDependencies(workspaceDependencies),
       setupUnitTestRunner(opts),
       opts.skipTsConfig ? noop() : adjustWorkspaceTsConfig(opts),
+      formatFiles(opts),
     ]);
   };
 }
