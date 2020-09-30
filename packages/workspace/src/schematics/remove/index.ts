@@ -4,7 +4,7 @@ import { chain, noop } from '@angular-devkit/schematics';
 import { from, Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 
-import { getProjectDefinition, getWorkspaceDefinition, updateWorkspaceDefinition } from '@wdtk/core';
+import { getProjectDefinition, getWorkspaceDefinition, readJsonInTree, updateJsonInTree, updateWorkspaceDefinition } from '@wdtk/core';
 import { formatFiles } from '@wdtk/core';
 import { tags } from '@wdtk/core/util';
 
@@ -19,6 +19,7 @@ export default function (opts: RemoveOptions): Rule {
     }
     return chain([
       checkTargets(opts), //
+      adjustWorkspaceTsConfig(opts),
       removeProjectFiles(opts),
       removeProjectDefinition(opts),
       formatFiles(opts),
@@ -97,20 +98,26 @@ function removeProjectDefinition(opts: RemoveOptions): Rule {
  *
  * @param schema The options provided to the schematic
  */
-function updateTsConfig(schema: RemoveOptions) {
-  // return (tree: Tree, _context: SchematicContext): Observable<Tree> => {
-  //   return from(getWorkspaceDefinition(tree)).pipe(
-  //     map((workspace) => {
-  //       const nxJson = readJsonInTree<NxJson>(tree, 'nx.json');
-  //       const project = workspace.projects.get(schema.projectName);
-  //       const tsConfigPath = 'tsconfig.base.json';
-  //       if (tree.exists(tsConfigPath)) {
-  //         const tsConfigJson = readJsonInTree(tree, tsConfigPath);
-  //         delete tsConfigJson.compilerOptions.paths[`@${nxJson.npmScope}/${project.root.substr(5)}`];
-  //         tree.overwrite(tsConfigPath, serializeJson(tsConfigJson));
-  //       }
-  //       return tree;
-  //     })
-  //   );
-  // };
+function adjustWorkspaceTsConfig(opts: RemoveOptions): Rule {
+  return async (tree: Tree, ctx: SchematicContext) => {
+    const project = await getProjectDefinition(tree, opts.projectName);
+
+    const projectPackageJson = readJsonInTree(tree, `${project.root}/package.json`);
+    const packageName = projectPackageJson.name;
+    ctx.logger.debug(`Removing ${packageName} from 'tsconfig.json'`);
+    if (tree.exists('tsconfig.json')) {
+      return updateJsonInTree('tsconfig.json', (tsConfig) => {
+        if (tsConfig.compilerOptions && tsConfig.compilerOptions.paths) {
+          tsConfig.compilerOptions.paths = Object.keys(tsConfig.compilerOptions.paths)
+            .filter((path) => {
+              return !path.includes(packageName);
+            })
+            .reduce((paths, path) => {
+              paths[path] = tsConfig.compilerOptions.paths[path];
+              return paths;
+            }, {});
+        }
+      });
+    }
+  };
 }
