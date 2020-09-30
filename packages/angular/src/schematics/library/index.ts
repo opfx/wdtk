@@ -17,7 +17,7 @@ export interface LibraryOptions extends Schema {
 
 const workspaceDependencies: NodeDependency[] = [
   //
-  { type: NodeDependencyType.Dev, name: 'ng-packagr', version: versions.Angular },
+  { type: NodeDependencyType.Dev, name: 'ng-packagr', version: versions.NgPackager },
 ];
 const projectDependencies: NodeDependency[] = [
   { type: NodeDependencyType.Default, name: 'tslib', version: versions.TsLib },
