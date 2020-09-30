@@ -12,8 +12,12 @@ export class GenerateCommand extends SchematicCommand<GenerateCommandOptions> {
 
     let [collectionName, schematicName] = await this.parseSchematicInfo(options);
     if (!(options.help === true || options.help === 'json' || options.help === 'JSON')) {
-      schematicName = await this.determineSchematic();
-      collectionName = await this.determineCollection(schematicName);
+      if (!schematicName) {
+        schematicName = await this.determineSchematic();
+      }
+      if (!collectionName) {
+        collectionName = await this.determineCollection(schematicName);
+      }
     }
     this.collectionName = collectionName;
     this.schematicName = schematicName;
