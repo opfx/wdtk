@@ -2,18 +2,10 @@ import { normalize } from '@angular-devkit/core';
 import { Rule, SchematicContext, Tree } from '@angular-devkit/schematics';
 import { apply, applyTemplates, chain, externalSchematic, move, mergeWith, noop, schematic, url } from '@angular-devkit/schematics';
 
-import {
-  updateWorkspaceDefinition,
-  getWorkspaceDefinition,
-  getWorkspaceDefinitionPath,
-  offsetFromRoot,
-  updateJsonInTree,
-  normalizeProjectName,
-  normalizePackageName,
-} from '@wdtk/core';
-import { readJsonInTree } from '@wdtk/core';
-import { formatFiles } from '@wdtk/core';
+import { formatFiles, getWorkspaceDefinition, getWorkspaceDefinitionPath, offsetFromRoot } from '@wdtk/core';
+import { normalizeProjectName, normalizePackageName, readJsonInTree, updateJsonInTree, updateWorkspaceDefinition } from '@wdtk/core';
 import { strings } from '@wdtk/core/util';
+
 import { Schema } from './schema';
 
 // prefix : if the user does not specify a prefix, the default prefix for the workspace should be used; however
