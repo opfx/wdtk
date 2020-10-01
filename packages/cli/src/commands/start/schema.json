@@ -1,0 +1,26 @@
+{
+  "$schema": "http://json-schema.org/schema",
+  "$id": "wx-cli://commands/start/schema.json",
+  "description": "Builds and serves your app, rebuilding on file changes.",
+  "$longDescription": "",
+
+  "$aliases": ["s"],
+  "$scope": "in",
+  "$type": "architect",
+  "$impl": "./index#StartCommand",
+
+  "type": "object",
+  "allOf": [
+    { "$ref": "./../definitions.json#/definitions/architect" },
+    { "$ref": "./../definitions.json#/definitions/base" },
+    {
+      "type": "object",
+      "properties": {
+        "buildEventLog": {
+          "type": "string",
+          "description": "**EXPERIMENTAL** Output file path for Build Event Protocol events"
+        }
+      }
+    }
+  ]
+}

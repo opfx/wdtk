@@ -5,7 +5,7 @@ __metadata:
   version: 4
   cacheKey: 5
 
-"@angular-devkit/architect@npm:0.1001.3, @angular-devkit/architect@npm:~0.1001.3":
+"@angular-devkit/architect@npm:0.1001.3, @angular-devkit/architect@npm:^0.1001.3, @angular-devkit/architect@npm:~0.1001.3":
   version: 0.1001.3
   resolution: "@angular-devkit/architect@npm:0.1001.3"
   dependencies:
@@ -1785,6 +1785,7 @@ __metadata:
     "@angular/cli": ^10.1.3
     "@wdtk/angular": 0.0.0
     "@wdtk/core": 0.0.0
+    "@wdtk/php": 0.0.0
     "@wdtk/workspace": 0.0.0
     cypress: ^5.2.0
     inquirer: ^7.3.3
@@ -1800,6 +1801,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@wdtk/core@workspace:packages/core"
   dependencies:
+    "@angular-devkit/architect": ^0.1001.3
     "@angular-devkit/core": ^10.1.3
     "@angular-devkit/schematics": ^10.1.3
     ansi-colors: 4.1.1
@@ -1849,7 +1851,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@wdtk/php@workspace:packages/php":
+"@wdtk/php@0.0.0, @wdtk/php@workspace:packages/php":
   version: 0.0.0-use.local
   resolution: "@wdtk/php@workspace:packages/php"
   dependencies:
@@ -1866,7 +1868,7 @@ __metadata:
   dependencies:
     "@types/jest": 25.1.4
     "@types/node": 14.0.27
-    cypress: ^4.1.0
+    cypress: ^5.2.0
     glob: ^7.1.6
     jest: 25.2.3
     minimist: ^1.2.5
@@ -3072,7 +3074,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"chalk@npm:^2.0.0, chalk@npm:^2.3.0, chalk@npm:^2.4.1, chalk@npm:^2.4.2":
+"chalk@npm:^2.0.0, chalk@npm:^2.3.0, chalk@npm:^2.4.1":
   version: 2.4.2
   resolution: "chalk@npm:2.4.2"
   dependencies:
@@ -3242,20 +3244,6 @@ __metadata:
   version: 2.4.0
   resolution: "cli-spinners@npm:2.4.0"
   checksum: c32291dbcc98363ab22486084354a46e6fd7b9471d0b1c89a5cba1a62a96233f6519cca0ab21a16884f78fe034a7038597eb61e56f3fe11a592c6c2495925600
-  languageName: node
-  linkType: hard
-
-"cli-table3@npm:~0.5.1":
-  version: 0.5.1
-  resolution: "cli-table3@npm:0.5.1"
-  dependencies:
-    colors: ^1.1.2
-    object-assign: ^4.1.0
-    string-width: ^2.1.1
-  dependenciesMeta:
-    colors:
-      optional: true
-  checksum: 6a2eed1fd28476953fbaeba596056cdda837345572cfca912fee649bb6d0e115325eb19f0b62aa23747128b6727f3bb7d3dc568ecbedd3af63636fb4a476ce26
   languageName: node
   linkType: hard
 
@@ -3623,53 +3611,6 @@ __metadata:
   version: 1.0.1
   resolution: "cyclist@npm:1.0.1"
   checksum: 74bc0a48c37bed8a430f103d0a880902768b7e3bcc0f9e098c4bd9630438c6b053b88e33c127e41316bb2da8d642a937015961a6cd563641ad2a5798dfecadd9
-  languageName: node
-  linkType: hard
-
-"cypress@npm:^4.1.0":
-  version: 4.12.1
-  resolution: "cypress@npm:4.12.1"
-  dependencies:
-    "@cypress/listr-verbose-renderer": ^0.4.1
-    "@cypress/request": ^2.88.5
-    "@cypress/xvfb": ^1.2.4
-    "@types/sinonjs__fake-timers": ^6.0.1
-    "@types/sizzle": ^2.3.2
-    arch: ^2.1.2
-    bluebird: ^3.7.2
-    cachedir: ^2.3.0
-    chalk: ^2.4.2
-    check-more-types: ^2.24.0
-    cli-table3: ~0.5.1
-    commander: ^4.1.1
-    common-tags: ^1.8.0
-    debug: ^4.1.1
-    eventemitter2: ^6.4.2
-    execa: ^1.0.0
-    executable: ^4.1.1
-    extract-zip: ^1.7.0
-    fs-extra: ^8.1.0
-    getos: ^3.2.1
-    is-ci: ^2.0.0
-    is-installed-globally: ^0.3.2
-    lazy-ass: ^1.6.0
-    listr: ^0.14.3
-    lodash: ^4.17.19
-    log-symbols: ^3.0.0
-    minimist: ^1.2.5
-    moment: ^2.27.0
-    ospath: ^1.2.2
-    pretty-bytes: ^5.3.0
-    ramda: ~0.26.1
-    request-progress: ^3.0.0
-    supports-color: ^7.1.0
-    tmp: ~0.1.0
-    untildify: ^4.0.0
-    url: ^0.11.0
-    yauzl: ^2.10.0
-  bin:
-    cypress: bin/cypress
-  checksum: 5a5665c1499bdf6d2c88313c314a30226c4f73d643004d0e026faa50c4bbc9e6496a7ba26dc87a9a0c6d4adf6fdcecc7acba949eadf6d83ec95d85ac55d73f74
   languageName: node
   linkType: hard
 
@@ -4661,17 +4602,6 @@ __metadata:
     inherits: ^2.0.1
     readable-stream: ^2.0.0
   checksum: 5f1a9bbff02d30cf5b4f12cfef20b47455876f8318b92d275ca39e3c5adf0636d3a0d8f4821a1c245339c47e79a551dce9ce5c7d9236c16347b934dc13d1d408
-  languageName: node
-  linkType: hard
-
-"fs-extra@npm:^8.1.0":
-  version: 8.1.0
-  resolution: "fs-extra@npm:8.1.0"
-  dependencies:
-    graceful-fs: ^4.2.0
-    jsonfile: ^4.0.0
-    universalify: ^0.1.0
-  checksum: 056a96d4f55ab8728b021e251175a4a6440d1edb5845e6c2e8e010019bde3e63de188a0eb99386c21c71804ca1a571cd6e08f507971f10a2bc4f4f7667720fa4
   languageName: node
   linkType: hard
 
@@ -6330,18 +6260,6 @@ fsevents@^1.2.7:
   languageName: node
   linkType: hard
 
-"jsonfile@npm:^4.0.0":
-  version: 4.0.0
-  resolution: "jsonfile@npm:4.0.0"
-  dependencies:
-    graceful-fs: ^4.1.6
-  dependenciesMeta:
-    graceful-fs:
-      optional: true
-  checksum: a40b7b64da41c84b0dc7ad753737ba240bb0dc50a94be20ec0b73459707dede69a6f89eb44b4d29e6994ed93ddf8c9b6e57f6b1f09dd707567959880ad6cee7f
-  languageName: node
-  linkType: hard
-
 "jsonfile@npm:^6.0.1":
   version: 6.0.1
   resolution: "jsonfile@npm:6.0.1"
@@ -6578,15 +6496,6 @@ fsevents@^1.2.7:
   dependencies:
     chalk: ^1.0.0
   checksum: 69ba19d52b32bdcc659752321bc89e21d697088b7dce8ed1fed9582e3e37eef6a859502eeb721d8b7d08f0b5cb3d92b16a4321e01393ba8bace23f2a834be077
-  languageName: node
-  linkType: hard
-
-"log-symbols@npm:^3.0.0":
-  version: 3.0.0
-  resolution: "log-symbols@npm:3.0.0"
-  dependencies:
-    chalk: ^2.4.2
-  checksum: bfa7cceaea16d7e378b4f6a16e22c5c78bc4250350a84d653766927bdf27e5b94015f616e193bc275e80d13f882867ddf224a3c6c152e24289ed5e58d84d306e
   languageName: node
   linkType: hard
 
@@ -9534,15 +9443,6 @@ resolve@1.1.7:
   languageName: node
   linkType: hard
 
-"tmp@npm:~0.1.0":
-  version: 0.1.0
-  resolution: "tmp@npm:0.1.0"
-  dependencies:
-    rimraf: ^2.6.3
-  checksum: b505e9f4f5e8076a1789fa1cec50b42220fdb90dec3e44ff0598d74701e340333ef7c28a55ed2d59b24112e2668e98e92852352ad4dc20352250a7be5cc1a973
-  languageName: node
-  linkType: hard
-
 "tmp@npm:~0.2.1":
   version: 0.2.1
   resolution: "tmp@npm:0.2.1"
@@ -9892,13 +9792,6 @@ typescript@~4.0.3:
     request: ^2.88.2
     uuid: ^3.0.0
   checksum: fd9cae3c6760317b251436a3299637749ea4c109f62719fa007de48f4211fa356e9152f7451103c7cb625e171684f68802bb362a5e3e27b69f8a912ad4b029f6
-  languageName: node
-  linkType: hard
-
-"universalify@npm:^0.1.0":
-  version: 0.1.2
-  resolution: "universalify@npm:0.1.2"
-  checksum: 420fc6547357782c700d53e9a92506a8e95345b13e97684c8f9ab75237912ec2ebb6af8ac10d4f7406b7b6bd21c58f6c5c0811414fb0b4091b78b4743fa6806e
   languageName: node
   linkType: hard
 
