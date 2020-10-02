@@ -157,6 +157,10 @@ export abstract class SchematicCommand<T extends SchematicSchema & CommandOption
     }
   }
 
+  protected getWorkspaceDefinition() {
+    return this._workspace;
+  }
+
   protected getCollection(collectionName: string): FileSystemCollection {
     const collection = this.getEngine().createCollection(collectionName);
     if (!collection) {
