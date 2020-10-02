@@ -7,33 +7,6 @@
     {
       "type": "node",
       "request": "launch",
-      "name": "quicktype",
-      "skipFiles": ["<node_internals>/**"],
-      "program": "${workspaceFolder}\\scripts\\tools\\quicktype.js",
-      // "outFiles": ["${workspaceFolder}/**/*.js"],
-      "args": ["D:\\work\\opfx\\proj\\wdtk\\wdtk\\packages\\cli\\src\\commands\\version.json", "D:\\work\\opfx\\proj\\wdtk\\wdtk\\dist\\version.ts"]
-    },
-    {
-      "type": "node",
-      "request": "launch",
-      "name": "build (admin)",
-      "skipFiles": ["<node_internals>/**"],
-      "program": "${workspaceFolder}\\bin\\admin",
-      // "outFiles": ["${workspaceFolder}/**/*.js"],
-      "args": ["build"]
-    },
-    {
-      "type": "node",
-      "request": "launch",
-      "name": "publish (admin)",
-      "skipFiles": ["<node_internals>/**"],
-      "program": "${workspaceFolder}\\bin\\admin",
-      // "outFiles": ["${workspaceFolder}/**/*.js"],
-      "args": ["publish"]
-    },
-    {
-      "type": "node",
-      "request": "launch",
       "name": "wx (natures)",
       "skipFiles": ["<node_internals>/**"],
       "program": "${workspaceFolder}/bin/wx",
@@ -68,8 +41,8 @@
       // "args": ["generate", "@wdtk/angular:app", "sample1", "--verbose", "--directory", "apps/sample"],
       //"args": ["generate", "@wdtk/angular:app", "WShop", "--verbose"],
       // "args": ["generate", "app", "play", "--verbose"],
-      // "args": ["generate", "@wdtk/angular:app", "play", "--verbose"],
-      "args": ["generate", "--help"],
+      "args": ["generate", "@wdtk/php:app", "xpi", "--verbose"],
+      // "args": ["generate", "--help"],
       "env": { "WX_DEBUG": "true", "WX_DISABLE_VERSION_CHECK": "true" }
     },
     {
@@ -95,6 +68,40 @@
       // "args": ["remove", "--dry-run", "--verbose"],
       "args": ["remove", "wshop"],
       "env": { "WX_DEBUG": "true", "WX_DISABLE_VERSION_CHECK": "true" }
+    },
+    // admin launch configurations
+    {
+      "type": "node",
+      "request": "launch",
+      "name": "admin (build)",
+      "skipFiles": ["<node_internals>/**"],
+      "program": "${workspaceFolder}\\bin\\admin",
+      "args": ["build"]
+    },
+    {
+      "type": "node",
+      "request": "launch",
+      "name": "admin (publish)",
+      "skipFiles": ["<node_internals>/**"],
+      "program": "${workspaceFolder}\\bin\\admin",
+      "args": ["publish"]
+    },
+    {
+      "type": "node",
+      "request": "launch",
+      "name": "admin (unpublish)",
+      "skipFiles": ["<node_internals>/**"],
+      "program": "${workspaceFolder}\\bin\\admin",
+      "args": ["unpublish", "0.4.11"]
     }
+
+    // {
+    //   "type": "node",
+    //   "request": "launch",
+    //   "name": "quicktype",
+    //   "skipFiles": ["<node_internals>/**"],
+    //   "program": "${workspaceFolder}\\scripts\\tools\\quicktype.js",
+    //   "args": ["D:\\work\\opfx\\proj\\wdtk\\wdtk\\packages\\cli\\src\\commands\\version.json", "D:\\work\\opfx\\proj\\wdtk\\wdtk\\dist\\version.ts"]
+    // },
   ]
 }

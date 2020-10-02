@@ -1,6 +1,6 @@
 {
   "name": "@wdtk/source",
-  "version": "0.4.6",
+  "version": "0.4.11",
   "description": "Development Toolkit",
   "main": "index.js",
   "author": "opfx",
@@ -19,6 +19,7 @@
   "scripts": {
     "build": "node ./bin/admin build",
     "publish": "node ./bin/admin publish",
+    "unpublish": "node ./bin/admin unpublish",
     "wx": "node ./bin/wx"
   },
   "dependencies": {
