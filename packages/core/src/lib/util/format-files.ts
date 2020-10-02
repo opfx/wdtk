@@ -11,9 +11,9 @@ export function formatFiles(options: { skipFormat?: boolean } = { skipFormat: fa
   if (options.skipFormat || !prettier || !process.env.WX_WORKSPACE_ROOT) {
     return noop();
   }
-  return (host: Tree, ctx: SchematicContext) => {
+  return (tree: Tree, ctx: SchematicContext) => {
     const files = new Set(
-      host.actions
+      tree.actions
         .filter((action) => action.kind !== 'd' && action.kind !== 'r')
         .map((action: OverwriteFileAction | CreateFileAction) => ({
           path: action.path,
@@ -21,10 +21,10 @@ export function formatFiles(options: { skipFormat?: boolean } = { skipFormat: fa
         }))
     );
     if (files.size === 0) {
-      return host;
+      return tree;
     }
     return from(files).pipe(
-      filter((file) => host.exists(file.path)),
+      filter((file) => tree.exists(file.path)),
       mergeMap(async (file) => {
         const systemPath = Path.join(process.env.WX_WORKSPACE_ROOT, file.path);
 
@@ -44,12 +44,12 @@ export function formatFiles(options: { skipFormat?: boolean } = { skipFormat: fa
         }
 
         try {
-          host.overwrite(file.path, prettier.format(file.content, options));
+          tree.overwrite(file.path, prettier.format(file.content, options));
         } catch (e) {
           ctx.logger.warn(`Could not format ${file.path} because ${e.message}`);
         }
       }),
-      map(() => host)
+      map(() => tree)
     );
   };
 }
