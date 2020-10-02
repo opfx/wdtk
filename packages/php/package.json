@@ -10,10 +10,9 @@
     "types": "./index.d.ts"
   },
   "dependencies": {
-    "tslib": "^2.0.1",
-    "@wdtk/core": "*"
+    "@wdtk/core": "*",
+    "tslib": "^2.0.1"
   },
-  "peerDependencies": {},
   "devDependencies": {
     "jest": "25.2.3"
   },
