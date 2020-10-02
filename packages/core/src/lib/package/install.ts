@@ -7,8 +7,6 @@ import { tmpdir } from 'os';
 import * as Path from 'path';
 import * as rimraf from 'rimraf';
 
-import { Logger } from '@wdtk/core/util';
-
 import { getPackageManagerArguments } from './manager';
 import { PackageManager } from './../config/schema';
 import { NgAddSaveDependency } from './types';
@@ -29,8 +27,7 @@ export async function installPackage(packageName: string, packageManager: Packag
   }
 
   const spawnOpts: SpawnOptions = {
-    stdio: 'pipe',
-    // stdio: 'inherit',
+    // stdio: isDebug ? 'inherit' : 'pipe',
     shell: true,
     cwd: opts.cwd || process.cwd(),
   };
@@ -38,7 +35,13 @@ export async function installPackage(packageName: string, packageManager: Packag
     const spinner = ora({ text: `Installing '${packageName}' using '${packageManager}'...`, discardStdin: process.platform !== 'win32' });
     spinner.start();
     const installProcess = spawn(packageManager, installArgs, spawnOpts);
-    installProcess.on('close', (code) => {
+    installProcess.stdout.on('data', (data) => {
+      // console.log(`stdout : ${data}`);
+    });
+    installProcess.stderr.on('data', (data) => {
+      // console.log(`stderr : ${data}`);
+    });
+    installProcess.on('exit', (code) => {
       if (code === 0) {
         spinner.succeed(`Successfully installed '${packageName}'.`);
         spinner.stop();
@@ -55,7 +58,7 @@ export async function installTempPackage(packageName: string, packageManager: Pa
   const tempPath = mkdtempSync(Path.join(realpathSync(tmpdir()), 'wdtk-temp-packages-'));
   process.on('exit', () => {
     try {
-      //   rimraf.sync(tempPath);
+      rimraf.sync(tempPath);
     } catch {}
   });
 

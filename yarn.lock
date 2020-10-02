@@ -1760,7 +1760,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@wdtk/angular@0.0.0, @wdtk/angular@workspace:packages/angular":
+"@wdtk/angular@workspace:packages/angular":
   version: 0.0.0-use.local
   resolution: "@wdtk/angular@workspace:packages/angular"
   dependencies:
@@ -1783,13 +1783,12 @@ __metadata:
   resolution: "@wdtk/cli@workspace:packages/cli"
   dependencies:
     "@angular/cli": ^10.1.3
-    "@wdtk/angular": 0.0.0
     "@wdtk/core": 0.0.0
-    "@wdtk/php": 0.0.0
     "@wdtk/workspace": 0.0.0
     cypress: ^5.2.0
     inquirer: ^7.3.3
     jest: 25.2.3
+    npm-package-arg: 8.0.1
     tslib: ^2.0.1
     typescript: ~4.0.3
   bin:
@@ -1804,10 +1803,13 @@ __metadata:
     "@angular-devkit/architect": ^0.1001.3
     "@angular-devkit/core": ^10.1.3
     "@angular-devkit/schematics": ^10.1.3
+    "@yarnpkg/lockfile": 1.1.0
     ansi-colors: 4.1.1
+    ini: 1.3.5
     inquirer: ^7.3.3
     jest: 25.2.3
     jsonc-parser: 2.3.0
+    pacote: 9.5.12
     semver: 5.7.1
     strip-json-comments: 3.1.1
     tslib: ^2.0.1
@@ -1851,7 +1853,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@wdtk/php@0.0.0, @wdtk/php@workspace:packages/php":
+"@wdtk/php@workspace:packages/php":
   version: 0.0.0-use.local
   resolution: "@wdtk/php@workspace:packages/php"
   dependencies:
