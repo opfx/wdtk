@@ -12,17 +12,23 @@ import { packages } from './../../lib/packages';
 
 import build from './build';
 
+const allowPublishTagValues = ['latest', 'next'];
+
 export interface PublishArgs {
   tag?: string;
   tagCheck?: boolean;
   registry?: string;
 }
 export default async function (args: PublishArgs, log: logging.Logger) {
-  log.info('Publishing...');
-  let { tag } = args;
-  if (!tag) {
-    tag = 'latest';
+  let publishTag = 'latest';
+  if (args['_'][0]) {
+    publishTag = args['_'][0];
   }
+  if (publishTag.length > 0 && !allowPublishTagValues.includes(publishTag)) {
+    log.error(`The value "${publishTag}" provided for "tag" is invalid. Valid values are: "${allowPublishTagValues.join('", "')}".`);
+    return 1;
+  }
+  log.info('Publishing...');
 
   await build({}, log.createChild('build'));
 
@@ -35,11 +41,8 @@ export default async function (args: PublishArgs, log: logging.Logger) {
       }
       return acc
         .then(() => {
-          log.info(`publishing package ${name} with version => ${name}@`);
-
-          //   const publishArgs = ['publish', '--tag', tag, '--registry', registry];
-          // const publishArgs = ['publish', '--tag', tag, '--tolerate-republish'];
-          const publishArgs = ['publish', '--tag', tag, '--access', 'public'];
+          log.info(`publishing package ${name}`);
+          const publishArgs = ['publish', '--tag', publishTag, '--access', 'public'];
           return exec('npm', publishArgs, { cwd: pkg.dist }, log);
         })
         .then((stdout: string) => {

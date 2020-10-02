@@ -1,0 +1,11 @@
+releases:
+
+
+undecided:
+  - "@wdtk/angular"
+  - "@wdtk/cli"
+  - "@wdtk/core"
+  - "@wdtk/cypress"
+  - "@wdtk/jest"
+  - "@wdtk/php"
+  - "@wdtk/workspace"

@@ -84,7 +84,7 @@
       "name": "admin (publish)",
       "skipFiles": ["<node_internals>/**"],
       "program": "${workspaceFolder}\\bin\\admin",
-      "args": ["publish"]
+      "args": ["publish", "next1"]
     },
     {
       "type": "node",
