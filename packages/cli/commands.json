@@ -2,6 +2,7 @@
   "generate": "./commands/generate/schema.json",
   "help": "./commands/help/schema.json",
   "remove": "./commands/remove/schema.json",
+  "natures": "./commands/natures/schema.json",
   "new": "./commands/new/schema.json",
   "start": "./commands/start/schema.json",
   "version": "./commands/version/schema.json"

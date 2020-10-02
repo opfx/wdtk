@@ -1,5 +1,6 @@
 import * as Inquirer from 'inquirer';
 import { Arguments, SchematicCommand, SubCommandDescriptor } from '@wdtk/core';
+import { JsonObject } from '@wdtk/core';
 import { parseJsonSchemaToOptions, parseJsonSchemaToSubCommandDescriptor } from '@wdtk/core';
 import { strings } from '@wdtk/core/util';
 
@@ -36,7 +37,8 @@ export class GenerateCommand extends SchematicCommand<GenerateCommandOptions> {
 
     const subCommands: { [name: string]: SubCommandDescriptor } = {};
 
-    const collectionNames: string[] = collectionName ? [collectionName] : availableCollectionNames;
+    // const collectionNames: string[] = collectionName ? [collectionName] : availableCollectionNames;
+    const collectionNames: string[] = collectionName ? [collectionName] : Object.keys(this.getAvailableNatures());
 
     for (const currentCollectionName of collectionNames) {
       const collection = this.getCollection(currentCollectionName);
@@ -81,11 +83,18 @@ export class GenerateCommand extends SchematicCommand<GenerateCommandOptions> {
   private async determineCollection(schematicName: string): Promise<string> {
     return new Promise<string>((resolve) => {
       const choices: any[] = [];
-      const addChoice = (collectionName) => {
+      const addChoicex = (collectionName) => {
         const shortCollectionName = collectionName.split('/')[1];
         choices.push({ name: strings.classify(shortCollectionName), value: collectionName });
       };
-      for (const collectionName of availableCollectionNames) {
+      const addChoice = (name: string, collectionName) => {
+        // const shortCollectionName = collectionName.split('/')[1];
+        choices.push({ name: name, value: collectionName });
+      };
+      const availableNatures = this.getAvailableNatures();
+      const availableNatureCollectionsNames = Object.keys(availableNatures);
+      // for (const collectionName of availableCollectionNames) {
+      for (const collectionName of availableNatureCollectionsNames) {
         const collection = this.getCollection(collectionName);
 
         const schematicNames = collection.listSchematicNames();
@@ -93,7 +102,7 @@ export class GenerateCommand extends SchematicCommand<GenerateCommandOptions> {
         // if the specified schematicName matches any of the long schematic names add it to
         // the list of choices and continue with the next collection
         if (schematicNames.some((name) => name === schematicName)) {
-          addChoice(collectionName);
+          addChoice(availableNatures[collectionName].name, collectionName);
           continue;
         }
         // if the specified schematicName does not match any of the names it might match
@@ -104,7 +113,8 @@ export class GenerateCommand extends SchematicCommand<GenerateCommandOptions> {
             continue;
           }
           if (schematic.description.aliases && schematic.description.aliases.some((alias) => alias === schematicName)) {
-            addChoice(collectionName);
+            // addChoice(collectionName);
+            addChoice(availableNatures[collectionName].name, collectionName);
             schematicName = schematic.description.name;
           }
         }
@@ -115,6 +125,23 @@ export class GenerateCommand extends SchematicCommand<GenerateCommandOptions> {
         }
       );
     });
+  }
+
+  private getAvailableNaturesA(): {} {
+    const workspace = this.getWorkspaceDefinition();
+    const result = workspace.extensions.natures || {};
+    return result;
+  }
+
+  private getAvailableNatures(): { [collectionName: string]: { name: string } } {
+    const result = {};
+    const workspace = this.getWorkspaceDefinition();
+    const natures = (workspace.extensions.natures as JsonObject) || {};
+
+    for (const nature in natures) {
+      result[nature] = natures[nature];
+    }
+    return result;
   }
 
   private async determineSchematic(): Promise<string> {

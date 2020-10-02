@@ -1,0 +1,53 @@
+{
+  "$schema": "http://json-schema.org/schema",
+  "$id": "wx-cli://commands/nature/schema.json",
+  "description": "Manages the natures to the workspace.",
+  "$longDescription": "./description.md",
+
+  "$scope": "in",
+  "$impl": "./index#NaturesCommand",
+
+  "type": "object",
+  "allOf": [
+    {
+      "properties": {
+        "operation": {
+          "enum": ["add", "list"],
+          "description": "What operation to perform (add, list).",
+          "$default": {
+            "$source": "argv",
+            "index": 0
+          }
+        },
+        "nature": {
+          "type": "string",
+          "description": "The nature to operate on.",
+          "$default": {
+            "$source": "argv",
+            "index": 1
+          }
+        },
+        "registry": {
+          "description": "The NPM registry to use.",
+          "type": "string",
+          "oneOf": [
+            {
+              "format": "uri"
+            },
+            {
+              "format": "hostname"
+            }
+          ]
+        },
+        "verbose": {
+          "description": "Display additional details about internal operations during execution.",
+          "type": "boolean",
+          "default": false
+        }
+      },
+      "required": []
+    },
+    { "$ref": "./../definitions.json#/definitions/interactive" },
+    { "$ref": "./../definitions.json#/definitions/base" }
+  ]
+}
