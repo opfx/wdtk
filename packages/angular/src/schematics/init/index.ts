@@ -1,7 +1,7 @@
 import { Rule, SchematicContext, Tree } from '@angular-devkit/schematics';
 import { chain, externalSchematic, noop } from '@angular-devkit/schematics';
 import { addWorkspaceDependencies, updateWorkspaceDefinition, NodeDependency, NodeDependencyType } from '@wdtk/core';
-import { readJsonInTree } from '@wdtk/core';
+import { formatFiles, readJsonInTree } from '@wdtk/core';
 
 import { versions } from './../../versions';
 
@@ -54,6 +54,7 @@ export default function (options: InitOptions): Rule {
       addE2eTestRunnerWorkspaceDependencies(options),
       addUnitTestRunnerWorkspaceDependencies(options),
       setupWorkspaceDefinition(options),
+      formatFiles(options),
     ]);
   };
 }
@@ -63,6 +64,12 @@ function setupWorkspaceDefinition(opts: InitOptions): Rule {
     return updateWorkspaceDefinition((workspace) => {
       if (!workspace.extensions.defaultPrefix || workspace.extensions.defaultPrefix === '') {
         workspace.extensions.defaultPrefix = opts.defaultPrefix;
+      }
+      if (!workspace.extensions.natures) {
+        workspace.extensions.natures = {};
+      }
+      if (!workspace.extensions.natures['@wdtk/angular']) {
+        workspace.extensions.natures['@wdtk/angular'] = { name: 'Angular' };
       }
     });
   };

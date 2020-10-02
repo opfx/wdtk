@@ -28,7 +28,7 @@ export default function (opts: LibraryOptions): Rule {
   return async (tree: Tree, ctx: SchematicContext) => {
     opts = await normalizeOptions(tree, opts);
     return chain([
-      schematic('init', opts),
+      schematic('init', { ...opts, skipFormat: true, skipInstall: true }),
       opts.wrapperApp ? schematic('application', { ...opts, skipFormat: true }) : noop(),
       addLibraryToWorkspaceDefinition(opts),
       generateFiles(opts),

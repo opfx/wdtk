@@ -27,7 +27,7 @@ export default function (opts: ApplicationOptions): Rule {
     opts = await normalizeOptions(tree, opts);
 
     return chain([
-      schematic('init', { ...opts }),
+      schematic('init', { ...opts, skipFormat: true, skipInstall: true }),
       angularAppSchematic(opts),
       // adjust the tslint.json; from angular 10 it seems the generated tslint.json
       // for the application is a full copy of the root tslint.json
