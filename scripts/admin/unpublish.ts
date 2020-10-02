@@ -37,11 +37,15 @@ export default async function (args: PublishArgs, log: logging.Logger) {
           }
           log.info(`unpublishing package ${fullyQualifiedPackageName}`);
 
-          const publishArgs = ['unpublish', `${fullyQualifiedPackageName}`];
+          const publishArgs = ['unpublish', `${fullyQualifiedPackageName}`, '--force'];
+
           return exec('npm', publishArgs, { cwd: pkg.dist }, log);
         })
         .then((stdout: string) => {
           log.info(stdout);
+        })
+        .catch((err) => {
+          // do nothing
         });
     }, Promise.resolve())
     .then(
