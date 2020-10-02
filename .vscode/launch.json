@@ -13,7 +13,7 @@
       "cwd": "${workspaceFolder}/../work/workspace",
       "console": "integratedTerminal",
       // "args": ["nature", "add", "php12", "--verbose"],
-      "args": ["natures", "list", "php12", "--verbose"],
+      "args": ["natures", "add", "angular", "--verbose"],
       "env": { "WX_DEBUG": "true", "WX_DISABLE_VERSION_CHECK": "true" }
     },
     {
