@@ -16,6 +16,7 @@
     "Codelyzer",
     "dasherize",
     "devkit",
+    "pacote",
     "wdtk"
   ],
   "cSpell.ignorePaths": [

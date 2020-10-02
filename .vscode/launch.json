@@ -34,6 +34,18 @@
     {
       "type": "node",
       "request": "launch",
+      "name": "wx (natures)",
+      "skipFiles": ["<node_internals>/**"],
+      "program": "${workspaceFolder}/bin/wx",
+      "cwd": "${workspaceFolder}/../work/workspace",
+      "console": "integratedTerminal",
+      // "args": ["nature", "add", "php12", "--verbose"],
+      "args": ["natures", "list", "php12", "--verbose"],
+      "env": { "WX_DEBUG": "true", "WX_DISABLE_VERSION_CHECK": "true" }
+    },
+    {
+      "type": "node",
+      "request": "launch",
       "name": "wx (new)",
       "skipFiles": ["<node_internals>/**"],
       "program": "${workspaceFolder}/bin/wx",
@@ -55,9 +67,9 @@
       // "args": ["generate", "--dry-run", "--verbose"],
       // "args": ["generate", "@wdtk/angular:app", "sample1", "--verbose", "--directory", "apps/sample"],
       //"args": ["generate", "@wdtk/angular:app", "WShop", "--verbose"],
-      "args": ["generate", "app", "play", "--verbose"],
-      // "args": ["generate", "@wdtk/angulars:app", "--help"],
-      // "args": ["generate"],
+      // "args": ["generate", "app", "play", "--verbose"],
+      // "args": ["generate", "@wdtk/angular:app", "play", "--verbose"],
+      "args": ["generate", "--help"],
       "env": { "WX_DEBUG": "true", "WX_DISABLE_VERSION_CHECK": "true" }
     },
     {
