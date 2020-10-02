@@ -1,8 +1,8 @@
 import { Rule, SchematicContext, Tree } from '@angular-devkit/schematics';
 import { apply, applyTemplates, chain, externalSchematic, filter, mergeWith, move, noop, schematic, url } from '@angular-devkit/schematics';
 
-import { formatFiles, getWorkspaceDefinition, normalizeProjectName, normalizePackageName, offsetFromRoot } from '@wdtk/core';
-import { updateJsonInTree, updateWorkspaceDefinition } from '@wdtk/core';
+import { addInstallTask, formatFiles, getWorkspaceDefinition } from '@wdtk/core';
+import { normalizeProjectName, normalizePackageName, offsetFromRoot, updateJsonInTree, updateWorkspaceDefinition } from '@wdtk/core';
 import { addProjectDependencies, addWorkspaceDependencies, NodeDependency, NodeDependencyType } from '@wdtk/core';
 import { strings } from '@wdtk/core/util';
 
@@ -38,6 +38,7 @@ export default function (opts: LibraryOptions): Rule {
       setupUnitTestRunner(opts),
       opts.skipTsConfig ? noop() : adjustWorkspaceTsConfig(opts),
       formatFiles(opts),
+      addTasks(opts),
     ]);
   };
 }
@@ -58,6 +59,12 @@ async function normalizeOptions(tree: Tree, opts: Partial<LibraryOptions>): Prom
   }
 
   return { ...opts, projectRoot, packageName };
+}
+
+function addTasks(opts: LibraryOptions): Rule {
+  return (tree: Tree, ctx: SchematicContext) => {
+    return addInstallTask(opts);
+  };
 }
 
 // templates to be filtered out if a wrapper application was created
