@@ -68,7 +68,6 @@ export class NaturesCommand extends SchematicCommand<NaturesCommandOptions> {
       return 1;
     }
     // should the package providing the nature needs to be installed
-    let skipInstall = false;
     if (packageIdentifier.registry && this.isPackageInstalled(packageIdentifier.name)) {
       let validVersion = false;
       const installedVersion = await this.findPackageVersion(packageIdentifier.name);
@@ -90,21 +89,19 @@ export class NaturesCommand extends SchematicCommand<NaturesCommandOptions> {
       }
 
       if (validVersion) {
-        this.logger.info(`Skipping installation: nature '${options.nature}' (${packageIdentifier.name})' is already installed.`);
-        skipInstall = true;
+        this.logger.info(`Nature '${options.nature}' (${packageIdentifier.name})' is already installed.`);
+        return 0;
       }
     }
 
     this.collectionName = packageIdentifier.name;
 
-    if (!skipInstall) {
-      try {
-        await this.installPackage(packageIdentifier, options);
-      } catch (e) {
-        this.logger.error(e.message);
-        this.logger.error(`Failed to add '${options.nature}' nature.`);
-        return 1;
-      }
+    try {
+      await this.installPackage(packageIdentifier, options);
+    } catch (e) {
+      this.logger.error(e.message);
+      this.logger.error(`Failed to add '${options.nature}' nature.`);
+      return 1;
     }
 
     const result = await this.executeSchematic(this.collectionName, options['--']);
