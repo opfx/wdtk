@@ -2,7 +2,7 @@ import { normalize } from '@angular-devkit/core';
 import { Rule, SchematicContext, Tree } from '@angular-devkit/schematics';
 import { apply, applyTemplates, chain, externalSchematic, move, mergeWith, noop, schematic, url } from '@angular-devkit/schematics';
 
-import { formatFiles, getWorkspaceDefinition, getWorkspaceDefinitionPath, offsetFromRoot } from '@wdtk/core';
+import { formatFiles, getWorkspaceDefinition, getWorkspaceDefinitionPath, offsetFromRoot, addInstallTask } from '@wdtk/core';
 import { normalizeProjectName, normalizePackageName, readJsonInTree, updateJsonInTree, updateWorkspaceDefinition } from '@wdtk/core';
 import { strings } from '@wdtk/core/util';
 
@@ -52,6 +52,7 @@ export default function (opts: ApplicationOptions): Rule {
       setupE2eTestRunner(opts),
       adjustProjectDefinition(opts),
       formatFiles(opts),
+      addTasks(opts),
     ]);
   };
 }
@@ -111,7 +112,11 @@ function generateFiles(opts: ApplicationOptions): Rule {
     ]);
   };
 }
-
+function addTasks(opts: ApplicationOptions): Rule {
+  return (tree: Tree, ctx: SchematicContext) => {
+    return chain([addInstallTask(opts)]);
+  };
+}
 function adjustProjectDefinition(opts: ApplicationOptions): Rule {
   if (opts.name === opts.name.toLowerCase()) {
     return noop();
