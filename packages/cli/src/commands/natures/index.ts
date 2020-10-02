@@ -90,7 +90,7 @@ export class NaturesCommand extends SchematicCommand<NaturesCommandOptions> {
       }
 
       if (validVersion) {
-        this.logger.info(`Skipping installation: package ${packageIdentifier.name} is already installed.`);
+        this.logger.info(`Skipping installation: nature '${options.nature}' (${packageIdentifier.name})' is already installed.`);
         skipInstall = true;
       }
     }
