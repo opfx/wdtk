@@ -1,6 +1,9 @@
 import { execSync } from 'child_process';
 import { existsSync } from 'fs';
 import * as Path from 'path';
+import { JsonValue } from '../json';
+import { isJsonObject } from '../json';
+import { getWorkspaceDefinition } from '../workspace';
 
 import { PackageManager } from './../config/schema';
 
@@ -58,9 +61,20 @@ export async function getPackageManager(path: string): Promise<PackageManager> {
 }
 
 export async function getConfiguredPackageManager(): Promise<PackageManager | null> {
-  // FIXME
-  // return PackageManager.Yarn;
-  return null;
+  const getPackageManager = (source: JsonValue | undefined) => {
+    if (isJsonObject(source)) {
+      const value = source['packageManager'];
+      if (value && typeof value === 'string') {
+        return value;
+      }
+    }
+  };
+  let result: string | undefined | null;
+  const workspace = await getWorkspaceDefinition();
+  if (workspace) {
+    result = getPackageManager(workspace.extensions['cli']);
+  }
+  return (result as PackageManager) ?? null;
 }
 
 function supports(name: string): boolean {
