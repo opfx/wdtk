@@ -8,17 +8,21 @@ import { Schema as InitOptions } from './schema';
 export default function (opts: Partial<InitOptions>): Rule {
   return async (tree: Tree, ctx: SchematicContext) => {
     opts = await normalizeOptions(tree, opts);
-    return chain([registerNature(), formatFiles(opts)]);
+    return chain([setupWorkspaceDefinition(opts), formatFiles(opts)]);
   };
 }
 
-function registerNature(): Rule {
-  return updateWorkspaceDefinition((workspace) => {
-    if (!workspace.extensions.natures) {
-      workspace.extensions.natures = {};
-    }
-    workspace.extensions.natures['PHP'] = { collectionName: '@wdtk/php' };
-  });
+function setupWorkspaceDefinition(opts: InitOptions): Rule {
+  return async (tree: Tree, ctx: SchematicContext) => {
+    return updateWorkspaceDefinition((workspace) => {
+      if (!workspace.extensions.natures) {
+        workspace.extensions.natures = {};
+      }
+      if (!workspace.extensions.natures['@wdtk/php']) {
+        workspace.extensions.natures['@wdtk/php'] = { name: 'PHP' };
+      }
+    });
+  };
 }
 
 function normalizeOptions(tree: Tree, opts: Partial<InitOptions>): InitOptions {

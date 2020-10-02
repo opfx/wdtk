@@ -5,13 +5,13 @@
   "type": "object",
   "description": "Adds PHP support to the workspace.",
   "properties": {
-    "skipInstall": {
-      "description": "Skip installing dependencies",
+    "skipFormat": {
+      "description": "Skip formatting files.",
       "type": "boolean",
       "default": false
     },
-    "skipFormat": {
-      "description": "Skip formatting files.",
+    "skipInstall": {
+      "description": "Skip installing dependencies",
       "type": "boolean",
       "default": false
     }
