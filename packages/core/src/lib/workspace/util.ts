@@ -7,7 +7,7 @@ import { findUp } from '@wdtk/core/util';
 import { WorkspaceDefinition } from './types';
 
 const configFiles = ['.angular.json', 'angular.json'];
-const cachedWorkspaces = new Map<string, WorkspaceDefinition | null>();
+// const cachedWorkspaces = new Map<string, WorkspaceDefinition | null>();
 
 export function getWorkspaceDefinitionPath(tree: Tree) {
   // const configFiles = ['.angular.json', 'angular.json'];
@@ -46,14 +46,14 @@ export async function getWorkspaceDefinition(tree: Tree | string = null, path = 
   if (!path) {
     return null;
   }
-  const cached = cachedWorkspaces.get(path);
-  if (cached) {
-    return cached;
-  }
+  // const cached = cachedWorkspaces.get(path);
+  // if (cached) {
+  //   return cached;
+  // }
 
   const { workspace } = await workspaces.readWorkspace(path, host);
 
-  cachedWorkspaces.set(path, workspace);
+  // cachedWorkspaces.set(path, workspace);
 
   return workspace;
 }
