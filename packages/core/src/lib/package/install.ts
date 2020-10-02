@@ -29,8 +29,8 @@ export async function installPackage(packageName: string, packageManager: Packag
   }
 
   const spawnOpts: SpawnOptions = {
-    // stdio: 'pipe',
-    stdio: 'inherit',
+    stdio: 'pipe',
+    // stdio: 'inherit',
     shell: true,
     cwd: opts.cwd || process.cwd(),
   };
