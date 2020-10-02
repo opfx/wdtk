@@ -8,6 +8,13 @@
       "factory": "./schematics/application/index",
       "schema": "./schematics/application/schema.json"
     },
+    "init": {
+      "aliases": ["ng-add"],
+      "description": "Adds PHP nature to the workspace.",
+      "factory": "./schematics/init/index",
+      "schema": "./schematics/init/schema.json",
+      "hidden": true
+    },
     "library": {
       "aliases": ["lib"],
       "description": "Creates a PHP library.",
