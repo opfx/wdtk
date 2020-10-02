@@ -70,6 +70,9 @@ export default async function (argv: { local?: boolean; snapshot?: boolean }, lo
         if (filename === 'package.json') {
           return false;
         }
+        if (filename === 'jest.config.js') {
+          return false;
+        }
         // skip node_modules
         if (/(?:^|[\/\\])node_modules[\/\\]/.test(filename)) {
           return false;
