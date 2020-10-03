@@ -1,0 +1,20 @@
+{
+  "$schema": "http://json-schema.org/schema",
+  "id": "WdtkNestSchematicsApplication",
+  "title": "Nest Init Options Schema",
+  "type": "object",
+  "description": "Adds Nest (NestJS) nature the workspace.",
+  "properties": {
+    "skipFormat": {
+      "description": "Skip formatting files.",
+      "type": "boolean",
+      "default": false
+    },
+    "skipInstall": {
+      "description": "Skip installing dependencies",
+      "type": "boolean",
+      "default": false
+    }
+  },
+  "required": []
+}

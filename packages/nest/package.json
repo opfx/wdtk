@@ -1,0 +1,24 @@
+{
+  "name": "@wdtk/nest",
+  "version": "0.0.0",
+  "main": "./src/index.ts",
+  "schematics": "./src/collection.json",
+  "scripts": {},
+  "publishConfig": {
+    "schematics": "./collection.json",
+    "main": "index.js",
+    "types": "./index.d.ts"
+  },
+  "dependencies": {
+    "@wdtk/core": "*",
+    "tslib": "^2.0.1"
+  },
+  "devDependencies": {
+    "jest": "25.2.3"
+  },
+  "comments": {
+    "dependencies": {
+      "@angular-devkit/schematics": "^10.1.3"
+    }
+  }
+}

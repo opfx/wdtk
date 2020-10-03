@@ -1,0 +1,20 @@
+{
+  "$schema": "http://json-schema.org/schema",
+  "id": "WdtkNestSchematicsLibrary",
+  "title": "Nest Library Options Schema",
+  "type": "object",
+  "description": "Generates a new Nest (NestJS) library in the workspace.",
+  "properties": {
+    "name": {
+      "description": "The name of the library.",
+      "type": "string",
+      "format": "html-selector",
+      "$default": {
+        "$source": "argv",
+        "index": 0
+      },
+      "x-prompt": "What name would you like to use for the Nest library?"
+    }
+  },
+  "required": ["name"]
+}
