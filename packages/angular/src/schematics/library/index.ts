@@ -86,6 +86,7 @@ function generateFiles(opts: LibraryOptions): Rule {
       opts.prefix = workspace.extensions.defaultPrefix as string;
     }
     const srcDir = `${opts.projectRoot}/src/lib`;
+    const distDir = `dist/${opts.name}`;
     return chain([
       mergeWith(
         apply(url('./files'), [
@@ -93,6 +94,7 @@ function generateFiles(opts: LibraryOptions): Rule {
           opts.unitTestRunner !== 'karma' ? filter(karmaPathFilter) : noop(),
           applyTemplates({
             ...opts,
+            distRoot: distDir,
             offsetFromRoot: offsetFromRoot(opts.projectRoot),
             dasherize: strings.dasherize,
             camelize: strings.camelize,

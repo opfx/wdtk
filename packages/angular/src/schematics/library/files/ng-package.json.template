@@ -1,0 +1,7 @@
+{
+  "$schema": "<%= offsetFromRoot %>/node_modules/ng-packagr/ng-package.schema.json",
+  "dest": "<%= offsetFromRoot %>/<%= distRoot %>",
+  "lib": {
+    "entryFile": "src/<%= entryFile %>.ts"
+  }
+}
