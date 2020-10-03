@@ -60,7 +60,7 @@ describe(`cypress project schematic`, () => {
   it(`should generate required files by cypress`, async () => {
     const tree = await runSchematic({ project: 'test-project' });
     expect(tree.exists('test-project/cypress.json')).toBeTruthy();
-    expect(tree.exists('test-project/tsconfig.e2e.json')).toBeTruthy();
+    expect(tree.exists('test-project/e2e/tsconfig.json')).toBeTruthy();
 
     expect(tree.exists('test-project/e2e/integration/app.spec.ts')).toBeTruthy();
     expect(tree.exists('test-project/e2e/plugins/index.js')).toBeTruthy();
@@ -76,7 +76,7 @@ describe(`cypress project schematic`, () => {
     const target = project.targets.get('e2e');
     expect(target.builder).toEqual('@wdtk/cypress:cypress');
     expect(target.options.cypressConfig).toEqual('test-project/cypress.json');
-    expect(target.options.tsConfig).toEqual('test-project/tsconfig.e2e.json');
+    expect(target.options.tsConfig).toEqual('test-project/e2e/tsconfig.json');
     expect(target.options.devServerTarget).toEqual('test-project:serve');
   });
 
@@ -85,16 +85,7 @@ describe(`cypress project schematic`, () => {
     const workspace = await getWorkspaceDefinition(tree);
     const project = workspace.projects.get('test-project');
     const target = project.targets.get('lint');
-    expect(target.options.tsConfig).toContain('test-project/tsconfig.e2e.json');
-  });
-
-  it(`should add cypress tsconfig to project's tsconfig references`, async () => {
-    const tree = await runSchematic({ project: 'test-project' });
-    const tsConfig = getJsonFileContent(tree, 'test-project/tsconfig.json');
-    const referenceExists = tsConfig.references.some((reference) => {
-      return reference.path.includes('tsconfig.e2e.json');
-    });
-    expect(referenceExists).toEqual(true);
+    expect(target.options.tsConfig).toContain('test-project/e2e/tsconfig.json');
   });
 
   it(`empty`, async () => {});

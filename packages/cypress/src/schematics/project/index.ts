@@ -1,9 +1,8 @@
-import { join, normalize } from '@angular-devkit/core';
+import { normalize } from '@angular-devkit/core';
 import { Rule, SchematicContext, SchematicsException, Tree } from '@angular-devkit/schematics';
 import { apply, applyTemplates, chain, mergeWith, move, schematic, url } from '@angular-devkit/schematics';
 
-import { updateWorkspaceDefinition, offsetFromRoot, getProjectDefinition, getWorkspaceDefinition, updateJsonInTree } from '@wdtk/core';
-import { tags } from '@wdtk/core/util';
+import { updateWorkspaceDefinition, offsetFromRoot, getProjectDefinition, getWorkspaceDefinition } from '@wdtk/core';
 
 import { Schema } from './schema';
 
@@ -17,7 +16,6 @@ export default function (opts: ProjectOptions): Rule {
     return chain([
       schematic('init', { ...opts }), //
       checkTestTargetDoesNotExist(opts),
-      setupTsConfig(opts),
       setupWorkspaceDefinition(opts),
       generateFiles(opts),
     ]);
@@ -30,23 +28,6 @@ function checkTestTargetDoesNotExist(opts: ProjectOptions): Rule {
     if (project.targets.get('e2e')) {
       throw new SchematicsException(`The ${opts.project} already has a 'e2e' target.`);
     }
-  };
-}
-
-function setupTsConfig(opts: ProjectOptions): Rule {
-  return (tree: Tree, ctx: SchematicContext) => {
-    const tsProjectConfigFile = join(normalize(opts.projectRoot), 'tsconfig.json');
-    if (!tree.exists(tsProjectConfigFile)) {
-      throw new SchematicsException(tags.stripIndents`
-      Failed to locate ${tsProjectConfigFile}. Please create it.
-      `);
-    }
-    return updateJsonInTree(tsProjectConfigFile, (tsConfig) => {
-      if (tsConfig.references) {
-        tsConfig.references.push({ path: './tsconfig.e2e.json' });
-      }
-      return tsConfig;
-    });
   };
 }
 
@@ -73,7 +54,7 @@ function setupWorkspaceDefinition(opts: ProjectOptions): Rule {
     }
     const root = normalize(project.root);
     const config = `${root}/cypress.json`;
-    const e2eTsConfig = `${root}/tsconfig.e2e.json`;
+    const e2eTsConfig = `${root}/e2e/tsconfig.json`;
 
     project.targets.add({
       name: 'e2e',
