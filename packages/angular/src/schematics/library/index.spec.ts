@@ -89,7 +89,7 @@ describe(`angular library schematic`, () => {
       expect(tsConfig.compilerOptions.paths['@empty/test-lib']).toBeDefined();
       expect(Array.isArray(tsConfig.compilerOptions.paths['@empty/test-lib']));
 
-      expect(tsConfig.compilerOptions.paths['@empty/test-lib']).toEqual(expect.arrayContaining(['/libs/test-lib/src/public-api.ts']));
+      expect(tsConfig.compilerOptions.paths['@empty/test-lib']).toEqual(expect.arrayContaining(['libs/test-lib/src/public-api.ts']));
     });
   });
 

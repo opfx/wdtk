@@ -35,6 +35,7 @@ export default function (opts: LibraryOptions): Rule {
 
       addProjectDependencies(opts.name, projectDependencies),
       addWorkspaceDependencies(workspaceDependencies),
+      adjustProjectTsConfig(opts),
       setupUnitTestRunner(opts),
       opts.skipTsConfig ? noop() : adjustWorkspaceTsConfig(opts),
       formatFiles(opts),
@@ -179,6 +180,21 @@ function addLibraryToWorkspaceDefinition(opts: LibraryOptions): Rule {
   return updateWorkspaceDefinition((workspace) => {
     workspace.projects.add(projectDefinition);
   });
+}
+
+function adjustProjectTsConfig(opts: LibraryOptions): Rule {
+  return (tree: Tree, ctx: SchematicContext) => {
+    if (!tree.exists(`${opts.projectRoot}/tsconfig.json`)) {
+      return tree;
+    }
+    return updateJsonInTree(`${opts.projectRoot}/tsconfig.json`, (tsConfig) => {
+      if (!tsConfig.references) {
+        tsConfig.references = [];
+      }
+
+      tsConfig.references.push({ path: './tsconfig.lib.json' });
+    });
+  };
 }
 
 function adjustWorkspaceTsConfig(opts: LibraryOptions): Rule {
