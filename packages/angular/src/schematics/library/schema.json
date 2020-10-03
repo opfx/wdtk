@@ -52,11 +52,11 @@
       "description": "Test runner to use for unit tests",
       "default": "jest"
     },
-    "wrapperApp": {
+    "sandboxApp": {
       "type": "boolean",
-      "description": "When true, creates a wrapper application.",
+      "description": "When true, creates a sandbox application.",
       "default": false,
-      "x-prompt": "Would you like to add a wrapper application?"
+      "x-prompt": "Would you like to add a sandbox application?"
     }
   }
 }

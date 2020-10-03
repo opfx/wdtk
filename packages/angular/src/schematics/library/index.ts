@@ -29,7 +29,7 @@ export default function (opts: LibraryOptions): Rule {
     opts = await normalizeOptions(tree, opts);
     return chain([
       schematic('init', { ...opts, skipFormat: true, skipInstall: true }),
-      opts.wrapperApp ? schematic('application', { ...opts, skipFormat: true }) : noop(),
+      opts.sandboxApp ? schematic('application', { ...opts, skipFormat: true }) : noop(),
       addLibraryToWorkspaceDefinition(opts),
       generateFiles(opts),
 
@@ -69,7 +69,7 @@ function addTasks(opts: LibraryOptions): Rule {
 }
 
 // templates to be filtered out if a wrapper application was created
-function wrapperAppPathFilter(path: string): boolean {
+function sandboxAppPathFilter(path: string): boolean {
   const toRemoveList = /(karma.conf.js|package.json|test.ts|tsconfig.json|tsconfig.spec.json|tslint.json).template$/;
 
   return !toRemoveList.test(path);
@@ -91,7 +91,7 @@ function generateFiles(opts: LibraryOptions): Rule {
     return chain([
       mergeWith(
         apply(url('./files'), [
-          opts.wrapperApp ? filter(wrapperAppPathFilter) : noop(),
+          opts.sandboxApp ? filter(sandboxAppPathFilter) : noop(),
           opts.unitTestRunner !== 'karma' ? filter(karmaPathFilter) : noop(),
           applyTemplates({
             ...opts,
@@ -134,7 +134,7 @@ function generateFiles(opts: LibraryOptions): Rule {
 function addLibraryToWorkspaceDefinition(opts: LibraryOptions): Rule {
   // if the library has a wrapper application, the application schematic
   // will create the project definition
-  if (opts.wrapperApp) {
+  if (opts.sandboxApp) {
     return noop();
   }
 
@@ -215,7 +215,7 @@ function adjustWorkspaceTsConfig(opts: LibraryOptions): Rule {
 }
 
 function setupUnitTestRunner(opts: LibraryOptions): Rule {
-  if (opts.unitTestRunner !== 'jest' || opts.wrapperApp) {
+  if (opts.unitTestRunner !== 'jest' || opts.sandboxApp) {
     return noop();
   }
 
