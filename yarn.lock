@@ -1839,7 +1839,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@wdtk/jest@0.0.0, @wdtk/jest@workspace:packages/jest":
+"@wdtk/jest@*, @wdtk/jest@0.0.0, @wdtk/jest@workspace:packages/jest":
   version: 0.0.0-use.local
   resolution: "@wdtk/jest@workspace:packages/jest"
   dependencies:
@@ -1858,6 +1858,17 @@ __metadata:
   resolution: "@wdtk/nest@workspace:packages/nest"
   dependencies:
     "@wdtk/core": "*"
+    jest: 25.2.3
+    tslib: ^2.0.1
+  languageName: unknown
+  linkType: soft
+
+"@wdtk/node@workspace:packages/node":
+  version: 0.0.0-use.local
+  resolution: "@wdtk/node@workspace:packages/node"
+  dependencies:
+    "@wdtk/core": "*"
+    "@wdtk/jest": "*"
     jest: 25.2.3
     tslib: ^2.0.1
   languageName: unknown

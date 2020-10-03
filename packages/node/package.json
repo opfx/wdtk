@@ -1,5 +1,5 @@
 {
-  "name": "@wdtk/nest",
+  "name": "@wdtk/node",
   "version": "0.0.0",
   "main": "./src/index.ts",
   "schematics": "./src/collection.json",
@@ -11,6 +11,7 @@
   },
   "dependencies": {
     "@wdtk/core": "*",
+    "@wdtk/jest": "*",
     "tslib": "^2.0.1"
   },
   "peerDependencies": {

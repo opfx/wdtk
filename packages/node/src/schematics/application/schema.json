@@ -1,0 +1,26 @@
+{
+  "$schema": "http://json-schema.org/schema",
+  "id": "WdtkNodeSchematicsApplication",
+  "title": "Node Application Options Schema",
+  "type": "object",
+  "description": "Generates a new Node application in the workspace.",
+  "properties": {
+    "name": {
+      "description": "The name of the application.",
+      "type": "string",
+      "format": "html-selector",
+      "$default": {
+        "$source": "argv",
+        "index": 0
+      },
+      "x-prompt": "What name would you like to use for the Node application?"
+    },
+    "unitTestRunner": {
+      "description": "Adds the specified unit test runner",
+      "type": "string",
+      "enum": ["jest", "none"],
+      "default": "jest"
+    }
+  },
+  "required": ["name"]
+}
