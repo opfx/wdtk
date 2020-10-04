@@ -5,5 +5,6 @@ module.exports = {
   },
   preset: 'ts-jest',
   testEnvironment: 'node',
-  modulePathIgnorePatterns: ["<rootDir>/target/"]
+  modulePathIgnorePatterns: ["<rootDir>/target/"],
+  resolver: "<rootDir>/scripts/tools/jest-resolver.js"
 };
