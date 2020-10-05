@@ -15,6 +15,10 @@
       },
       "x-prompt": "What name would you like to use for the Node application?"
     },
+    "directory": {
+      "description": "The directory of the new application.",
+      "type": "string"
+    },
     "unitTestRunner": {
       "description": "Adds the specified unit test runner",
       "type": "string",
