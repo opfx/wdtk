@@ -2,6 +2,7 @@ import { Rule, SchematicContext, Tree } from '@angular-devkit/schematics';
 import { chain, externalSchematic, noop } from '@angular-devkit/schematics';
 import { addWorkspaceDependencies, formatFiles } from '@wdtk/core';
 import { NodeDependency, NodeDependencyType } from '@wdtk/core';
+import { updateWorkspaceDefinition } from '@wdtk/core';
 
 import { Schema } from './schema';
 import { UnitTestRunner } from './schema';
@@ -18,15 +19,26 @@ export default function (opts: InitOptions): Rule {
   return async (tree: Tree, ctx: SchematicContext) => {
     opts = await normalizeOptions(tree, opts);
     return chain([
+      externalSchematic('@wdtk/workspace', 'typescript', { skipInstall: true }), //
       opts.unitTestRunner === UnitTestRunner.Jest ? externalSchematic('@wdtk/jest', 'init', opts) : noop(),
-      addDependencies(opts),
+      addWorkspaceDependencies(workspaceDependencies),
+      setupWorkspaceDefinition(opts),
       formatFiles(opts),
     ]);
   };
 }
 
-function addDependencies(opts: InitOptions): Rule {
-  return addWorkspaceDependencies(workspaceDependencies);
+function setupWorkspaceDefinition(opts: InitOptions): Rule {
+  return async (tree: Tree, ctx: SchematicContext) => {
+    return updateWorkspaceDefinition((workspace) => {
+      if (!workspace.extensions.natures) {
+        workspace.extensions.natures = {};
+      }
+      if (!workspace.extensions.natures['@wdtk/node']) {
+        workspace.extensions.natures['@wdtk/node'] = { name: 'Node' };
+      }
+    });
+  };
 }
 
 async function normalizeOptions(tree: Tree, opts: InitOptions): Promise<InitOptions> {
