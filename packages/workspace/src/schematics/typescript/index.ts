@@ -34,6 +34,11 @@ const workspaceDependencies: NodeDependency[] = [
     version: versions.TsLint,
   },
   {
+    name: '@angular-devkit/build-angular',
+    type: NodeDependencyType.Dev,
+    version: versions.AngularBuild,
+  },
+  {
     name: 'typescript',
     type: NodeDependencyType.Dev,
     version: versions.Typescript,

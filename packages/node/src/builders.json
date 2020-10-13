@@ -5,6 +5,11 @@
       "implementation": "./builders/build/index",
       "schema": "./builders/build/schema.json",
       "description": "Build a Node application."
+    },
+    "execute": {
+      "implementation": "./builders/execute/index",
+      "schema": "./builders/execute/schema.json",
+      "description": "Execute a Node application."
     }
   }
 }

@@ -28,6 +28,7 @@ function localWorkspaceDefinitionPath(): string | null {
  * @param path
  */
 export async function getWorkspaceDefinition(): Promise<WorkspaceDefinition>;
+export async function getWorkspaceDefinition(path: string): Promise<WorkspaceDefinition>;
 export async function getWorkspaceDefinition(tree: Tree): Promise<WorkspaceDefinition>;
 export async function getWorkspaceDefinition(tree: Tree, path: string): Promise<WorkspaceDefinition>;
 export async function getWorkspaceDefinition(tree: Tree | string = null, path = '/'): Promise<WorkspaceDefinition> {
