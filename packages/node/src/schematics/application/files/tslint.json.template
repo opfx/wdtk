@@ -1,0 +1,3 @@
+{
+  "extends": "<%= offsetFromRoot %>/tslint.json"
+}
