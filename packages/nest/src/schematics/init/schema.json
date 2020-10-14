@@ -14,6 +14,12 @@
       "description": "Skip installing dependencies",
       "type": "boolean",
       "default": false
+    },
+    "unitTestRunner": {
+      "description": "Adds the specified unit test runner",
+      "type": "string",
+      "enum": ["jest", "none"],
+      "default": "jest"
     }
   },
   "required": []

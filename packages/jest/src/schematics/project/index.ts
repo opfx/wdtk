@@ -9,6 +9,8 @@ import { tags } from '@wdtk/core/util';
 
 import { Schema } from './schema';
 
+import { addPropertyToJestConfig } from './../../util/config';
+
 export interface ProjectOptions extends Schema {
   projectRoot: string;
 }
@@ -22,6 +24,7 @@ export default function (opts: ProjectOptions): Rule {
       generateFiles(opts),
       setupTsConfig(opts),
       setupWorkspaceDefinition(opts),
+      setupWorkspaceJestConfig(opts),
     ]);
   };
 }
@@ -49,6 +52,13 @@ function setupTsConfig(opts: ProjectOptions): Rule {
       }
       return tsConfig;
     });
+  };
+}
+
+function setupWorkspaceJestConfig(opts: ProjectOptions): Rule {
+  return async (tree: Tree, ctx: SchematicContext) => {
+    const project = await getProjectDefinition(tree, opts.project);
+    addPropertyToJestConfig(tree, 'jest.config.js', 'projects', `<rootDir>/${project.root}`);
   };
 }
 
