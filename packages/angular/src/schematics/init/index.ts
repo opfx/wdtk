@@ -1,7 +1,7 @@
 import { Rule, SchematicContext, Tree } from '@angular-devkit/schematics';
 import { chain, externalSchematic, noop } from '@angular-devkit/schematics';
 import { addWorkspaceDependencies, updateWorkspaceDefinition, NodeDependency, NodeDependencyType } from '@wdtk/core';
-import { formatFiles, readJsonInTree } from '@wdtk/core';
+import { addInstallTask, formatFiles, readJsonInTree } from '@wdtk/core';
 
 import { versions } from './../../versions';
 
@@ -46,15 +46,16 @@ const karmaWorkspaceDependencies: NodeDependency[] = [
   { name: '@types/jasmine', type: NodeDependencyType.Dev, version: versions.JasmineTypes },
 ];
 
-export default function (options: InitOptions): Rule {
+export default function (opts: InitOptions): Rule {
   return (tree: Tree, ctx: SchematicContext) => {
     return chain([
       externalSchematic('@wdtk/workspace', 'typescript', { skipInstall: true }), //
       addWorkspaceDependencies(workspaceDependencies),
-      addE2eTestRunnerWorkspaceDependencies(options),
-      addUnitTestRunnerWorkspaceDependencies(options),
-      setupWorkspaceDefinition(options),
-      formatFiles(options),
+      addE2eTestRunnerWorkspaceDependencies(opts),
+      addUnitTestRunnerWorkspaceDependencies(opts),
+      setupWorkspaceDefinition(opts),
+      formatFiles(opts),
+      addInstallTask(opts),
     ]);
   };
 }

@@ -5,15 +5,16 @@ import { getWorkspaceDefinition, updateWorkspaceDefinition } from '@wdtk/core';
 import { createEmptyWorkspace, getJsonFileContent } from '@wdtk/core/testing';
 
 import { Schema as InitOptions } from './schema';
+import { E2ETestRunner, UnitTestRunner } from './schema';
 
 const schematicCollection = '@wdtk/angular';
 const schematicName = 'init';
 
 describe('init', () => {
   const defaultOptions: InitOptions = {
-    e2eTestRunner: 'none',
-    unitTestRunner: 'none',
-  } as any;
+    e2eTestRunner: E2ETestRunner.None,
+    unitTestRunner: UnitTestRunner.None,
+  };
 
   const schematicRunner = new SchematicTestRunner(schematicCollection, require.resolve('../../collection.json'));
 
@@ -94,7 +95,7 @@ describe('init', () => {
     }),
       describe('protractor', () => {
         it('should add `protractor` dependencies', async () => {
-          const tree = await runSchematic({ ...defaultOptions, e2eTestRunner: 'protractor' } as any);
+          const tree = await runSchematic({ ...defaultOptions, e2eTestRunner: E2ETestRunner.Protractor });
           const { devDependencies } = getJsonFileContent(tree, 'package.json');
 
           expect(devDependencies['protractor']).toBeDefined();
@@ -109,7 +110,7 @@ describe('init', () => {
   describe('unit test runner', () => {
     describe('karma', () => {
       it('should add `karma` dependencies', async () => {
-        const tree = await runSchematic({ ...defaultOptions, unitTestRunner: 'karma' } as any);
+        const tree = await runSchematic({ ...defaultOptions, unitTestRunner: UnitTestRunner.Karma });
         const { devDependencies } = getJsonFileContent(tree, 'package.json');
 
         expect(devDependencies['karma']).toBeDefined();
