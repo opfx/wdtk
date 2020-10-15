@@ -12,7 +12,7 @@
     "strict": {
       "description": "Creates a setup with stricter type checking options.",
       "type": "boolean",
-      "default": false
+      "default": true
     }
   },
   "required": []

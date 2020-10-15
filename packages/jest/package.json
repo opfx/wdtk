@@ -16,8 +16,7 @@
   "dependencies": {
     "@angular-devkit/architect": "~0.1001.3",
     "@angular-devkit/schematics": "^10.1.3",
-    "@wdtk/core": "0.0.0",
-    "rxjs": "^6.6.3"
+    "@wdtk/core": "0.0.0"
   },
   "peerDependencies": {
     "@wdtk/workspace": "*"

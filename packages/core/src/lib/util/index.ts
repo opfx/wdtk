@@ -1,4 +1,5 @@
 export * from './add-install-task';
-export * from './format-files';
+export * from './change';
+export * from './files';
 export * from './paths';
 export * from './names';

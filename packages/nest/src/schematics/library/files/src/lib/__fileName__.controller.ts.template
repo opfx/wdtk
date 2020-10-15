@@ -1,0 +1,7 @@
+import { Controller } from '@nestjs/common';
+import { <%= className %>Service } from './<%= fileName %>.service';
+
+@Controller('<%= fileName %>')
+export class <%= className %>Controller {
+    constructor(private <%= propertyName %>Service: <%= className %>Service) {}
+}

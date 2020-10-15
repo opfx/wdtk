@@ -1,0 +1,25 @@
+{
+  "name": "@wdtk/nest",
+  "version": "0.1",
+  "schematics": {
+    "application": {
+      "aliases": ["app"],
+      "description": "Creates a Nest application.",
+      "factory": "./schematics/application/index",
+      "schema": "./schematics/application/schema.json"
+    },
+    "init": {
+      "aliases": ["ng-add"],
+      "description": "Adds Nest nature to the workspace.",
+      "factory": "./schematics/init/index",
+      "schema": "./schematics/init/schema.json",
+      "hidden": true
+    },
+    "library": {
+      "aliases": ["lib"],
+      "description": "Creates a Nest library.",
+      "factory": "./schematics/library/index",
+      "schema": "./schematics/library/schema.json"
+    }
+  }
+}

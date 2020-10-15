@@ -1,0 +1,25 @@
+{
+  "name": "@wdtk/node",
+  "version": "0.1",
+  "schematics": {
+    "application": {
+      "aliases": ["app"],
+      "description": "Creates a Node application.",
+      "factory": "./schematics/application/index",
+      "schema": "./schematics/application/schema.json"
+    },
+    "init": {
+      "aliases": ["ng-add"],
+      "description": "Adds Node nature to the workspace.",
+      "factory": "./schematics/init/index",
+      "schema": "./schematics/init/schema.json",
+      "hidden": true
+    },
+    "library": {
+      "aliases": ["lib"],
+      "description": "Creates a Node library.",
+      "factory": "./schematics/library/index",
+      "schema": "./schematics/library/schema.json"
+    }
+  }
+}

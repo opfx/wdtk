@@ -30,9 +30,10 @@ describe('jest init schematic', () => {
     expect(devDependencies['jest-preset-angular']).toBeDefined();
   });
 
-  it(`should generate the root jest configuration file`, async () => {
+  it(`should generate the root jest configuration files`, async () => {
     const tree = await runSchematic(defaultOptions);
     expect(tree.exists('jest.config.js')).toBeTruthy();
+    expect(tree.exists('jest.preset.js')).toBeTruthy();
   });
 
   it(`should not overwrite the root jest configuration file if it exist`, async () => {
