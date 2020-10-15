@@ -1,3 +1,4 @@
+import * as Path from 'path';
 import { CommandWorkspace } from './types';
 import { findUp } from '@wdtk/core/util';
 
@@ -6,7 +7,7 @@ export function insideWorkspace(): boolean {
 }
 
 export function getCommandWorkspace(workspaceFiles: string[] = []): CommandWorkspace {
-  const root = process.cwd();
+  let root = process.cwd();
   if (workspaceFiles.length === 0) {
     // if no files were provided search for the usual suspects
     workspaceFiles.push('.wx.json');
@@ -20,6 +21,7 @@ export function getCommandWorkspace(workspaceFiles: string[] = []): CommandWorks
     if (!configFile) {
       workspaceConfigFile = findUp(file, root);
       if (workspaceConfigFile) {
+        root = Path.dirname(workspaceConfigFile);
         configFile = file;
       }
     }
