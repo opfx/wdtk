@@ -3,7 +3,7 @@ import { externalSchematic, Rule, SchematicContext, Tree } from '@angular-devkit
 import { apply, applyTemplates, chain, mergeWith, move, noop, schematic, url } from '@angular-devkit/schematics';
 import { NodePackageInstallTask } from '@angular-devkit/schematics/tasks';
 
-import { ProjectDefinition } from '@wdtk/core';
+import { formatFiles, ProjectDefinition } from '@wdtk/core';
 import { normalizeProjectName, normalizePackageName, offsetFromRoot } from '@wdtk/core';
 import { getWorkspaceDefinition, updateWorkspaceDefinition } from '@wdtk/core';
 
@@ -25,6 +25,7 @@ export default function (opts: ApplicationOptions): Rule {
       generateFiles(opts),
       generateProjectDefinition(opts),
       setupUnitTestRunner(opts),
+      formatFiles(opts),
       addTasks(opts),
     ]);
   };

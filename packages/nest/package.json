@@ -15,7 +15,8 @@
     "tslib": "^2.0.1"
   },
   "peerDependencies": {
-    "@wdtk/workspace": "*"
+    "@wdtk/workspace": "*",
+    "typescript": "*"
   },
   "devDependencies": {
     "jest": "25.2.3"

@@ -1,8 +1,10 @@
 import { Rule, SchematicContext, Tree } from '@angular-devkit/schematics';
 import { chain, externalSchematic, noop } from '@angular-devkit/schematics';
+import { NodePackageInstallTask } from '@angular-devkit/schematics/tasks';
+
 import { addWorkspaceDependencies, formatFiles } from '@wdtk/core';
 import { NodeDependency, NodeDependencyType } from '@wdtk/core';
-import { updateWorkspaceDefinition } from '@wdtk/core';
+import { getWorkspaceDefinition, updateWorkspaceDefinition } from '@wdtk/core';
 
 import { Schema } from './schema';
 import { UnitTestRunner } from './schema';
@@ -24,6 +26,7 @@ export default function (opts: InitOptions): Rule {
       addWorkspaceDependencies(workspaceDependencies),
       setupWorkspaceDefinition(opts),
       formatFiles(opts),
+      addTasks(opts),
     ]);
   };
 }
@@ -44,5 +47,19 @@ function setupWorkspaceDefinition(opts: InitOptions): Rule {
 async function normalizeOptions(tree: Tree, opts: InitOptions): Promise<InitOptions> {
   return {
     ...opts,
+  };
+}
+
+function addTasks(opts: InitOptions): Rule {
+  if (opts.skipInstall) {
+    return noop();
+  }
+  return async (tree: Tree, ctx: SchematicContext) => {
+    let packageManager = 'yarn';
+    const workspace = await getWorkspaceDefinition(tree);
+    if (workspace.extensions.cli && workspace.extensions.cli['packageManager']) {
+      packageManager = workspace.extensions.cli['packageManager'];
+    }
+    ctx.addTask(new NodePackageInstallTask({ packageManager }));
   };
 }

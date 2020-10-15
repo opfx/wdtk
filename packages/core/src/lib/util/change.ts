@@ -1,5 +1,7 @@
 import { Tree } from '@angular-devkit/schematics';
 
+import { findNodes } from './../typescript';
+
 export interface Change {
   apply(host: any): Promise<void>;
 

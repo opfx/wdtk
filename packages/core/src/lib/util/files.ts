@@ -1,13 +1,18 @@
-import { CreateFileAction, noop, OverwriteFileAction, Rule, SchematicContext, Tree } from '@angular-devkit/schematics';
+import { CreateFileAction, FileEntry, OverwriteFileAction, Rule, SchematicContext, Tree } from '@angular-devkit/schematics';
+import { forEach, noop } from '@angular-devkit/schematics';
+
 let prettier;
-try {
-  prettier = require('prettier');
-} catch (e) {}
+
 import { from } from 'rxjs';
 import { filter, map, mergeMap } from 'rxjs/operators';
 import * as Path from 'path';
 
 export function formatFiles(options: { skipFormat?: boolean } = { skipFormat: false }): Rule {
+  if (!prettier) {
+    try {
+      prettier = require('prettier');
+    } catch {}
+  }
   if (options.skipFormat || !prettier || !process.env.WX_WORKSPACE_ROOT) {
     return noop();
   }
@@ -52,4 +57,14 @@ export function formatFiles(options: { skipFormat?: boolean } = { skipFormat: fa
       map(() => tree)
     );
   };
+}
+
+/**
+ * Remove the specified file from the Virtual Schematic Tree
+ * @param path
+ */
+export function deleteFile(path: string): Rule {
+  return forEach((entry: FileEntry): FileEntry | null => {
+    return entry.path === path ? null : entry;
+  });
 }
