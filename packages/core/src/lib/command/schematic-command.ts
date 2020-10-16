@@ -228,6 +228,14 @@ export abstract class SchematicCommand<T extends SchematicSchema & CommandOption
       }
     };
 
+    const getDefaultPrefix = () => {
+      if (!this._workspace) {
+        return undefined;
+      }
+      const defaultPrefix = this._workspace.extensions['defaultPrefix'];
+      return defaultPrefix;
+    };
+
     const defaultOptionTransform = async (schematic: FileSystemSchematicDescription, current: {}) => ({
       ...(await getSchematicDefaults(schematic.collection.name, schematic.name, getProjectName())),
       ...current,
@@ -243,6 +251,7 @@ export abstract class SchematicCommand<T extends SchematicSchema & CommandOption
     workflow.engineHost.registerOptionsTransform(validateOptionsWithSchema(workflow.registry));
 
     workflow.registry.addSmartDefaultProvider('projectName', getProjectName);
+    workflow.registry.addSmartDefaultProvider('defaultPrefix', getDefaultPrefix);
 
     if (options.interactive !== false && isTTY()) {
       workflow.registry.usePromptProvider((definitions: Array<PromptDefinition>) => {
