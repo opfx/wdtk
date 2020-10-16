@@ -1,0 +1,25 @@
+{
+  "name": "@wdtk/stencil",
+  "version": "0.1",
+  "schematics": {
+    "component": {
+      "aliases": ["c"],
+      "description": "Creates a Stencil component.",
+      "factory": "./schematics/component/index",
+      "schema": "./schematics/component/schema.json"
+    },
+    "init": {
+      "aliases": ["ng-add"],
+      "description": "Adds Stencil nature to the workspace.",
+      "factory": "./schematics/init/index",
+      "schema": "./schematics/init/schema.json",
+      "hidden": true
+    },
+    "library": {
+      "aliases": ["lib"],
+      "description": "Creates a Stencil web components library.",
+      "factory": "./schematics/library/index",
+      "schema": "./schematics/library/schema.json"
+    }
+  }
+}

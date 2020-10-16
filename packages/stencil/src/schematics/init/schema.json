@@ -1,0 +1,43 @@
+{
+  "$schema": "http://json-schema.org/schema",
+  "id": "WdtkStencilSchematicsInit",
+  "title": "Stencil Init Options Schema",
+  "type": "object",
+  "description": "Adds Stencil nature to the workspace.",
+  "properties": {
+    "defaultPrefix": {
+      "alias": "p",
+      "description": "A prefix to apply to generated selectors.",
+      "type": "string",
+      "format": "html-selector",
+      "x-prompt": "What prefix should be applied by default to generated selectors?",
+      "default": "app",
+      "$default": {
+        "$source": "defaultPrefix"
+      }
+    },
+    "skipFormat": {
+      "description": "Skip formatting files.",
+      "type": "boolean",
+      "default": false
+    },
+    "skipInstall": {
+      "description": "Skip installing dependencies",
+      "type": "boolean",
+      "default": false
+    },
+    "e2eTestRunner": {
+      "description": "The test runner to use for end to end (e2e) tests.",
+      "type": "string",
+      "enum": ["puppeteer", "none"],
+      "default": "puppeteer"
+    },
+    "unitTestRunner": {
+      "description": "The test runner to use for unit tests.",
+      "type": "string",
+      "enum": ["jest", "none"],
+      "default": "jest"
+    }
+  },
+  "required": []
+}
