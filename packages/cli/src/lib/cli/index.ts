@@ -76,7 +76,7 @@ function setupLogging() {
   }
   const logger = createConsoleLogger(verbose, process.stdout, process.stderr, {
     info: (s) => (supportsColor ? s : removeColor(s)),
-    debug: (s) => (supportsColor ? s : removeColor(s)),
+    debug: (s) => (supportsColor ? colors.bold.white(s) : removeColor(s)),
     warn: (s) => (supportsColor ? colors.bold.yellow(s) : removeColor(s)),
     error: (s) => (supportsColor ? colors.bold.red(s) : removeColor(s)),
     fatal: (s) => (supportsColor ? colors.bold.red(s) : removeColor(s)),
