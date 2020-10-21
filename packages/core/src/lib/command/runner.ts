@@ -19,15 +19,15 @@ export interface RunCommandOptions {
   uriHandler: UriHandler;
   commands: CommandMap;
   workspace: CommandWorkspace;
-  log?: Logger;
+  logger?: Logger;
 }
 
 export async function runCommand(args: string[], opts: RunCommandOptions): Promise<number | void> {
   const commands = opts.commands;
   const uriHandler = opts.uriHandler;
   let log: Logger;
-  if (opts.log) {
-    log = opts.log;
+  if (opts.logger) {
+    log = opts.logger;
   } else {
     log = Logger.getLogger();
   }

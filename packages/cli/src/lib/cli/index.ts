@@ -42,7 +42,7 @@ export default async function (options: { cliArgs: string[] }) {
   try {
     let maybeExitCode;
     try {
-      maybeExitCode = await runCommand(options.cliArgs, { commands, workspace, uriHandler });
+      maybeExitCode = await runCommand(options.cliArgs, { commands, workspace, uriHandler, logger });
     } catch (x) {
       if (x instanceof CommandNotFoundException) {
         const ngCli = require.resolve('@angular/cli', { paths: [process.cwd()] });
@@ -64,7 +64,17 @@ export default async function (options: { cliArgs: string[] }) {
 }
 
 function setupLogging() {
-  const logger = createConsoleLogger(isDebug, process.stdout, process.stderr, {
+  let verbose = false;
+  const argv = process.argv;
+  argv.forEach((arg) => {
+    if (arg.includes('--debug') || arg.includes('--verbose')) {
+      verbose = true;
+    }
+  });
+  if (isDebug) {
+    verbose = true;
+  }
+  const logger = createConsoleLogger(verbose, process.stdout, process.stderr, {
     info: (s) => (supportsColor ? s : removeColor(s)),
     debug: (s) => (supportsColor ? s : removeColor(s)),
     warn: (s) => (supportsColor ? colors.bold.yellow(s) : removeColor(s)),
