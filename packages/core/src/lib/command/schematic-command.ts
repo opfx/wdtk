@@ -240,6 +240,15 @@ export abstract class SchematicCommand<T extends SchematicSchema & CommandOption
       ...(await getSchematicDefaults(schematic.collection.name, schematic.name, getProjectName())),
       ...current,
     });
+
+    // const defaultOptionTransform = async (schematic: FileSystemSchematicDescription, current: { style: 'css' }) => {
+    //   const schematicDefaults = await getSchematicDefaults(schematic.collection.name, schematic.name, getProjectName());
+    //   return {
+    //     ...schematicDefaults,
+    //     ...current,
+    //   };
+    // };
+
     workflow.engineHost.registerOptionsTransform(defaultOptionTransform);
 
     if (options.defaults) {

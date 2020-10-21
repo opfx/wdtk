@@ -1,4 +1,4 @@
-import { join, normalize } from '@angular-devkit/core';
+import { join, JsonObject, normalize } from '@angular-devkit/core';
 import { Rule, SchematicContext, Tree } from '@angular-devkit/schematics';
 import { apply, applyTemplates, chain, externalSchematic, filter, mergeWith, move, noop, schematic, url } from '@angular-devkit/schematics';
 
@@ -11,7 +11,9 @@ import { strings } from '@wdtk/core/util';
 import { versions } from './../../versions';
 
 import { Schema } from './schema';
+import { E2ETestRunner } from './schema';
 import { UnitTestRunner } from './schema';
+import { Style } from './schema';
 
 export const projectDependencies: NodeDependency[] = [
   // dependencies
@@ -31,6 +33,7 @@ export default function (opts: LibraryOptions): Rule {
       generateFiles(opts),
       generateProjectDefinition(opts),
       addProjectDependencies(opts.name, projectDependencies),
+      setupE2ETestRunner(opts),
       setupUnitTestRunner(opts),
       formatFiles(opts),
       addInstallTask(opts),
@@ -58,6 +61,34 @@ function generateFiles(opts: LibraryOptions): Rule {
 
 function generateProjectDefinition(opts: LibraryOptions): Rule {
   const normalizedProjectRoot = normalize(opts.projectRoot);
+
+  const schematics: JsonObject = {};
+  if (opts.style !== Style.Css) {
+    const componentSchematicOptions: JsonObject = {};
+    if (opts.style) {
+      componentSchematicOptions.style = opts.style;
+    }
+    schematics['@wdtk/stencil:component'] = componentSchematicOptions;
+  }
+
+  if (opts.unitTestRunner === UnitTestRunner.None) {
+    ['component'].forEach((type) => {
+      if (!(`@wdtk/stencil:${type}` in schematics)) {
+        schematics[`@wdtk/stencil:${type}`] = {};
+      }
+      (<JsonObject>schematics[`@wdtk/stencil:${type}`]).unitTestRunner = UnitTestRunner.None;
+    });
+  }
+
+  if (opts.e2eTestRunner === E2ETestRunner.None) {
+    ['component'].forEach((type) => {
+      if (!(`@wdtk/stencil:${type}` in schematics)) {
+        schematics[`@wdtk/stencil:${type}`] = {};
+      }
+      (<JsonObject>schematics[`@wdtk/stencil:${type}`]).e2eTestRunner = E2ETestRunner.None;
+    });
+  }
+
   return updateWorkspaceDefinition((workspace) => {
     const project = workspace.projects.add({
       name: opts.name,
@@ -65,6 +96,7 @@ function generateProjectDefinition(opts: LibraryOptions): Rule {
       sourceRoot: join(normalizedProjectRoot, 'src'),
       projectType: 'library',
       prefix: opts.prefix,
+      schematics,
     });
     configureBuildTarget(project, opts);
     configureServeTarget(project, opts);
@@ -77,34 +109,33 @@ function configureBuildTarget(project: ProjectDefinition, opts: LibraryOptions) 
     name: 'build',
     builder: '@wdtk/stencil:build',
     options: {
-      // outputPath: join(normalize('dist'), opts.packageName),
-      // main: join(normalize(project.sourceRoot), 'main.ts'),
-      // tsConfig: join(normalize(opts.projectRoot), 'tsconfig.app.json'),
-      // assets: [join(normalize(project.sourceRoot), 'assets')],
+      config: `${opts.projectRoot}/stencil.config.ts`,
     },
-    // configurations: {
-    //   production: {
-    //     optimization: true,
-    //     extractLicenses: true,
-    //     inspect: false,
-    //     fileReplacements: [
-    //       {
-    //         replace: join(normalize(project.sourceRoot), 'environments/environment.ts'),
-    //         with: join(normalize(project.sourceRoot), 'environments/environment.prod.ts'),
-    //       },
-    //     ],
-    //   },
-    // },
   });
 }
 
 function configureServeTarget(project: ProjectDefinition, opts: LibraryOptions) {
   project.targets.add({
     name: 'serve',
-    builder: '@wdtk/node:execute',
-    // options: {
-    //   buildTarget: `${opts.name}:build`,
-    // },
+    builder: '@wdtk/stencil:build',
+    options: {
+      config: `${opts.projectRoot}/stencil.config.ts`,
+      serve: true,
+    },
+  });
+}
+
+function setupE2ETestRunner(opts: LibraryOptions): Rule {
+  if (opts.e2eTestRunner === E2ETestRunner.None) {
+    return noop();
+  }
+  return updateWorkspaceDefinition((workspace) => {
+    const project = workspace.projects.get(opts.name);
+
+    project.targets.add({
+      name: 'e2e',
+      builder: '@wdtk/stencil:e2e',
+    });
   });
 }
 
@@ -112,10 +143,20 @@ function setupUnitTestRunner(opts: LibraryOptions): Rule {
   if (opts.unitTestRunner === UnitTestRunner.None) {
     return noop();
   }
-  return externalSchematic('@wdtk/jest', 'project', {
-    project: opts.name,
-    setupFile: 'none',
-    skipSerializers: true,
-    supportTsx: true,
-  });
+  return chain([
+    externalSchematic('@wdtk/jest', 'project', {
+      project: opts.name,
+      setupFile: 'none',
+      skipSerializers: true,
+      supportTsx: true,
+    }),
+    updateWorkspaceDefinition((workspace) => {
+      const project = workspace.projects.get(opts.name);
+      project.targets.delete('test');
+      project.targets.add({
+        name: 'test',
+        builder: '@wdtk/stencil:test',
+      });
+    }),
+  ]);
 }

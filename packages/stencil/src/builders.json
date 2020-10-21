@@ -1,0 +1,20 @@
+{
+  "$schema": "@angular-devkit/architect/src/builders-schema.json",
+  "builders": {
+    "build": {
+      "implementation": "./builders/build/index",
+      "schema": "./builders/build/schema.json",
+      "description": "Build a Stencil library."
+    },
+    "test": {
+      "implementation": "./builders/build/index",
+      "schema": "./builders/build/schema.json",
+      "description": "Runs Stencil unit tests."
+    },
+    "e2e": {
+      "implementation": "./builders/build/index",
+      "schema": "./builders/build/schema.json",
+      "description": "Runs Stencil end to end (e2e) tests."
+    }
+  }
+}

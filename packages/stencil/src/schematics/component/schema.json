@@ -45,6 +45,20 @@
       "description": "Skip installing dependencies",
       "type": "boolean",
       "default": false
+    },
+    "style": {
+      "description": "The file extension of preprocessor to use for style files.",
+      "type": "string",
+      "default": "sass",
+      "enum": ["css", "sass"],
+      "x-prompt": {
+        "message": "Which stylesheet format would like to use?",
+        "type": "list",
+        "items": [
+          { "value": "css", "label": "CSS" },
+          { "value": "sass", "label": "Sass   [ https://sass-lang.com/documentation/syntax#the-indented-syntax ]" }
+        ]
+      }
     }
   },
   "required": ["name"]

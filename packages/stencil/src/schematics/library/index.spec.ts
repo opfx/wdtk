@@ -1,10 +1,12 @@
 import { Tree } from '@angular-devkit/schematics';
 import { SchematicTestRunner, UnitTestTree } from '@angular-devkit/schematics/testing';
-import { getWorkspaceDefinition, readJsonInTree } from '@wdtk/core';
+import { getWorkspaceDefinition, getProjectDefinition } from '@wdtk/core';
 import { createEmptyWorkspace, getJsonFileContent } from '@wdtk/core/testing';
 
 import { Schema as LibraryOptions } from './schema';
+import { E2ETestRunner } from './schema';
 import { UnitTestRunner } from './schema';
+import { Style } from './schema';
 
 const schematicCollection = '@wdtk/stencil';
 const schematicName = 'library';
@@ -62,24 +64,93 @@ describe('stencil init schematic', () => {
     expect(project.prefix).toEqual('utp');
   });
 
-  describe(`--unitTestRunner`, () => {
-    it(`should generate a test target in the project definition`, async () => {
-      const tree = await runSchematic(defaultOpts);
-      const workspace = await getWorkspaceDefinition(tree);
-      const project = workspace.projects.get(defaultOpts.name);
-      const target = project.targets.get('test');
-
-      expect(target).toBeDefined();
+  describe(`--style`, () => {
+    describe(`sass (default)`, () => {
+      it(`should configure the @wdtk/stencil:component schematic to use sass`, async () => {
+        const tree = await runSchematic(defaultOpts);
+        const project = await getProjectDefinition(tree, defaultOpts.name);
+        const schematic = project.extensions.schematics['@wdtk/stencil:component'];
+        expect(schematic).toBeDefined();
+        expect(schematic.style).toEqual(Style.Sass);
+      });
     });
 
-    it(`should not generate a test target in the project definition`, async () => {
-      const tree = await runSchematic({ ...defaultOpts, unitTestRunner: UnitTestRunner.None });
-      const workspace = await getWorkspaceDefinition(tree);
-      const project = workspace.projects.get(defaultOpts.name);
-      const target = project.targets.get('test');
+    describe(`sass (default)`, () => {
+      it(`should not configure the @wdtk/stencil:component schematic to use sass`, async () => {
+        const tree = await runSchematic({ ...defaultOpts, style: Style.Css });
+        const project = await getProjectDefinition(tree, defaultOpts.name);
+        const schematic = project.extensions.schematics['@wdtk/stencil:component'];
+        expect(schematic).toBeUndefined();
+      });
+    });
+  });
 
-      expect(target).toBeUndefined();
-      // expect(tree.exists('jest.config.js')).toEqual(false);
+  describe(`--unitTestRunner`, () => {
+    describe(`jest (default)`, () => {
+      it(`should generate a test target in the project definition`, async () => {
+        const tree = await runSchematic(defaultOpts);
+        const project = await getProjectDefinition(tree, defaultOpts.name);
+        const target = project.targets.get('test');
+        expect(target).toBeDefined();
+      });
+
+      it(`should configure the test target to use @wdtk/stencil:test builder `, async () => {
+        const tree = await runSchematic(defaultOpts);
+        const project = await getProjectDefinition(tree, defaultOpts.name);
+        const target = project.targets.get('test');
+        expect(target).toBeDefined();
+        expect(target.builder).toEqual('@wdtk/stencil:test');
+      });
+    });
+
+    describe(`none`, () => {
+      it(`should not generate a test target in the project definition`, async () => {
+        const tree = await runSchematic({ ...defaultOpts, unitTestRunner: UnitTestRunner.None });
+        const project = await getProjectDefinition(tree, defaultOpts.name);
+        const target = project.targets.get('test');
+
+        expect(target).toBeUndefined();
+        // expect(tree.exists('jest.config.js')).toEqual(false);
+      });
+
+      it(`should configure the @wdtk/stencil:component schematic to skip unit tests`, async () => {
+        const tree = await runSchematic({ ...defaultOpts, unitTestRunner: UnitTestRunner.None });
+        const project = await getProjectDefinition(tree, defaultOpts.name);
+        const schematic = project.extensions.schematics['@wdtk/stencil:component'];
+        expect(schematic).toBeDefined();
+        expect(schematic.unitTestRunner).toEqual(UnitTestRunner.None);
+      });
+    });
+  });
+
+  describe(`--e2eTestRunner`, () => {
+    describe(`puppeteer (default)`, () => {
+      it(`should generate a e2e target in the project definition`, async () => {
+        const tree = await runSchematic(defaultOpts);
+        const project = await getProjectDefinition(tree, defaultOpts.name);
+        const target = project.targets.get('e2e');
+
+        expect(target).toBeDefined();
+      });
+    });
+
+    describe(`none`, () => {
+
+      it(`should not generate a e2e target in the project definition`, async () => {
+        const tree = await runSchematic({...defaultOpts, e2eTestRunner:E2ETestRunner.None);
+        const project = await getProjectDefinition(tree, defaultOpts.name);
+        const target = project.targets.get('e2e');
+
+        expect(target).toBeUndefined();
+      });
+
+      it(`should configure the @wdtk/stencil:component schematic to skip e2e tests`, async () => {
+        const tree = await runSchematic({ ...defaultOpts, e2eTestRunner: E2ETestRunner.None });
+        const project = await getProjectDefinition(tree, defaultOpts.name);
+        const schematic = project.extensions.schematics['@wdtk/stencil:component'];
+        expect(schematic).toBeDefined();
+        expect(schematic.e2eTestRunner).toEqual(E2ETestRunner.None);
+      });
     });
   });
 });

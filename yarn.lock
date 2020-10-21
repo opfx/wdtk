@@ -1645,6 +1645,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@stencil/core@npm:^2.0.3":
+  version: 2.0.3
+  resolution: "@stencil/core@npm:2.0.3"
+  bin:
+    stencil: bin/stencil
+  checksum: 5043bcf9aa1d11f711e6fa17371522d512a3e2aa541b101d47a6301950f82f00cff2e078304d01a3e07466fa1ffcb050a0f603496e23b4c81e9bddd360ce8dfd
+  languageName: node
+  linkType: hard
+
 "@types/babel__core@npm:^7.1.7":
   version: 7.1.10
   resolution: "@types/babel__core@npm:7.1.10"
@@ -1891,6 +1900,7 @@ __metadata:
     semver: 5.7.1
     strip-json-comments: 3.1.1
     tslib: ^2.0.1
+    typescript: ~4.0.3
   languageName: unknown
   linkType: soft
 
@@ -1935,14 +1945,16 @@ __metadata:
   resolution: "@wdtk/nest@workspace:packages/nest"
   dependencies:
     "@wdtk/core": "*"
+    "@wdtk/node": "*"
     jest: 25.2.3
     tslib: ^2.0.1
   peerDependencies:
     "@wdtk/workspace": "*"
+    typescript: "*"
   languageName: unknown
   linkType: soft
 
-"@wdtk/node@workspace:packages/node":
+"@wdtk/node@*, @wdtk/node@workspace:packages/node":
   version: 0.0.0-use.local
   resolution: "@wdtk/node@workspace:packages/node"
   dependencies:
@@ -2002,6 +2014,20 @@ __metadata:
   bin:
     admin: ./bin/admin
     wx: ./bin/wx
+  languageName: unknown
+  linkType: soft
+
+"@wdtk/stencil@workspace:packages/stencil":
+  version: 0.0.0-use.local
+  resolution: "@wdtk/stencil@workspace:packages/stencil"
+  dependencies:
+    "@stencil/core": ^2.0.3
+    "@wdtk/core": "*"
+    "@wdtk/jest": "*"
+    jest: 25.2.3
+    tslib: ^2.0.1
+  peerDependencies:
+    "@wdtk/workspace": "*"
   languageName: unknown
   linkType: soft
 

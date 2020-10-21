@@ -12,7 +12,7 @@
     "**/dist": true,
     "**/target": true,
     "**/jest.config.js": false,
-    "**/tsconfig.json": true
+    
   },
   "cSpell.words": [
     "Codelyzer",
