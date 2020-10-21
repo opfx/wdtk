@@ -3,7 +3,9 @@
   "version": "0.0.0",
   "main": "./src/index.ts",
   "schematics": "./src/collection.json",
-  "scripts": {},
+  "scripts": {
+    "test": "yarn jest"
+  },
   "publishConfig": {
     "schematics": "./collection.json",
     "main": "index.js",

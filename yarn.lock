@@ -1994,6 +1994,12 @@ __metadata:
   languageName: unknown
   linkType: soft
 
+"@wdtk/sdk@workspace:sdk":
+  version: 0.0.0-use.local
+  resolution: "@wdtk/sdk@workspace:sdk"
+  languageName: unknown
+  linkType: soft
+
 "@wdtk/source@workspace:.":
   version: 0.0.0-use.local
   resolution: "@wdtk/source@workspace:."
