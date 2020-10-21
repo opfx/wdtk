@@ -135,9 +135,8 @@ describe('stencil init schematic', () => {
     });
 
     describe(`none`, () => {
-
       it(`should not generate a e2e target in the project definition`, async () => {
-        const tree = await runSchematic({...defaultOpts, e2eTestRunner:E2ETestRunner.None);
+        const tree = await runSchematic({ ...defaultOpts, e2eTestRunner: E2ETestRunner.None });
         const project = await getProjectDefinition(tree, defaultOpts.name);
         const target = project.targets.get('e2e');
 
