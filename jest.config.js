@@ -6,5 +6,5 @@ module.exports = {
   preset: 'ts-jest',
   testEnvironment: 'node',
   modulePathIgnorePatterns: ["<rootDir>/target/"],
-  resolver: "<rootDir>/scripts/tools/jest-resolver.js"
+  resolver: "@wdtk/sdk/tools/jest-resolver.js"
 };
