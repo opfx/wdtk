@@ -11,7 +11,8 @@
     "wx": "./bin/wx"
   },
   "workspaces": [
-    "packages/*"
+    "packages/*",
+    "sdk/"
   ],
   "engines": {
     "node": ">=12.13.0"
