@@ -22,5 +22,5 @@
       "@wdtk/core/testing": ["./packages/core/testing/index"]
     }
   },
-  "exclude": ["lib/**", "scripts/**", "./target/build"]
+  "exclude": ["lib/**", "scripts/**", "./target/build","work/**"]
 }

@@ -1,0 +1,31 @@
+{
+  "name": "@wdtk/stencil",
+  "version": "0.0.0",
+  "main": "./src/index.ts",
+  "schematics": "./src/collection.json",
+  "builders": "./src/builders.json",
+  "scripts": {},
+  "publishConfig": {
+    "schematics": "./collection.json",
+    "builders": "./builders.json",
+    "main": "index.js",
+    "types": "./index.d.ts"
+  },
+  "dependencies": {
+    "@wdtk/core": "*",
+    "@wdtk/jest": "*",
+    "tslib": "^2.0.1"
+  },
+  "peerDependencies": {
+    "@wdtk/workspace": "*"
+  },
+  "devDependencies": {
+    "@stencil/core": "^2.0.3",
+    "jest": "25.2.3"
+  },
+  "comments": {
+    "dependencies": {
+      "@angular-devkit/schematics": "^10.1.3"
+    }
+  }
+}

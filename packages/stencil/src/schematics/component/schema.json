@@ -1,0 +1,65 @@
+{
+  "$schema": "http://json-schema.org/schema",
+  "id": "WdtkStencilSchematicsComponent",
+  "title": "Stencil Component Options Schema",
+  "type": "object",
+  "description": "Generates a new Stencil component.",
+  "properties": {
+    "name": {
+      "description": "The name of the component.",
+      "type": "string",
+      "format": "html-selector",
+      "$default": {
+        "$source": "argv",
+        "index": 0
+      },
+      "x-prompt": "What name would you like to use for the component?"
+    },
+    "project": {
+      "type": "string",
+      "description": "The name of the project.",
+      "$default": {
+        "$source": "projectName"
+      }
+    },
+    "prefix": {
+      "type": "string",
+      "description": "The prefix to apply to the generated component tag.",
+      "alias": "p",
+      "oneOf": [
+        {
+          "maxLength": 0
+        },
+        {
+          "minLength": 1,
+          "format": "html-selector"
+        }
+      ]
+    },
+    "skipFormat": {
+      "description": "Skip formatting files.",
+      "type": "boolean",
+      "default": false
+    },
+    "skipInstall": {
+      "description": "Skip installing dependencies",
+      "type": "boolean",
+      "default": false
+    },
+    "style": {
+      "description": "The file extension of preprocessor to use for style files.",
+      "type": "string",
+      "default": "sass",
+      "enum": ["css", "sass"],
+      "x-prompt": {
+        "message": "Which stylesheet format would like to use?",
+        "type": "list",
+        "items": [
+          { "value": "css", "label": "CSS" },
+          { "value": "sass", "label": "Sass   [ https://sass-lang.com/documentation/syntax#the-indented-syntax ]" }
+        ]
+      }
+    }
+  },
+  "required": ["name"]
+}

@@ -1,0 +1,36 @@
+import { newSpecPage } from '@stencil/core/testing';
+import { MyComponent } from './<%= name %>';
+
+describe('<%= name %>', () => {
+  it('renders', async () => {
+    const { root } = await newSpecPage({
+      components: [MyComponent],
+      html: '<<%= tag %>></<%= tag %>>',
+    });
+    expect(root).toEqualHtml(`
+      <<%= tag %>>
+        <mock:shadow-root>
+          <div>
+            Hello, World! I'm
+          </div>
+        </mock:shadow-root>
+      </<%= tag %>>
+    `);
+  });
+
+  it('renders with values', async () => {
+    const { root } = await newSpecPage({
+      components: [MyComponent],
+      html: `<<%= tag %> first="Stencil" last="'Don't call me a framework' JS"></<%= tag %>>`,
+    });
+    expect(root).toEqualHtml(`
+      <<%= tag %> first="Stencil" last="'Don't call me a framework' JS">
+        <mock:shadow-root>
+          <div>
+            Hello, World! I'm Stencil 'Don't call me a framework' JS
+          </div>
+        </mock:shadow-root>
+      </<%= tag %>>
+    `);
+  });
+});
