@@ -54,13 +54,13 @@ describe('node init schematic', () => {
 
     it('should have es2015 as the tsconfig target when using --directory', async () => {
       const tree = await runSchematic({ ...defaultOpts, directory: `apps/${defaultOpts.name}` });
-      const tsconfig = readJsonInTree(tree, 'apps/test-app/tsconfig.app.json');
+      const tsconfig = readJsonInTree(tree, 'apps/test-app/tsconfig.json');
       expect(tsconfig.compilerOptions.target).toBe('es2015');
     });
 
     it('should have emitDecoratorMetadata true in tsconfig when using -directory', async () => {
       const tree = await runSchematic({ ...defaultOpts, directory: `apps/${defaultOpts.name}` });
-      const tsconfig = readJsonInTree(tree, 'apps/test-app/tsconfig.app.json');
+      const tsconfig = readJsonInTree(tree, 'apps/test-app/tsconfig.json');
       expect(tsconfig.compilerOptions.emitDecoratorMetadata).toBe(true);
     });
   });
