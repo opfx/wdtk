@@ -1,0 +1,30 @@
+{
+  "folders": [
+    {
+      "name": "PHP",
+      "path": "packages/php"
+    },
+    {
+      "name": "Core",
+      "path": "packages/core"
+    },
+    {
+      "name": "work",
+      "path": "work"
+    }
+  ],
+  "settings": {
+    // "terminal.integrated.cwd": "./../../",
+    "files.eol": "\n",
+    "files.exclude": {
+      "**/node_modules": true
+    },
+    "cSpell.words": ["wdtk"],
+    "jest.pathToJest": "yarn test",
+    "jest.disabledWorkspaceFolders": ["work", "Core"]
+  },
+  "launch": {
+    "configurations": [],
+    "compounds": []
+  }
+}

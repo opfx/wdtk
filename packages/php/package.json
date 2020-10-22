@@ -3,11 +3,13 @@
   "version": "0.0.0",
   "main": "./src/index.ts",
   "schematics": "./src/collection.json",
+  "builders": "./src/builders.json",
   "scripts": {
     "test": "yarn jest"
   },
   "publishConfig": {
     "schematics": "./collection.json",
+    "builders": "./builders.json",
     "main": "index.js",
     "types": "./index.d.ts"
   },
