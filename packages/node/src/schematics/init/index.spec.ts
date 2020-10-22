@@ -6,7 +6,7 @@ import { Schema as InitOptions } from './schema';
 import { UnitTestRunner } from './schema';
 
 const schematicCollection = '@wdtk/node';
-const schematicName = 'library';
+const schematicName = 'init';
 
 describe('node init schematic', () => {
   const schematicRunner = new SchematicTestRunner(schematicCollection, require.resolve('../../collection.json'));
