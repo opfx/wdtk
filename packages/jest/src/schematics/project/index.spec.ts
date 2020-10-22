@@ -89,8 +89,8 @@ describe(`jest project schematic`, () => {
     const jestConfigContent = tree.readContent('test-project/jest.config.js');
     expect(jestConfigContent.replace(/[ \t\r]+/g, '')).toBe(
       `module.exports = {
-      name: 'test-project',
-      preset: '../jest.config.js',
+      displayName: 'test-project',
+      preset: '../jest.preset.js',
       globals: {
         'ts-jest': {
           tsConfig: '<rootDir>/tsconfig.spec.json',
