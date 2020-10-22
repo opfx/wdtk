@@ -4,7 +4,9 @@
   "main": "./src/index.ts",
   "schematics": "./src/collection.json",
   "builders": "./src/builders.json",
-  "scripts": {},
+   "scripts": {
+    "test": "yarn jest"
+  },
   "publishConfig": {
     "schematics": "./collection.json",
     "builders": "./builders.json",
