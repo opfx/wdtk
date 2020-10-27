@@ -1,0 +1,9 @@
+{
+  "version": 1,
+  "projects": {},
+  "newProjectRoot": "projects",
+  "cli": {
+    "defaultCollection": "@wdtk/workspace",
+    "packageManager": "yarn"
+  }
+}

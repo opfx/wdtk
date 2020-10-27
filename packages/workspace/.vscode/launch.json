@@ -1,0 +1,88 @@
+{
+  // Use IntelliSense to learn about possible attributes.
+  // Hover to view descriptions of existing attributes.
+  // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "type": "node",
+      "name": "vscode-jest-tests",
+      "skipFiles": [
+        "${workspaceFolder}/../../node_modules/**/*.js",
+        "<node_internals>/**"
+      ],
+      "request": "launch",
+      "program": "${workspaceFolder}/../../node_modules/jest/bin/jest",
+      "args": [
+        "--runInBand"
+      ],
+      "cwd": "${workspaceFolder}",
+      "console": "integratedTerminal",
+      "internalConsoleOptions": "neverOpen",
+      "disableOptimisticBPs": true
+    },
+    {
+      "type": "node",
+      "request": "launch",
+      "name": "wx (natures)",
+      "skipFiles": ["<node_internals>/**"],
+      "program": "${workspaceFolder}/bin/wx",
+      "cwd": "${workspaceFolder}/../work/workspace",
+      "console": "integratedTerminal",
+      // "args": ["nature", "add", "php12", "--verbose"],
+      "args": ["natures", "add", "angular", "--verbose"],
+      "env": { "WX_DEBUG": "true", "WX_DISABLE_VERSION_CHECK": "true" }
+    },
+    {
+      "type": "node",
+      "request": "launch",
+      "name": "wx (new)",
+      "skipFiles": ["<node_internals>/**"],
+      "program": "${workspaceFolder}/bin/wx",
+      "cwd": "${workspaceFolder}/../work",
+      "console": "integratedTerminal",
+      "args": ["new", "webkinz", "--directory", "php", "--verbose"],
+      // "args": ["new", "--help"],
+      "env": { "WX_DEBUG": "true", "WX_DISABLE_VERSION_CHECK": "true" }
+    },
+
+    {
+      "type": "node",
+      "request": "launch",
+      "name": "wx (generate)",
+      "skipFiles": ["<node_internals>/**"],
+      "program": "${workspaceFolder}/bin/wx",
+      "cwd": "${workspaceFolder}/work",
+      "console": "integratedTerminal",      
+      // "args": ["generate", "@wdtk/angular:app", "sample1",  "--directory", "apps/sample","--verbose","--dry-run"],
+      // "args": ["generate", "@wdtk/stencil:init", "--skip-install", "--verbose"],
+      "args": ["generate", "@wdtk/stencil:lib", "test-lib", "--skip-install", "--verbose"],
+      // "args": ["generate", "--help"],
+      "env": { "WX_DEBUG": "true", "WX_DISABLE_VERSION_CHECK": "true" }
+    },  
+    {
+      "type": "node",
+      "request": "launch",
+      "name": "wx (start)",
+      "skipFiles": ["<node_internals>/**"],
+      "program": "${workspaceFolder}/../../bin/wx",
+      "cwd": "${workspaceFolder}/../../work",
+      "console": "integratedTerminal",
+      "args": ["start", "wcl", "--verbose"],
+      "env": { "WX_DEBUG": "true", "WX_DISABLE_VERSION_CHECK": "true" }
+    },
+    {
+      "type": "node",
+      "request": "launch",
+      "name": "wx (remove)",
+      "skipFiles": ["<node_internals>/**"],
+      "program": "${workspaceFolder}/bin/wx",
+      "cwd": "${workspaceFolder}/../work/workspace",
+      "console": "integratedTerminal",
+
+      // "args": ["remove", "--dry-run", "--verbose"],
+      "args": ["remove", "wshop"],
+      "env": { "WX_DEBUG": "true", "WX_DISABLE_VERSION_CHECK": "true" }
+    } 
+  ]
+}

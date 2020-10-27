@@ -1,0 +1,59 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema",
+  "title": "Run Commands Target",
+  "description": "Run Commands build target options for Build Facade.",
+  "type": "object",
+  "properties": {
+    "args": {
+      "type": "string",
+      "description": "Extra arguments. You can pass them as follows: wx run project:target --args='--wait=100'. You can then use {args.wait} syntax to interpolate them in the workspace config file. See example [above](#chaining-commands-interpolating-args-and-setting-the-cwd)"
+    },
+    "command": {
+      "type": "string",
+      "description": "The command to run in a child process"
+    },
+    "commands": {
+      "type": "array",
+      "items": {
+        "oneOf": [
+          {
+            "type": "object",
+            "properties": {
+              "command": {
+                "type": "string",
+                "description": "Command to run in child process"
+              },
+              "forwardAllArgs": {
+                "type": "boolean",
+                "description": "Whether arguments should be forwarded when interpolation is not present",
+                "default": true
+              }
+            },
+            "additionalProperties": false,
+            "required": ["command"]
+          },
+          {
+            "type": "string"
+          }
+        ]
+      }
+    },
+    "cwd": {
+      "type": "string",
+      "description": "Working directory for the commands."
+    },
+    "parallel": {
+      "type": "boolean",
+      "description": "Run commands in parallel",
+      "default": true
+    },
+    "verbose": {
+      "type": "boolean",
+      "description": "Adds more details to output logging.",
+      "default": false
+    }
+  },
+  "required": [],
+  "additionalProperties": true,
+  "examplesFile": "./examples.md"
+}
