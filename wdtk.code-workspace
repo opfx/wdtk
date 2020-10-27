@@ -1,30 +1,33 @@
 {
   "folders": [
     {
-      "name": "cli",
-      "path": "packages/cli"
-    },
-    {
-      "name": "core",
+      "name": "Core",
       "path": "packages/core"
     },
     {
-      "name": "workspace",
-      "path": "packages/workspace"
+      "name": "Php",
+      "path": "packages/php"
     },
     {
-      "name": "root",
-      "path": "."
+      "name": "Stencil",
+      "path": "packages/stencil"
+    },
+    {
+      "name": "Workspace",
+      "path": "packages/workspace"
     }
   ],
   "settings": {
     // "terminal.integrated.cwd": "./../../",
     "files.eol": "\n",
     "files.exclude": {
-      "**/node_modules": true
+      "**/node_modules": true,
+      "**/.vscode":true,
+      "**/jest.config.js":true
     },
     "cSpell.words": ["wdtk"],
-    "jest.pathToJest": "yarn jest"
+    "jest.pathToJest": "yarn test",
+    "jest.disabledWorkspaceFolders": ["work", "Core"]
   },
   "launch": {
     "configurations": [],
