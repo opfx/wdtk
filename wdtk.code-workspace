@@ -5,6 +5,10 @@
       "path": "packages/core"
     },
     {
+      "name": "CLI",
+      "path": "packages/cli"
+    },
+    {
       "name": "Php",
       "path": "packages/php"
     },
