@@ -5,7 +5,9 @@
   "bin": {
     "wx": "./src/bin/wx.ts"
   },
-  "scripts": {},
+  "scripts": {
+    "test": "yarn jest"
+  },
   "publishConfig": {
     "main": "./lib/cli/index.js",
     "bin": {
