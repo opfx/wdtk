@@ -10,5 +10,5 @@ export const versions = {
   TsLint: '~6.1.0',
   TsNode: '~9.0.0',
   Typescript: '~4.0.3',
-  ZoneJs: '~0.11.1',
+  ZoneJs: '~0.10.2',
 };
