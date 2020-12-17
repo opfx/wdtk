@@ -12,7 +12,7 @@ import { packages } from './../../lib/packages';
 
 import build from './build';
 
-const allowPublishTagValues = ['latest', 'next'];
+const allowPublishTagValues = ['alpha', 'beta', 'latest', 'next'];
 
 export interface PublishArgs {
   tag?: string;
@@ -20,7 +20,7 @@ export interface PublishArgs {
   registry?: string;
 }
 export default async function (args: PublishArgs, log: logging.Logger) {
-  let publishTag = 'latest';
+  let publishTag = getPublishTagFromVersion();
   if (args['_'][0]) {
     publishTag = args['_'][0];
   }
@@ -75,4 +75,16 @@ function exec(command: string, args: string[], opts: { cwd?: string }, log: logg
   } else {
     return stdout.toString();
   }
+}
+
+function getPublishTagFromVersion() {
+  const rootPackageJson = require('./../../package.json');
+  const version = rootPackageJson['version'];
+
+  const tags = version.match(/([a-z]+)/gm);
+  console.log(JSON.stringify(tags));
+  if (tags !== null && tags.length > 0) {
+    return tags[0];
+  }
+  return 'latest';
 }
