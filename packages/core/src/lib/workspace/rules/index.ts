@@ -9,7 +9,7 @@ import { createHost } from './../util';
 
 export function addWorkspaceDependency(dependency: NodeDependency): Rule {
   return (host: Tree, ctx: SchematicContext) => {
-    ctx.logger.debug(`adding workspace '${dependency.type}' dependency '${dependency.name}@${dependency.version}'`);
+    ctx.logger.debug(` ∙ adding workspace dependency (${dependency.type}): '${dependency.name}@${dependency.version}'`);
     addPackageJsonDependency(host, dependency);
   };
 }
@@ -17,7 +17,7 @@ export function addWorkspaceDependency(dependency: NodeDependency): Rule {
 export function addWorkspaceDependencies(dependencies: NodeDependency[]): Rule {
   return (host: Tree, ctx: SchematicContext) => {
     dependencies.forEach((dependency) => {
-      ctx.logger.debug(`adding workspace '${dependency.type}' dependency '${dependency.name}@${dependency.version}'`);
+      ctx.logger.debug(` ∙ adding workspace dependency (${dependency.type}): '${dependency.name}@${dependency.version}'`);
       addPackageJsonDependency(host, dependency);
     });
   };
