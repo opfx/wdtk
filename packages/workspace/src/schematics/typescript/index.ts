@@ -47,6 +47,7 @@ const workspaceDependencies: NodeDependency[] = [
 
 export default function (options: TypescriptOptions): Rule {
   return (tree: Tree, ctx: SchematicContext) => {
+    ctx.logger.debug(`▶ Running '@wdtk/workspace:typescript' schematic`);
     let skipTsLint = false;
     let skipTsConfig = false;
     if (tree.exists('tslint.json')) {
