@@ -22,7 +22,7 @@ export function addProjectDependencies(projectName: string, dependencies: NodeDe
     const project = await getProjectDefinition(tree, projectName);
     const projectPackageJson = `${project.root}/package.json`;
     dependencies.forEach((dependency) => {
-      ctx.logger.debug(`adding workspace '${dependency.type}' dependency '${dependency.name}@${dependency.version}'`);
+      ctx.logger.debug(` ∙ adding project dependency (${dependency.type}): '${dependency.name}@${dependency.version}'`);
       addPackageJsonDependency(tree, dependency, projectPackageJson);
     });
   };

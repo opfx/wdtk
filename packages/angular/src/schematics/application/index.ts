@@ -23,7 +23,7 @@ export interface ApplicationOptions extends Schema {
 }
 export default function (opts: ApplicationOptions): Rule {
   return async (tree: Tree, ctx: SchematicContext) => {
-    ctx.logger.debug(`Running '@wdtk/angular:application' schematic`);
+    ctx.logger.debug(`▶ Running '@wdtk/angular:application' schematic`);
     opts = await normalizeOptions(tree, opts);
 
     return chain([
@@ -173,20 +173,20 @@ function removeKarmaFiles(opts: ApplicationOptions): Rule {
     const workspace = await getWorkspaceDefinition(tree);
     const project = workspace.projects.get(opts.name);
     const root = normalize(project.root);
-    ctx.logger.debug(`Removing 'karma' files from ${root}...`);
+    ctx.logger.debug(`▶ Removing 'karma' files from ${root}...`);
 
     if (tree.exists(`${root}/karma.conf.js`)) {
-      ctx.logger.debug(` * ${root}/karma.conf.js`);
+      ctx.logger.debug(` ∙ ${root}/karma.conf.js`);
       tree.delete(`${root}/karma.conf.js`);
     }
 
     if (tree.exists(`${root}/tsconfig.spec.json`)) {
-      ctx.logger.debug(` * ${root}/tsconfig.spec.json`);
+      ctx.logger.debug(` ∙ ${root}/tsconfig.spec.json`);
       tree.delete(`${root}/tsconfig.spec.json`);
     }
 
     if (tree.exists(`${root}/src/test.ts`)) {
-      ctx.logger.debug(` * ${root}/src/test.ts`);
+      ctx.logger.debug(` ∙ ${root}/src/test.ts`);
       tree.delete(`${root}/src/test.ts`);
     }
   };
@@ -194,7 +194,7 @@ function removeKarmaFiles(opts: ApplicationOptions): Rule {
 function removeProtractorSupport(opts: ApplicationOptions): Rule {
   const e2eDirectory = `${opts.projectRoot}/e2e/`;
   return (tree: Tree, ctx: SchematicContext) => {
-    ctx.logger.debug(`Removing protractor e2e project`);
+    ctx.logger.debug(`▶ Removing protractor e2e project`);
     return chain([
       (tree) => {
         if (tree.read(`${e2eDirectory}/src/app.e2e-spec.ts`)) {
