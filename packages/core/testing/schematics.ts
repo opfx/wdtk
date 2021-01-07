@@ -12,6 +12,11 @@ export function createEmptyWorkspace(tree: Tree = null): Tree {
   return tree;
 }
 
+/**
+ * @deprecated use readJsonInTree instead
+ * @param tree
+ * @param path
+ */
 // tslint:disable-next-line: no-any
 export function getJsonFileContent(tree: UnitTestTree, path: string): any {
   return parseJson(tree.readContent(path).toString(), JsonParseMode.Loose);
