@@ -147,8 +147,9 @@ function generateFiles(opts: ProjectOptions): Rule {
           transformer: opts.babelJest ? 'babel-jest' : 'ts-jest',
           offsetFromRoot: offsetFromRoot(opts.projectRoot),
         }),
-        // do not create
-        tree.exists(join(normalize(opts.projectRoot), '/.vscode/launch.json')) ? filter((file) => file === './vscode/launch.json') : noop(),
+        // do not create package.json and /.vscode/launch.json files if they exist already
+        tree.exists(join(normalize(opts.projectRoot), 'package.json')) ? filter((file) => file !== '/package.json') : noop(),
+        tree.exists(join(normalize(opts.projectRoot), '/.vscode/launch.json')) ? filter((file) => file !== './vscode/launch.json') : noop(),
         opts.setupFile === 'none' ? filter((file) => file !== '/src/test-setup.ts') : noop(),
         opts.babelJest ? noop() : filter((file) => file !== '/babel-jest.config.json'),
         move(opts.projectRoot),
