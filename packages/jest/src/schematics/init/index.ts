@@ -26,7 +26,7 @@ const babelDependencies: NodeDependency[] = [
 
 export default function (opts: InitOptions): Rule {
   return (tree: Tree, ctx: SchematicContext) => {
-    ctx.logger.debug(`Running '@wdtk/jest:init' schematic`);
+    ctx.logger.debug(`▶ Running '@wdtk/jest:init' schematic`);
 
     return chain([generateFiles(opts), addDependencies(opts)]);
   };
