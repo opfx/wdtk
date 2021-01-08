@@ -1,8 +1,8 @@
 import { Tree } from '@angular-devkit/schematics';
 import { SchematicTestRunner, UnitTestTree } from '@angular-devkit/schematics/testing';
-import { getWorkspaceDefinition, updateWorkspaceDefinition } from '@wdtk/core';
+import { getWorkspaceDefinition, readJsonInTree updateWorkspaceDefinition } from '@wdtk/core';
 
-import { createEmptyWorkspace, getJsonFileContent } from '@wdtk/core/testing';
+import { createEmptyWorkspace } from '@wdtk/core/testing';
 
 import { Schema as InitOptions } from './schema';
 import { E2ETestRunner, UnitTestRunner } from './schema';
@@ -28,7 +28,7 @@ describe('init', () => {
 
   it('should add angular dependencies', async () => {
     const tree = await runSchematic(defaultOptions);
-    const { dependencies, devDependencies } = getJsonFileContent(tree, 'package.json');
+    const { dependencies, devDependencies } = readJsonInTree(tree, 'package.json');
 
     expect(dependencies['@angular/animations']).toBeDefined();
     expect(dependencies['@angular/common']).toBeDefined();
@@ -84,7 +84,7 @@ describe('init', () => {
     describe('cypress', () => {
       it('should not add `protractor` dependencies', async () => {
         const tree = await runSchematic({ ...defaultOptions, e2eTestRunner: 'cypress' } as any);
-        const { devDependencies } = getJsonFileContent(tree, 'package.json');
+        const { devDependencies } = readJsonInTree(tree, 'package.json');
 
         expect(devDependencies['protractor']).not.toBeDefined();
         expect(devDependencies['jasmine-core']).not.toBeDefined();
@@ -96,7 +96,7 @@ describe('init', () => {
       describe('protractor', () => {
         it('should add `protractor` dependencies', async () => {
           const tree = await runSchematic({ ...defaultOptions, e2eTestRunner: E2ETestRunner.Protractor });
-          const { devDependencies } = getJsonFileContent(tree, 'package.json');
+          const { devDependencies } = readJsonInTree(tree, 'package.json');
 
           expect(devDependencies['protractor']).toBeDefined();
           expect(devDependencies['jasmine-core']).toBeDefined();
@@ -111,7 +111,7 @@ describe('init', () => {
     describe('karma', () => {
       it('should add `karma` dependencies', async () => {
         const tree = await runSchematic({ ...defaultOptions, unitTestRunner: UnitTestRunner.Karma });
-        const { devDependencies } = getJsonFileContent(tree, 'package.json');
+        const { devDependencies } = readJsonInTree(tree, 'package.json');
 
         expect(devDependencies['karma']).toBeDefined();
         expect(devDependencies['karma-chrome-launcher']).toBeDefined();

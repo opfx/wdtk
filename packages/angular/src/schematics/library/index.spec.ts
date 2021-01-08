@@ -1,8 +1,8 @@
 import { Tree } from '@angular-devkit/schematics';
 import { SchematicTestRunner, UnitTestTree } from '@angular-devkit/schematics/testing';
-import { getProjectDefinition, getWorkspaceDefinition } from '@wdtk/core';
+import { getProjectDefinition, getWorkspaceDefinition, readJsonInTree } from '@wdtk/core';
 
-import { createEmptyWorkspace, getJsonFileContent } from '@wdtk/core/testing';
+import { createEmptyWorkspace } from '@wdtk/core/testing';
 
 import { Schema as LibraryOptions } from './schema';
 
@@ -50,7 +50,7 @@ describe(`angular library schematic`, () => {
 
     it(`should add required project dependencies`, async () => {
       const tree = await runSchematic(defaultOptions);
-      const { dependencies, peerDependencies } = getJsonFileContent(tree, '/test-lib/package.json');
+      const { dependencies, peerDependencies } = readJsonInTree(tree, '/test-lib/package.json');
       expect(dependencies['tslib']).toBeDefined();
       expect(peerDependencies['@angular/common']).toBeDefined();
       expect(peerDependencies['@angular/core']).toBeDefined();
@@ -59,7 +59,7 @@ describe(`angular library schematic`, () => {
     it(`should add the 'public-api.ts' the workspace 'tsconfig.json' `, async () => {
       const tree = await runSchematic(defaultOptions);
       expect(tree.exists('tsconfig.json'));
-      const tsConfig = getJsonFileContent(tree, 'tsconfig.json');
+      const tsConfig = readJsonInTree(tree, 'tsconfig.json');
       expect(tsConfig.compilerOptions.paths['@empty/test-lib']).toBeDefined();
       expect(Array.isArray(tsConfig.compilerOptions.paths['@empty/test-lib']));
 
@@ -76,7 +76,7 @@ describe(`angular library schematic`, () => {
 
     it(`should add required project dependencies in project's 'package.json' in the specified directory `, async () => {
       const tree = await runSchematic({ ...defaultOptions, directory: 'libs/test-lib' });
-      const { dependencies, peerDependencies } = getJsonFileContent(tree, '/libs/test-lib/package.json');
+      const { dependencies, peerDependencies } = readJsonInTree(tree, '/libs/test-lib/package.json');
       expect(dependencies['tslib']).toBeDefined();
       expect(peerDependencies['@angular/common']).toBeDefined();
       expect(peerDependencies['@angular/core']).toBeDefined();
@@ -85,7 +85,7 @@ describe(`angular library schematic`, () => {
     it(`should add the correct path to 'public-api.ts' the workspace 'tsconfig.json' `, async () => {
       const tree = await runSchematic({ ...defaultOptions, directory: 'libs/test-lib' });
       expect(tree.exists('tsconfig.json'));
-      const tsConfig = getJsonFileContent(tree, 'tsconfig.json');
+      const tsConfig = readJsonInTree(tree, 'tsconfig.json');
       expect(tsConfig.compilerOptions.paths['@empty/test-lib']).toBeDefined();
       expect(Array.isArray(tsConfig.compilerOptions.paths['@empty/test-lib']));
 
@@ -123,9 +123,10 @@ describe(`angular library schematic`, () => {
         expect(tree.exists('test-lib/tsconfig.spec.json')).toBeTruthy();
         expect(tree.exists('test-lib/src/test.ts')).toBeTruthy();
       });
+
       it(`should add 'karma' dependencies to workspace`, async () => {
         const tree = await runSchematic({ ...defaultOptions, unitTestRunner: UnitTestRunner.Karma });
-        const { devDependencies } = getJsonFileContent(tree, 'package.json');
+        const { devDependencies } = readJsonInTree(tree, 'package.json');
         // we only need to test one to see if the init schematic did it's job
         expect(devDependencies['karma']).toBeDefined();
       });
