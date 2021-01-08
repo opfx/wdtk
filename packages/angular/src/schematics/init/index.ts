@@ -48,8 +48,10 @@ const karmaWorkspaceDependencies: NodeDependency[] = [
 
 export default function (opts: InitOptions): Rule {
   return (tree: Tree, ctx: SchematicContext) => {
+    // ctx.logger.debug(`▶ Running '@wdtk/angular:init' schematic [${JSON.stringify(opts)}]`);
+    ctx.logger.debug(`▶ Running '@wdtk/angular:init' schematic`);
     return chain([
-      externalSchematic('@wdtk/workspace', 'typescript', { skipInstall: true }), //
+      externalSchematic('@wdtk/workspace', 'typescript', { skipInstall: true }),
       addWorkspaceDependencies(workspaceDependencies),
       addE2eTestRunnerWorkspaceDependencies(opts),
       addUnitTestRunnerWorkspaceDependencies(opts),

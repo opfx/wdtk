@@ -26,6 +26,7 @@ const projectDependencies: NodeDependency[] = [
 ];
 export default function (opts: LibraryOptions): Rule {
   return async (tree: Tree, ctx: SchematicContext) => {
+    ctx.logger.debug(`▶ Running '@wdtk/angular:library' schematic`);
     opts = await normalizeOptions(tree, opts);
     return chain([
       schematic('init', { ...opts, skipFormat: true, skipInstall: true }),
