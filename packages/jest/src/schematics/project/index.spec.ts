@@ -1,10 +1,10 @@
 import { Tree } from '@angular-devkit/schematics';
 import { SchematicTestRunner, UnitTestTree } from '@angular-devkit/schematics/testing';
-import { getWorkspaceDefinition, updateWorkspaceDefinition, updateJsonInTree } from '@wdtk/core';
+import { getWorkspaceDefinition, readJsonInTree, updateWorkspaceDefinition, updateJsonInTree } from '@wdtk/core';
 
-import { createEmptyWorkspace, getJsonFileContent } from '@wdtk/core/testing';
+import { createEmptyWorkspace } from '@wdtk/core/testing';
 
-import { ProjectOptions } from './index';
+import { Schema as ProjectOptions, SetupFile } from './schema';
 
 const schematicCollection = '@wdtk/jest';
 const schematicName = 'project';
@@ -58,14 +58,14 @@ describe(`jest project schematic`, () => {
   });
 
   it(`should generate files`, async () => {
-    const tree = await runSchematic({ project: 'test-project', setupFile: 'angular' } as any);
+    const tree = await runSchematic({ project: 'test-project', setupFile: SetupFile.Angular });
     expect(tree.exists('test-project/src/test-setup.ts')).toBeTruthy();
     expect(tree.exists('test-project/jest.config.js')).toBeTruthy();
     expect(tree.exists('test-project/tsconfig.spec.json')).toBeTruthy();
   });
 
   it(`should configure the parent's project 'test' target`, async () => {
-    const tree = await runSchematic({ project: 'test-project', setupFile: 'angular' } as any);
+    const tree = await runSchematic({ project: 'test-project', setupFile: SetupFile.Angular });
     const workspace = await getWorkspaceDefinition(tree);
     const project = workspace.projects.get('test-project');
     const target = project.targets.get('test');
@@ -77,7 +77,7 @@ describe(`jest project schematic`, () => {
   });
 
   it(`should configure the parent's project 'lint' target`, async () => {
-    const tree = await runSchematic({ project: 'test-project', setupFile: 'angular' } as any);
+    const tree = await runSchematic({ project: 'test-project', setupFile: SetupFile.Angular });
     const workspace = await getWorkspaceDefinition(tree);
     const project = workspace.projects.get('test-project');
     const target = project.targets.get('lint');
@@ -85,7 +85,7 @@ describe(`jest project schematic`, () => {
   });
 
   it(`should create a valid 'jest.config.js' file`, async () => {
-    const tree = await runSchematic({ project: 'test-project' } as any);
+    const tree = await runSchematic({ project: 'test-project' });
     const jestConfigContent = tree.readContent('test-project/jest.config.js');
     expect(jestConfigContent.replace(/[ \t\r]+/g, '')).toBe(
       `module.exports = {
@@ -105,5 +105,36 @@ describe(`jest project schematic`, () => {
       testPathIgnorePatterns: ['/e2e/']
     };`.replace(/[ \t\r]+/g, '')
     );
+  });
+
+  it(`should add required project dependencies`, async () => {
+    const tree = await runSchematic({ project: 'test-project' });
+    const { devDependencies } = readJsonInTree(tree, '/test-project/package.json');
+    expect(devDependencies['jest']).toBeDefined();
+  });
+
+  it(`should add the 'test' script to project's package manifest`, async () => {
+    const tree = await runSchematic({ project: 'test-project' });
+    const manifest = readJsonInTree(tree, 'test-project/package.json');
+
+    expect(manifest.scripts.test).toEqual('yarn jest');
+  });
+
+  it(`should create a valid 'vscode launch configuration' in '.vscode/launch.json'`, async () => {
+    const expected = {
+      type: 'node',
+      name: 'vscode-jest-tests',
+      request: 'launch',
+      program: '${workspaceFolder}/../node_modules/jest/bin/jest',
+      args: ['--runInBand'],
+      cwd: '${workspaceFolder}',
+      console: 'integratedTerminal',
+      internalConsoleOptions: 'neverOpen',
+      disableOptimisticBPs: true,
+    };
+    const tree = await runSchematic({ project: 'test-project' });
+    const launch = readJsonInTree(tree, 'test-project/.vscode/launch.json');
+    const actual = launch.configurations[0];
+    expect(actual).toEqual(expected);
   });
 });
