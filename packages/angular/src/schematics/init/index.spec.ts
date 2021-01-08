@@ -1,6 +1,6 @@
 import { Tree } from '@angular-devkit/schematics';
 import { SchematicTestRunner, UnitTestTree } from '@angular-devkit/schematics/testing';
-import { getWorkspaceDefinition, readJsonInTree updateWorkspaceDefinition } from '@wdtk/core';
+import { getWorkspaceDefinition, readJsonInTree, updateWorkspaceDefinition } from '@wdtk/core';
 
 import { createEmptyWorkspace } from '@wdtk/core/testing';
 
