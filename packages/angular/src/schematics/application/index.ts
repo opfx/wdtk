@@ -21,6 +21,7 @@ export interface ApplicationOptions extends Schema {
   newProjectRoot: string;
   packageName: string;
 }
+
 export default function (opts: ApplicationOptions): Rule {
   return async (tree: Tree, ctx: SchematicContext) => {
     ctx.logger.debug(`▶ Running '@wdtk/angular:application' schematic`);
@@ -112,11 +113,13 @@ function generateFiles(opts: ApplicationOptions): Rule {
     ]);
   };
 }
+
 function addTasks(opts: ApplicationOptions): Rule {
   return (tree: Tree, ctx: SchematicContext) => {
     return chain([addInstallTask(opts)]);
   };
 }
+
 function adjustProjectDefinition(opts: ApplicationOptions): Rule {
   if (opts.name === opts.name.toLowerCase()) {
     return noop();
@@ -130,6 +133,7 @@ function adjustProjectDefinition(opts: ApplicationOptions): Rule {
     });
   };
 }
+
 function setupE2eTestRunner(opts: ApplicationOptions): Rule {
   return (tree: Tree, ctx: SchematicContext) => {
     return chain([
@@ -191,6 +195,7 @@ function removeKarmaFiles(opts: ApplicationOptions): Rule {
     }
   };
 }
+
 function removeProtractorSupport(opts: ApplicationOptions): Rule {
   const e2eDirectory = `${opts.projectRoot}/e2e/`;
   return (tree: Tree, ctx: SchematicContext) => {

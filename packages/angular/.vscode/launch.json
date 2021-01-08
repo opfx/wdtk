@@ -12,7 +12,7 @@
       "program": "${workspaceFolder}/../../bin/wx",
       "cwd": "${workspaceFolder}/../../work",
       "console": "integratedTerminal",
-      "args": ["generate", "@wdtk/angular:app", "sample1", "--directory", "apps/sample", "--verbose", "--dry-run", "--skip-install"],
+      "args": ["generate", "@wdtk/angular:app", "sample1", "--directory", "apps/sample", "--verbose", "--skip-install" /*, "--dry-run"*/],
       "env": { "WX_DEBUG": "true", "WX_DISABLE_VERSION_CHECK": "true" },
       "preLaunchTask": "Setup Work Dir"
     },
@@ -24,7 +24,7 @@
       "program": "${workspaceFolder}/../../bin/wx",
       "cwd": "${workspaceFolder}/../../work",
       "console": "integratedTerminal",
-      "args": ["generate", "@wdtk/angular:lib", "sample1", "--verbose", "--skip-install"],
+      "args": ["generate", "@wdtk/angular:lib", "sample1", "--verbose", "--skip-install" /*, "--dry-run"*/],
       "env": { "WX_DEBUG": "true", "WX_DISABLE_VERSION_CHECK": "true" },
       "preLaunchTask": "Setup Work Dir"
     },

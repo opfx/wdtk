@@ -9,7 +9,6 @@ import { strings } from '@wdtk/core/util';
 import { versions } from './../../versions';
 
 import { Schema } from './schema';
-
 export interface LibraryOptions extends Schema {
   projectRoot: string;
   packageName: string;
@@ -19,11 +18,13 @@ const workspaceDependencies: NodeDependency[] = [
   //
   { type: NodeDependencyType.Dev, name: 'ng-packagr', version: versions.NgPackager },
 ];
+
 const projectDependencies: NodeDependency[] = [
   { type: NodeDependencyType.Default, name: 'tslib', version: versions.TsLib },
   { type: NodeDependencyType.Peer, name: '@angular/common', version: versions.Angular },
   { type: NodeDependencyType.Peer, name: '@angular/core', version: versions.Angular },
 ];
+
 export default function (opts: LibraryOptions): Rule {
   return async (tree: Tree, ctx: SchematicContext) => {
     ctx.logger.debug(`▶ Running '@wdtk/angular:library' schematic`);
@@ -81,6 +82,7 @@ function karmaPathFilter(path: string): boolean {
 
   return !toRemoveList.test(path);
 }
+
 function generateFiles(opts: LibraryOptions): Rule {
   return async (tree: Tree, ctx: SchematicContext) => {
     if (opts.prefix === 'use-default-prefix') {
