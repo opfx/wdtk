@@ -1,0 +1,59 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "Create Work Dir",
+      "type": "shell",
+      "command": "rm -rf work && mkdir work",
+      "options": {
+        "cwd": "${workspaceFolder}/../../"
+      },
+      "presentation": {
+        "echo": true,
+        "reveal": "always",
+        "focus": false,
+        "panel": "shared",
+        "showReuseMessage": true,
+        "clear": false
+      }
+    },
+    {
+      "label": "Setup package.json",
+      "type": "shell",
+      "command": "touch package.json && echo '{\"name\": \"work\"}' > package.json",
+      "options": {
+        "cwd": "${workspaceFolder}/../../work"
+      },
+      "presentation": {
+        "echo": true,
+        "reveal": "always",
+        "focus": false,
+        "panel": "shared",
+        "showReuseMessage": true,
+        "clear": false
+      }
+    },
+    {
+      "label": "Setup angular.json",
+      "type": "shell",
+      "command": "touch .angular.json && echo '{\"version\": 1,\"projects\": {},\"newProjectRoot\": \"projects\"}' > .angular.json",
+      "options": {
+        "cwd": "${workspaceFolder}/../../work"
+      },
+      "presentation": {
+        "echo": true,
+        "reveal": "always",
+        "focus": false,
+        "panel": "shared",
+        "showReuseMessage": true,
+        "clear": false
+      }
+    },
+
+    {
+      "label": "Setup Work Dir",
+      "dependsOrder": "sequence",
+      "dependsOn": ["Create Work Dir", "Setup package.json", "Setup angular.json"]
+    }
+  ]
+}

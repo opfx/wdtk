@@ -1,0 +1,39 @@
+{
+  "folders": [
+    {
+      "name": "Angular",
+      "path": "."
+    },
+    {
+      "name": "Jest",
+      "path": "./../jest"
+    },
+    {
+      "name": "Workspace",
+      "path": "./../workspace"
+    },
+    {
+      "name": "Core",
+      "path": "./../core"
+    },
+    {
+      "name": "Work",
+      "path": "./../../work"
+    }
+  ],
+  "settings": {
+    "terminal.integrated.cwd": "./../../../wdtk",
+    "files.eol": "\n",
+    "files.exclude": {
+      "**/node_modules": true
+    },
+    "cSpell.words": ["wdtk"],
+    "jest.pathToJest": "yarn jest",
+    "jest.disabledWorkspaceFolders": ["Work"]
+  },
+
+  "launch": {
+    "configurations": [],
+    "compounds": []
+  }
+}

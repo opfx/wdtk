@@ -1,0 +1,32 @@
+{
+  // Use IntelliSense to learn about possible attributes.
+  // Hover to view descriptions of existing attributes.
+  // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "type": "node",
+      "request": "launch",
+      "name": "generate app",
+      "skipFiles": ["<node_internals>/**"],
+      "program": "${workspaceFolder}/../../bin/wx",
+      "cwd": "${workspaceFolder}/../../work",
+      "console": "integratedTerminal",
+      "args": ["generate", "@wdtk/angular:app", "sample1", "--directory", "apps/sample", "--verbose", "--dry-run", "--skip-install"],
+      "env": { "WX_DEBUG": "true", "WX_DISABLE_VERSION_CHECK": "true" },
+      "preLaunchTask": "Setup Work Dir"
+    },
+    {
+      "type": "node",
+      "request": "launch",
+      "name": "generate lib",
+      "skipFiles": ["<node_internals>/**"],
+      "program": "${workspaceFolder}/../../bin/wx",
+      "cwd": "${workspaceFolder}/../../work",
+      "console": "integratedTerminal",
+      "args": ["generate", "@wdtk/angular:lib", "sample1", "--verbose", "--skip-install"],
+      "env": { "WX_DEBUG": "true", "WX_DISABLE_VERSION_CHECK": "true" },
+      "preLaunchTask": "Setup Work Dir"
+    }
+  ]
+}
