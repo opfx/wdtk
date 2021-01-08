@@ -27,6 +27,17 @@
       "args": ["generate", "@wdtk/angular:lib", "sample1", "--verbose", "--skip-install"],
       "env": { "WX_DEBUG": "true", "WX_DISABLE_VERSION_CHECK": "true" },
       "preLaunchTask": "Setup Work Dir"
+    },
+    {
+      "type": "node",
+      "name": "vscode-jest-tests",
+      "request": "launch",
+      "program": "${workspaceFolder}/../../node_modules/jest/bin/jest",
+      "args": ["--runInBand"],
+      "cwd": "${workspaceFolder}",
+      "console": "integratedTerminal",
+      "internalConsoleOptions": "neverOpen",
+      "disableOptimisticBPs": true
     }
   ]
 }
