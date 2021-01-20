@@ -1,16 +1,16 @@
-import { versions as latestVersions } from '@wdtk/core';
-
+import { versions as coreVersions } from '@wdtk/core';
+// see: for Karma dependencies https://github.com/nrwl/nx/blob/master/packages/angular/src/schematics/karma/karma.ts
 export const versions = {
-  ...latestVersions,
+  ...coreVersions,
   Karma: '~5.0.0',
   KarmaChromeLauncher: '~3.1.0',
-  KarmaCoverageIstanbulReporter: '~2.1.0',
-  KarmaJasmine: '~3.0.1',
-  KarmaJasmineHtmlReporter: '^1.4.2',
-  NgPackager: '^10.1.2',
+  KarmaCoverageIstanbulReporter: '~3.0.2',
+  KarmaJasmine: '~4.0.0',
+  KarmaJasmineHtmlReporter: '^1.5.0',
+  NgPackager: '^11.0.0',
   Protractor: '~7.0.0',
-  JasmineCore: '~3.5.0',
-  JasmineSpecReporter: '~4.2.1',
+  JasmineCore: '~3.6.0',
+  JasmineSpecReporter: '~5.0.0',
   JasmineTypes: '~3.5.0',
   JasmineWd2Types: '~2.0.3',
 };

@@ -14,8 +14,8 @@
     "types": "./index.d.ts"
   },
   "dependencies": {
-    "@angular-devkit/architect": "~0.1001.3",
-    "@angular-devkit/schematics": "^10.1.3",
+    "@angular-devkit/architect": "~0.1100.5",
+    "@angular-devkit/schematics": "^11.0.5",
     "@wdtk/core": "0.0.0"
   },
   "peerDependencies": {

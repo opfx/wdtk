@@ -1,6 +1,6 @@
 export const versions = {
-  Angular: '^10.1.3',
-  AngularBuild: '~0.1001.3',
+  Angular: '^11.0.5',
+  AngularBuild: '~0.1100.5',
   Codelyzer: '^6.0.0',
   Wdtk: '^0.4.0',
   NodeTypes: '^14.11.2',

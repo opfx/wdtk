@@ -22,7 +22,7 @@
   },
   "comments": {
     "dependencies": {
-      "@angular-devkit/schematics": "^10.1.3"
+      "@angular-devkit/schematics": "^11.0.5"
     }
   }
 }
