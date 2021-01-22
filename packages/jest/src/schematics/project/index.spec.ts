@@ -71,9 +71,16 @@ describe(`jest project schematic`, () => {
     const target = project.targets.get('test');
     expect(target.builder).toEqual('@wdtk/jest:jest');
     expect(target.options.jestConfig).toEqual('test-project/jest.config.js');
-    expect(target.options.setupFile).toEqual('test-project/src/test-setup.ts');
-    expect(target.options.tsConfig).toEqual('test-project/tsconfig.spec.json');
     expect(target.options.passWithNoTests).toBe(true);
+  });
+
+  it(`should not configure the parent's project 'test' target with deprecated options`, async () => {
+    const tree = await runSchematic({ project: 'test-project', setupFile: SetupFile.Angular });
+    const workspace = await getWorkspaceDefinition(tree);
+    const project = workspace.projects.get('test-project');
+    const target = project.targets.get('test');
+    expect(target.options.setupFile).toBeUndefined();
+    expect(target.options.tsConfig).toBeUndefined();
   });
 
   it(`should configure the parent's project 'lint' target`, async () => {

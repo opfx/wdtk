@@ -167,16 +167,12 @@ function setupWorkspaceDefinition(opts: ProjectOptions): Rule {
     const root = normalize(project.root);
     const config = join(root, 'jest.config.js');
     const specTsConfig = join(root, 'tsconfig.spec.json');
-    const setupFile = join(root, 'src/test-setup.ts');
 
     const options: any = {
       jestConfig: config,
-      tsConfig: specTsConfig,
       passWithNoTests: true,
     };
-    if (opts.setupFile !== 'none') {
-      options.setupFile = setupFile;
-    }
+
     project.targets.add({
       name: 'test',
       builder: '@wdtk/jest:jest',
