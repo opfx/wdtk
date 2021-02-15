@@ -21,7 +21,8 @@
     "build": "node ./bin/admin build",
     "publish": "node ./bin/admin publish",
     "unpublish": "node ./bin/admin unpublish",
-    "wx": "node ./bin/wx"
+    "wx": "node ./bin/wx",
+    "postinstall": "node ./sdk/hooks/yarn/postinstall"
   },
   "dependencies": {
     "tslib": "^2.0.1"
