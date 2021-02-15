@@ -10,7 +10,7 @@
     },
     {
       "name": "Work",
-      "path": "./../../work"
+      "path": "./../../../work"
     }
   ],
   "settings": {
@@ -24,7 +24,30 @@
     "jest.disabledWorkspaceFolders": ["Work", "Core"]
   },
   "launch": {
-    "configurations": [],
+    "configurations": [
+      {
+        "type": "node",
+        "request": "launch",
+        "name": "generate app",
+        "skipFiles": ["<node_internals>/**"],
+        "program": "${workspaceFolder:PHP}/../../bin/wx",
+        "cwd": "${workspaceFolder:PHP}/../../../work",
+        "console": "integratedTerminal",
+        "args": ["generate", "@wdtk/php:app", "api", "--verbose", "--skip-install" /*, "--dry-run"*/],
+        "env": { "WX_DEBUG": "true", "WX_DISABLE_VERSION_CHECK": "true" }
+      },
+      {
+        "type": "node",
+        "request": "launch",
+        "name": "serve app",
+        "skipFiles": ["<node_internals>/**"],
+        "program": "${workspaceFolder:PHP}/../../bin/wx",
+        "cwd": "${workspaceFolder:PHP}/../../../work",
+        "console": "integratedTerminal",
+        "args": ["start", "api", "--verbose"],
+        "env": { "WX_DEBUG": "true", "WX_DISABLE_VERSION_CHECK": "true" }
+      }
+    ],
     "compounds": []
   }
 }

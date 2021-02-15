@@ -14,6 +14,20 @@
         "index": 0
       },
       "x-prompt": "What name would you like to use for the PHP application?"
+    },
+    "directory": {
+      "description": "The directory in which the new application will be created.",
+      "type": "string"
+    },
+    "skipFormat": {
+      "description": "Skip formatting files.",
+      "type": "boolean",
+      "default": false
+    },
+    "skipInstall": {
+      "description": "Skip installing dependencies",
+      "type": "boolean",
+      "default": false
     }
   },
   "required": ["name"]

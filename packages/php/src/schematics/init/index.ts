@@ -8,6 +8,7 @@ import { Schema as InitOptions } from './schema';
 export default function (opts: Partial<InitOptions>): Rule {
   return async (tree: Tree, ctx: SchematicContext) => {
     opts = await normalizeOptions(tree, opts);
+    ctx.logger.debug(`▶ Running '@wdtk/php:init' schematic`);
     return chain([setupWorkspaceDefinition(opts), formatFiles(opts)]);
   };
 }

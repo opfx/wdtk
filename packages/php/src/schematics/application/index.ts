@@ -1,22 +1,85 @@
-import { chain, move, schematic } from '@angular-devkit/schematics';
-import { Rule, SchematicContext, SchematicsException, Tree } from '@angular-devkit/schematics';
+import { join, normalize } from '@angular-devkit/core';
+import { Rule, SchematicContext, Tree } from '@angular-devkit/schematics';
+import { apply, applyTemplates, chain, move, mergeWith, schematic, url } from '@angular-devkit/schematics';
 
-import { Schema as ApplicationOptions } from './schema';
+import { getWorkspaceDefinition, offsetFromRoot } from '@wdtk/core';
+import { normalizePackageName, normalizeProjectName } from '@wdtk/core';
+import { updateWorkspaceDefinition } from '@wdtk/core';
+import { ProjectDefinition } from '@wdtk/core';
+
+import { strings } from '@wdtk/core/util';
+
+import { Schema } from './schema';
+
+export interface ApplicationOptions extends Schema {
+  packageName: string;
+  projectRoot: string;
+}
 
 export default function (opts: ApplicationOptions): Rule {
-  return (tree: Tree, ctx: SchematicContext) => {
-    ctx.logger.debug(`Running '@wdtk/php:application' schematic`);
-    opts = normalizeOptions(tree, opts);
-    return chain([schematic('init', { ...opts, skipInstall: true })]);
+  return async (tree: Tree, ctx: SchematicContext) => {
+    ctx.logger.debug(`▶ Running '@wdtk/php:application' schematic`);
+    opts = await normalizeOptions(tree, opts);
+    return chain([schematic('init', { ...opts, skipFormat: true, skipInstall: true }), generateFiles(opts), generateProjectDefinition(opts)]);
   };
 }
 
-function normalizeOptions(tree: Tree, opts: ApplicationOptions): ApplicationOptions {
-  if (!opts.name) {
-    throw new SchematicsException(`Invalid options, "name" is required.`);
-  }
+/**
+ * Generates the project files for the PHP application.
+ * @param opts
+ */
+function generateFiles(opts: ApplicationOptions): Rule {
+  return mergeWith(
+    apply(url('./files'), [
+      applyTemplates({
+        ...opts,
+        dot: '.',
+        offsetFromRoot: offsetFromRoot(opts.projectRoot),
+      }),
+      move(opts.projectRoot),
+    ])
+  );
+}
+
+/**
+ * Generates the project definition for the PHP application.
+ * @param opts
+ */
+function generateProjectDefinition(opts: ApplicationOptions): Rule {
+  const normalizedProjectRoot = normalize(opts.projectRoot);
+  return updateWorkspaceDefinition((workspace) => {
+    const project = workspace.projects.add({
+      name: opts.name,
+      root: normalizedProjectRoot,
+      projectType: 'application',
+    });
+    project.targets.add({
+      name: 'build',
+      builder: '@wdtk/php:build',
+    });
+    project.targets.add({
+      name: 'serve',
+      builder: '@wdtk/php:serve',
+      options: {
+        main: join(normalizedProjectRoot, 'src/index.php'),
+      },
+    });
+    workspace.extensions.defaultProject = workspace.extensions.defaultProject || opts.name;
+  });
+}
+
+async function normalizeOptions(tree: Tree, opts: ApplicationOptions): Promise<ApplicationOptions> {
+  const workspace = await getWorkspaceDefinition(tree);
+  const newProjectRoot = workspace.extensions.newProjectRoot || '';
+
+  opts.name = normalizeProjectName(opts.name);
+  const packageName = normalizePackageName(tree, opts.name);
+
+  const projectRoot = opts.directory ? strings.dasherize(opts.directory) : `${newProjectRoot}/${opts.name}`;
 
   return {
     ...opts,
+    projectRoot,
+    packageName,
   };
 }

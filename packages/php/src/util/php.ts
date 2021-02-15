@@ -8,18 +8,19 @@ import { Observable } from 'rxjs';
 
 export type BuildResult = BuilderOutput;
 
-export function runPhp(ctx: BuilderContext): Observable<BuildResult> {
+export function runPhp(opts: any, ctx: BuilderContext): Observable<BuildResult> {
   const spawnOpts: SpawnOptions = {
-    cwd: 'D:\\work\\opfx\\proj\\wdtk\\wdtk\\work\\projects\\api\\src',
+    // cwd: opts.docRoot,
     // shell: true, // if shell is set to true spawn will report the shell's pid instead of php's
     stdio: 'inherit',
   };
-  const spawnArgs = ['-S', 'localhost:8000', 'main.php'];
+  // const spawnArgs = ['-S', 'localhost:8000', opts.index];
+  const spawnArgs = ['-S', 'localhost:8000', '-t', opts.docRoot];
 
   return new Observable<BuildResult>((obs) => {
     ctx.logger.debug(`spawning php process with args ${JSON.stringify(spawnArgs)}`);
 
-    const phpProcess = spawn('php.exe', spawnArgs, spawnOpts);
+    const phpProcess = spawn('php', spawnArgs, spawnOpts);
 
     ctx.logger.debug(`php pid ${phpProcess.pid}`);
 
