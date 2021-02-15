@@ -2,26 +2,26 @@
   "folders": [
     {
       "name": "PHP",
-      "path": "packages/php"
+      "path": "."
     },
     {
       "name": "Core",
-      "path": "packages/core"
+      "path": "./../../packages/core"
     },
     {
-      "name": "work",
-      "path": "work"
+      "name": "Work",
+      "path": "./../../work"
     }
   ],
   "settings": {
-    // "terminal.integrated.cwd": "./../../",
+    "terminal.integrated.cwd": "./../../../wdtk",
     "files.eol": "\n",
     "files.exclude": {
       "**/node_modules": true
     },
     "cSpell.words": ["wdtk"],
     "jest.pathToJest": "yarn test",
-    "jest.disabledWorkspaceFolders": ["work", "Core"]
+    "jest.disabledWorkspaceFolders": ["Work", "Core"]
   },
   "launch": {
     "configurations": [],
