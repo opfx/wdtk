@@ -19,7 +19,14 @@
     "files.exclude": {
       "**/node_modules": true
     },
-    "cSpell.words": ["wdtk"],
+    "cSpell.customWorkspaceDictionaries": [
+      {
+        "name": "Workspace dictionary",
+        "description": "These are words that can be used for this workspace",
+        "path": "./../../sdk/var/cspell/dictionary.txt",
+        "addWords": true
+      }
+    ],
     "jest.pathToJest": "yarn test",
     "jest.disabledWorkspaceFolders": ["Work", "Core"]
   },
