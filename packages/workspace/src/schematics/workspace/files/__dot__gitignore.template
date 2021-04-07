@@ -10,6 +10,10 @@
 /tmp
 /out-tsc
 
+# tools generated data
+**/.phpunit
+
+
 # dependencies
 **/node_modules
 **/vendor
