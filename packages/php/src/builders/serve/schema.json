@@ -4,9 +4,23 @@
   "description": "PHP serve target options for Build Facade.",
   "type": "object",
   "properties": {
+    "docRoot": {
+      "type": "string",
+      "description": "The document root to use."
+    },
+    "host": {
+      "type": "string",
+      "description": "Host to listen on.",
+      "default": "localhost"
+    },
     "main": {
       "type": "string",
       "description": "The PHP file to execute."
+    },
+    "port": {
+      "type": "number",
+      "description": "Port to listen on.",
+      "default": 8000
     }
   },
   "additionalProperties": true

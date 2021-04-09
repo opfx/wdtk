@@ -1,0 +1,16 @@
+<?php
+
+use PHPUnit\Framework\TestCase;
+
+
+
+final class SampleTest extends TestCase {
+    /**
+     * @test
+     */
+    public function getSomethingShouldReturnSomething() {
+        $common = new Sample();
+
+        $this->assertEquals($common->getSomething(), 'something');
+    }
+}

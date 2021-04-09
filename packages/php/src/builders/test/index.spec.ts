@@ -1,5 +1,5 @@
 describe(`PHP build target`, () => {
   it(`should do something`, async () => {
-    expect(true).toEqual(true);
+    expect(true).toEqual(false);
   });
 });

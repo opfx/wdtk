@@ -1,0 +1,12 @@
+{
+  "name": "<%= packageNameForComposer %>",
+  "description": "Description for <%= name %> application",
+  "license": "UNLICENSED",
+  "authors": [],
+  "scripts": {},
+  "require": {
+    "php": ">=7.4.15"
+  },
+  "require-dev": {},
+  "autoload": {}
+}

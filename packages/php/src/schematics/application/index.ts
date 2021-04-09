@@ -2,10 +2,9 @@ import { join, normalize } from '@angular-devkit/core';
 import { Rule, SchematicContext, Tree } from '@angular-devkit/schematics';
 import { apply, applyTemplates, chain, move, mergeWith, schematic, url } from '@angular-devkit/schematics';
 
-import { getWorkspaceDefinition, offsetFromRoot } from '@wdtk/core';
+import { addInstallTask, formatFiles, getWorkspaceDefinition, offsetFromRoot } from '@wdtk/core';
 import { normalizePackageName, normalizeProjectName } from '@wdtk/core';
 import { updateWorkspaceDefinition } from '@wdtk/core';
-import { ProjectDefinition } from '@wdtk/core';
 
 import { strings } from '@wdtk/core/util';
 
@@ -13,14 +12,22 @@ import { Schema } from './schema';
 
 export interface ApplicationOptions extends Schema {
   packageName: string;
+  packageNameForComposer: string;
   projectRoot: string;
+  projectType: string;
 }
 
 export default function (opts: ApplicationOptions): Rule {
   return async (tree: Tree, ctx: SchematicContext) => {
     ctx.logger.debug(`▶ Running '@wdtk/php:application' schematic`);
     opts = await normalizeOptions(tree, opts);
-    return chain([schematic('init', { ...opts, skipFormat: true, skipInstall: true }), generateFiles(opts), generateProjectDefinition(opts)]);
+    return chain([
+      schematic('project', { ...opts, skipFormat: true, skipInstall: true }), //
+      generateFiles(opts),
+      generateProjectDefinition(opts),
+      formatFiles(opts),
+      addInstallTask(opts),
+    ]);
   };
 }
 
@@ -74,6 +81,7 @@ async function normalizeOptions(tree: Tree, opts: ApplicationOptions): Promise<A
 
   opts.name = normalizeProjectName(opts.name);
   const packageName = normalizePackageName(tree, opts.name);
+  const packageNameForComposer = packageName.replace('@', '');
 
   const projectRoot = opts.directory ? strings.dasherize(opts.directory) : `${newProjectRoot}/${opts.name}`;
 
@@ -81,5 +89,7 @@ async function normalizeOptions(tree: Tree, opts: ApplicationOptions): Promise<A
     ...opts,
     projectRoot,
     packageName,
+    packageNameForComposer,
+    projectType: 'application',
   };
 }

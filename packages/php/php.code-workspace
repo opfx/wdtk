@@ -7,11 +7,15 @@
     {
       "name": "Core",
       "path": "./../../packages/core"
-    },
-    {
-      "name": "Work",
-      "path": "./../../../work"
     }
+    // {
+    //   "name": "Jest",
+    //   "path": "./../../packages/jest"
+    // },
+    // {
+    //   "name": "Workspace",
+    //   "path": "./../../packages/workspace"
+    // }
   ],
   "settings": {
     "terminal.integrated.cwd": "./../../../wdtk",
@@ -38,9 +42,20 @@
         "name": "generate app",
         "skipFiles": ["<node_internals>/**"],
         "program": "${workspaceFolder:PHP}/../../bin/wx",
-        "cwd": "${workspaceFolder:PHP}/../../../work",
+        "cwd": "${workspaceFolder:PHP}/../../../work/sample",
         "console": "integratedTerminal",
-        "args": ["generate", "@wdtk/php:app", "api", "--verbose", "--skip-install" /*, "--dry-run"*/],
+        "args": ["generate", "@wdtk/php:app", "xpi", "--verbose", "--skip-install" /*, "--dry-run"*/],
+        "env": { "WX_DEBUG": "true", "WX_DISABLE_VERSION_CHECK": "true" }
+      },
+      {
+        "type": "node",
+        "request": "launch",
+        "name": "generate lib",
+        "skipFiles": ["<node_internals>/**"],
+        "program": "${workspaceFolder:PHP}/../../bin/wx",
+        "cwd": "${workspaceFolder:PHP}/../../../work/sample",
+        "console": "integratedTerminal",
+        "args": ["generate", "@wdtk/php:lib", "common", "--verbose", "--skip-install" /*, "--dry-run"*/],
         "env": { "WX_DEBUG": "true", "WX_DISABLE_VERSION_CHECK": "true" }
       },
       {
@@ -49,10 +64,32 @@
         "name": "serve app",
         "skipFiles": ["<node_internals>/**"],
         "program": "${workspaceFolder:PHP}/../../bin/wx",
-        "cwd": "${workspaceFolder:PHP}/../../../work",
+        "cwd": "${workspaceFolder:PHP}/../../../work/php",
         "console": "integratedTerminal",
         "args": ["start", "api", "--verbose"],
         "env": { "WX_DEBUG": "true", "WX_DISABLE_VERSION_CHECK": "true" }
+      },
+      {
+        "type": "node",
+        "request": "launch",
+        "name": "build lib",
+        "skipFiles": ["<node_internals>/**"],
+        "program": "${workspaceFolder:PHP}/../../bin/wx",
+        "cwd": "${workspaceFolder:PHP}/../../../work/sample",
+        "console": "integratedTerminal",
+        "args": ["build", "common", "--verbose"],
+        "env": { "WX_DEBUG": "true", "NG_DEBUG": "true", "WX_DISABLE_VERSION_CHECK": "true" }
+      },
+      {
+        "type": "node",
+        "request": "launch",
+        "name": "test lib",
+        "skipFiles": ["<node_internals>/**"],
+        "program": "${workspaceFolder:PHP}/../../bin/wx",
+        "cwd": "${workspaceFolder:PHP}/../../../work/sample",
+        "console": "integratedTerminal",
+        "args": ["test", "common", "--verbose"],
+        "env": { "WX_DEBUG": "true", "NG_DEBUG": "true", "WX_DISABLE_VERSION_CHECK": "true" }
       }
     ],
     "compounds": []

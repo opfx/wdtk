@@ -1,0 +1,24 @@
+<?php
+
+function ___PHAR___STARTUP() { 
+    static $classes = null;
+    if ($classes === null) {
+        $classes = [___CLASSLIST___];
+        $___PHAR___ClassLoader = function ($cn) use ($classes) {
+            $cn = strtolower($cn);
+            if (!isset($classes[$cn])) {
+                return;
+            }
+            if (defined('___PHAR___PATH')) {
+                require_once ___PHAR___PATH . $classes[$cn];
+            } else {
+                require_once "phar://___PHAR___{$classes[$cn]}";
+            }
+        };
+
+        spl_autoload_register($___PHAR___ClassLoader);
+        Phar::mapPhar('___PHAR___');
+    }
+}
+___PHAR___STARTUP();
+__HALT_COMPILER();

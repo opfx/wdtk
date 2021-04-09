@@ -4,14 +4,22 @@
   "description": "PHP build target options for Build Facade.",
   "type": "object",
   "properties": {
+    "alias": {
+      "type": "string",
+      "description": "The explicit internal phar alias filename."
+    },
     "main": {
       "type": "string",
       "description": "The PHP file to execute."
     },
-    "serve": {
+    "outputPath": {
+      "type": "string",
+      "description": "The full path for the new output directory, relative to the current workspace.\n\nBy default, writes output to a folder named dist/ in the current workspace."
+    },
+    "package": {
       "type": "boolean",
-      "description": "When true, the dev server will be started.",
-      "default": false
+      "description": "Package the library in phar.",
+      "default": true
     },
     "watch": {
       "type": "boolean",
