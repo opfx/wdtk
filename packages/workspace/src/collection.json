@@ -19,6 +19,12 @@
       "schema": "./schematics/remove/schema.json",
       "hidden": true
     },
+    "project": {
+      "description": "Configures commons resources for workspace project.",
+      "factory": "./schematics/project/index",
+      "schema": "./schematics/project/schema.json",
+      "hidden": true
+    },
     "typescript": {
       "description": "Creates an empty workspace",
       "factory": "./schematics/typescript/index",

@@ -1,0 +1,12 @@
+{
+  "folders": [
+    {
+      "name": "<%= strings.classify(name) %>",
+      "path": "."
+    }
+  ],
+  "launch": {
+    "configurations": [],
+    "compounds": []
+  }
+}
