@@ -3,7 +3,9 @@ import { Rule, SchematicContext, Tree } from '@angular-devkit/schematics';
 import { apply, applyTemplates, chain, move, mergeWith, schematic, url } from '@angular-devkit/schematics';
 
 import { addInstallTask, formatFiles, getWorkspaceDefinition } from '@wdtk/core';
-import { normalizeProjectName, normalizePackageName, offsetFromRoot, updateJsonInTree, updateWorkspaceDefinition } from '@wdtk/core';
+import { normalizeProjectName, normalizePackageName, offsetFromRoot, updateWorkspaceDefinition } from '@wdtk/core';
+import { updateProjectDefinition } from '@wdtk/core';
+
 import { strings } from '@wdtk/core/util';
 
 import { versions } from '../../constants';
@@ -56,7 +58,33 @@ function generateFiles(opts: LibraryOptions): Rule {
  * Generates the project definition for the PHP application.
  * @param opts
  */
+/**
+ * Generates the project definition for the PHP application.
+ * @param opts
+ */
 function generateProjectDefinition(opts: LibraryOptions): Rule {
+  const normalizedProjectRoot = normalize(opts.projectRoot);
+  return updateProjectDefinition(opts.name, (project) => {
+    project.targets.add({
+      name: 'build',
+      builder: '@wdtk/php:build',
+      options: {
+        outputPath: opts.outputPath,
+        main: join(normalizedProjectRoot, 'src/main.php'),
+        package: true,
+      },
+    });
+    project.targets.add({
+      name: 'test',
+      builder: '@wdtk/php:test',
+      options: {
+        parallel: true,
+        processes: 'auto',
+      },
+    });
+  });
+}
+function generateProjectDefinitionA(opts: LibraryOptions): Rule {
   const normalizedProjectRoot = normalize(opts.projectRoot);
   const sourceRoot = join(normalizedProjectRoot, 'src');
   return updateWorkspaceDefinition((workspace) => {
@@ -93,10 +121,10 @@ async function normalizeOptions(tree: Tree, opts: LibraryOptions): Promise<Libra
 
   opts.name = normalizeProjectName(opts.name);
 
-  const outputPath = normalize(`dist/${opts.name}/${opts.name}.phar`);
   const packageName = normalizePackageName(tree, opts.name);
   const packageNameForComposer = packageName.replace('@', '');
   const projectRoot = opts.directory ? strings.dasherize(opts.directory) : `${newProjectRoot}/${opts.name}`;
+  const outputPath = `${offsetFromRoot(projectRoot)}/${normalize(`dist/lib/${opts.name}.phar`)}`;
 
   return {
     ...opts,
