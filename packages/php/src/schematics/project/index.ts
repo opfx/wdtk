@@ -2,7 +2,7 @@ import { join, normalize } from '@angular-devkit/core';
 import { Rule, SchematicContext, Tree } from '@angular-devkit/schematics';
 import { chain, externalSchematic, schematic } from '@angular-devkit/schematics';
 
-import { addInstallTask, formatFiles, updateJsonInTree } from '@wdtk/core';
+import { addInstallTask, formatFiles, updateJsonInTree, updateWorkspaceDefinition } from '@wdtk/core';
 import { strings } from '@wdtk/core/util';
 
 import { extensionsRecommendations, launchConfigurations } from '../../constants';
@@ -15,8 +15,9 @@ export default function (opts: ProjectOptions): Rule {
   return async (tree: Tree, ctx: SchematicContext) => {
     ctx.logger.debug(`▶ Running '@wdtk/php:project' schematic`);
     return chain([
-      schematic('init', { ...opts, skipFormat: true, skipInstall: true }), //
+      schematic('init', { ...opts, skipFormat: true, skipInstall: true }),
       externalSchematic('@wdtk/workspace', 'project', { ...opts }),
+      generateProjectDefinition(opts),
       setupProjectVsCodeSettings(opts),
       setupProjectVsCodeExtensionsRecommendations(opts),
       setupProjectVsCodeLaunchConfigurations(opts),
@@ -27,6 +28,24 @@ export default function (opts: ProjectOptions): Rule {
 }
 
 /**
+ * Generates the project definition for the PHP project.
+ * @param opts
+ */
+function generateProjectDefinition(opts: ProjectOptions): Rule {
+  const normalizedProjectRoot = normalize(opts.projectRoot);
+  const sourceRoot = join(normalizedProjectRoot, 'src');
+
+  return updateWorkspaceDefinition((workspace) => {
+    const project = workspace.projects.add({
+      name: opts.name,
+      root: normalizedProjectRoot,
+      sourceRoot,
+      projectType: opts.projectType,
+    });
+    workspace.extensions.defaultProject = workspace.extensions.defaultProject || opts.name;
+  });
+}
+/**
  * Adds the php related settings to the project settings file.
  *
  * Needs to be done both in the project schematic (for the project settings) and in the init schematic (for workspace).
@@ -34,16 +53,32 @@ export default function (opts: ProjectOptions): Rule {
  * @param opts
  */
 function setupProjectVsCodeSettings(opts: ProjectOptions) {
+  const vscodeProjectFile = join(normalize(normalize(opts.projectRoot)), `${opts.name}.code-workspace`);
   return async (tree: Tree, ctx: SchematicContext) => {
-    return updateJsonInTree(join(normalize(opts.projectRoot), '/.vscode/settings.json'), (settings, ctx: SchematicContext) => {
-      ctx.logger.debug(` ∙ checking if php.suggest.basic needs to be turned off`);
-      // only turn off if it's not already set; otherwise, if is set to true
-      // it must have been done so on purpose; it would be not wise to override it
-      if (settings['php.suggest.basic'] === undefined) {
+    return chain([
+      updateJsonInTree(join(normalize(opts.projectRoot), '/.vscode/settings.json'), (settings, ctx: SchematicContext) => {
+        // no checks required; as opposed to init schematic, this schematic
+        // get executed only once, when the project is created
         ctx.logger.debug(` ∙ turning off php.suggest.basic`);
         settings['php.suggest.basic'] = false;
-      }
-    });
+
+        ctx.logger.debug(` ∙ configuring phpunit extension`);
+        settings['phpunit.files'] = '{test,tests}/**/*Test.php';
+      }),
+
+      // seems that php.suggest.basic does not get synced between the folder settings and *.code-workspace settings
+      updateJsonInTree(vscodeProjectFile, (vscodeProject, ctx: SchematicContext) => {
+        ctx.logger.debug(` ∙ checking if php.suggest.basic needs to be turned off in the vscode project`);
+        if (vscodeProject.settings === undefined) {
+          vscodeProject.settings = {};
+        }
+        const settings = vscodeProject.settings;
+        if (settings['php.suggest.basic'] === undefined) {
+          ctx.logger.debug(` ∙ turning off php.suggest.basic`);
+          settings['php.suggest.basic'] = false;
+        }
+      }),
+    ]);
   };
 }
 

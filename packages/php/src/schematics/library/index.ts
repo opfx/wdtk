@@ -2,6 +2,8 @@ import { join, normalize } from '@angular-devkit/core';
 import { Rule, SchematicContext, Tree } from '@angular-devkit/schematics';
 import { apply, applyTemplates, chain, move, mergeWith, schematic, url } from '@angular-devkit/schematics';
 
+import * as Path from 'path';
+
 import { addInstallTask, formatFiles, getWorkspaceDefinition } from '@wdtk/core';
 import { normalizeProjectName, normalizePackageName, offsetFromRoot, updateWorkspaceDefinition } from '@wdtk/core';
 import { updateProjectDefinition } from '@wdtk/core';
@@ -39,6 +41,9 @@ export default function (opts: LibraryOptions): Rule {
  * @param opts
  */
 function generateFiles(opts: LibraryOptions): Rule {
+  const normalizedProjectRoot = normalize(opts.projectRoot);
+  const sourceRoot = join(normalizedProjectRoot, 'src');
+  const distRoot = Path.dirname(opts.outputPath);
   return mergeWith(
     apply(url('./files'), [
       applyTemplates({
@@ -46,6 +51,10 @@ function generateFiles(opts: LibraryOptions): Rule {
         ...opts,
         dot: '.',
         offsetFromRoot: offsetFromRoot(opts.projectRoot),
+        outputDirOffsetFromRoot: offsetFromRoot(distRoot),
+        sourceRoot,
+        distRoot,
+        // rely on php paratest to pull in phpunit
         // phpUnitVersion: versions.PhpUnit,
         paratestVersion: versions.Paratest,
       }),
@@ -84,36 +93,6 @@ function generateProjectDefinition(opts: LibraryOptions): Rule {
     });
   });
 }
-function generateProjectDefinitionA(opts: LibraryOptions): Rule {
-  const normalizedProjectRoot = normalize(opts.projectRoot);
-  const sourceRoot = join(normalizedProjectRoot, 'src');
-  return updateWorkspaceDefinition((workspace) => {
-    const project = workspace.projects.add({
-      name: opts.name,
-      root: normalizedProjectRoot,
-      sourceRoot,
-      projectType: 'library',
-    });
-    project.targets.add({
-      name: 'build',
-      builder: '@wdtk/php:build',
-      options: {
-        outputPath: opts.outputPath,
-        main: join(normalizedProjectRoot, 'src/main.php'),
-        package: true,
-      },
-    });
-    project.targets.add({
-      name: 'test',
-      builder: '@wdtk/php:test',
-      options: {
-        parallel: true,
-        processes: 'auto',
-      },
-    });
-    workspace.extensions.defaultProject = workspace.extensions.defaultProject || opts.name;
-  });
-}
 
 async function normalizeOptions(tree: Tree, opts: LibraryOptions): Promise<LibraryOptions> {
   const workspace = await getWorkspaceDefinition(tree);
@@ -124,7 +103,8 @@ async function normalizeOptions(tree: Tree, opts: LibraryOptions): Promise<Libra
   const packageName = normalizePackageName(tree, opts.name);
   const packageNameForComposer = packageName.replace('@', '');
   const projectRoot = opts.directory ? strings.dasherize(opts.directory) : `${newProjectRoot}/${opts.name}`;
-  const outputPath = `${offsetFromRoot(projectRoot)}/${normalize(`dist/lib/${opts.name}.phar`)}`;
+  // const outputPath = `${offsetFromRoot(projectRoot)}/${normalize(`dist/lib/${opts.name}.phar`)}`;
+  const outputPath = normalize(`dist/lib/${opts.name}.phar`);
 
   return {
     ...opts,

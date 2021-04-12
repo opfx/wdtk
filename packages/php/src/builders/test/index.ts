@@ -50,7 +50,7 @@ function getPhpSpawnArgs(opts: TestBuilderOptions): string[] {
   const toolPath = Path.join('vendor', 'bin', toolToRun);
 
   args.push(toolPath);
-  args.push('-vv');
+  //args.push('-vv');
 
   // if running parallel the tool is paratest, so add paratest specific args
   if (opts.parallel) {

@@ -21,6 +21,47 @@
       "type": "number",
       "description": "Port to listen on.",
       "default": 8000
+    },
+    "debug": {
+      "type": "object",
+      "properties": {
+        "clientPort": {
+          "type": "number",
+          "description": "The port xdebug tries to connect to the ide.",
+          "default": 9000
+        },
+        "enabled": {
+          "type": "boolean",
+          "description": "Enables php xdebug extension.",
+          "default": true
+        },
+        "mode": {
+          "anyOf": [
+            { "type": "string", "enum": ["off", "develop", "coverage", "debug", "gcstats", "profile", "trace"] },
+            {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "enum": ["develop", "coverage", "debug", "gcstats", "profile", "trace"]
+              },
+              "uniqueItems": true,
+              "minItems": 1
+            }
+          ],
+          "description": "Controls which Xdebug features are enabled.",
+          "default": "debug"
+        },
+        "startWithRequest": {
+          "type": "string",
+          "enum": ["yes", "no", "trigger", "default"],
+          "description": "Whether Xdebug enabled featured should be activated at the start of a PHP request.",
+          "default": "yes"
+        },
+        "outputDir": {
+          "type": "string",
+          "description": "The directory where Xdebug will write tracing, profiling, and garbage collection statistics to."
+        }
+      }
     }
   },
   "additionalProperties": true

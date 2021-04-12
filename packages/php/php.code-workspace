@@ -44,7 +44,7 @@
         "program": "${workspaceFolder:PHP}/../../bin/wx",
         "cwd": "${workspaceFolder:PHP}/../../../work/sample",
         "console": "integratedTerminal",
-        "args": ["generate", "@wdtk/php:app", "xpi", "--verbose", "--skip-install" /*, "--dry-run"*/],
+        "args": ["generate", "@wdtk/php:app", "api", "--verbose", "--skip-install" /*, "--dry-run"*/],
         "env": { "WX_DEBUG": "true", "WX_DISABLE_VERSION_CHECK": "true" }
       },
       {

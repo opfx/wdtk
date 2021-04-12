@@ -5,7 +5,7 @@
   "authors": [],
   "scripts": {
     "phpab": "<%= offsetFromRoot %>/node_modules/.bin/phpab",
-    "build": "@phpab --phar --lint -b src -o <%= outputPath %> --alias <%= name %> -t src/main.php -e *main.php src",
+    "build": "@phpab --phar --lint --var PHAR_EXIT_THUNK=__HALT_COMPILER(); -b src -o <%= offsetFromRoot %>/<%= outputPath %> --alias <%= name %> -t src/main.php -e src/main.php src",
     "test": "paratest"
   },
   "require": {

@@ -4,7 +4,8 @@ import { apply, applyTemplates, chain, move, mergeWith, schematic, url } from '@
 
 import { addInstallTask, formatFiles, getWorkspaceDefinition, offsetFromRoot } from '@wdtk/core';
 import { normalizePackageName, normalizeProjectName } from '@wdtk/core';
-import { updateWorkspaceDefinition } from '@wdtk/core';
+import { ProjectDefinition } from '@wdtk/core';
+import { updateProjectDefinition, updateWorkspaceDefinition } from '@wdtk/core';
 
 import { strings } from '@wdtk/core/util';
 
@@ -54,11 +55,34 @@ function generateFiles(opts: ApplicationOptions): Rule {
  */
 function generateProjectDefinition(opts: ApplicationOptions): Rule {
   const normalizedProjectRoot = normalize(opts.projectRoot);
+  return updateProjectDefinition(opts.name, (project) => {
+    project.targets.add({
+      name: 'build',
+      builder: '@wdtk/php:build',
+    });
+    project.targets.add({
+      name: 'serve',
+      builder: '@wdtk/php:serve',
+      options: {
+        main: join(normalizedProjectRoot, 'src/index.php'),
+        debug: {
+          enabled: true,
+          clientPort: 9000,
+          startWithRequest: 'yes',
+          mode: 'debug',
+          outputDir: `${normalizedProjectRoot}/.xdebug`,
+        },
+      },
+    });
+  });
+}
+function generateProjectDefinitionA(opts: ApplicationOptions): Rule {
+  const normalizedProjectRoot = normalize(opts.projectRoot);
   return updateWorkspaceDefinition((workspace) => {
     const project = workspace.projects.add({
       name: opts.name,
       root: normalizedProjectRoot,
-      projectType: 'application',
+      projectType: opts.projectType,
     });
     project.targets.add({
       name: 'build',
@@ -71,7 +95,7 @@ function generateProjectDefinition(opts: ApplicationOptions): Rule {
         main: join(normalizedProjectRoot, 'src/index.php'),
       },
     });
-    workspace.extensions.defaultProject = workspace.extensions.defaultProject || opts.name;
+    // workspace.extensions.defaultProject = workspace.extensions.defaultProject || opts.name;
   });
 }
 
