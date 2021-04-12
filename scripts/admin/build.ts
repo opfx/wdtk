@@ -90,6 +90,11 @@ export default async function (argv: { local?: boolean; snapshot?: boolean }, lo
         if (filename.startsWith('tsconfig')) {
           return false;
         }
+
+        // skip vscode project files
+        if (filename.endsWith('code-workspace')) {
+          return false;
+        }
         // skip files from .gitignore
         // TODO
         return true;
@@ -140,6 +145,8 @@ export default async function (argv: { local?: boolean; snapshot?: boolean }, lo
               // fallthrough
               case 'main':
               // fallthrough
+              case 'ng-update':
+              // fallthrough
               case 'schematics':
               // fallthrough
               case 'types':
@@ -147,6 +154,7 @@ export default async function (argv: { local?: boolean; snapshot?: boolean }, lo
                 break;
             }
           }
+        case 'comments':
         // fallthrough
         case 'scripts':
           delete packageJson[key];
