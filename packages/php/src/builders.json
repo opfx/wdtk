@@ -18,8 +18,8 @@
     },
 
     "test": {
-      "implementation": "./builders/build/index",
-      "schema": "./builders/build/schema.json",
+      "implementation": "./builders/test/index",
+      "schema": "./builders/test/schema.json",
       "description": "Runs PHP unit tests."
     },
     "e2e": {

@@ -1,0 +1,13 @@
+Paratest
+autoload
+dasherize
+devkit
+docroot
+dphar
+dxdebug
+phar
+phptools
+phpunit
+prettierrc
+wdtk
+xdebug

@@ -1,20 +1,23 @@
 import { Tree } from '@angular-devkit/schematics';
 import { SchematicTestRunner, UnitTestTree } from '@angular-devkit/schematics/testing';
-import { Schema as LibraryOptions } from './schema';
 
 import { createEmptyWorkspace } from '@wdtk/core/testing';
 
-const schematicCollection = '@wdtk/jest';
-const schematicName = 'library';
+import { Schema as ProjectOptions, ProjectType } from './schema';
 
-const defaultOptions: LibraryOptions = {
+const schematicCollection = '@wdtk/php';
+const schematicName = 'project';
+
+const defaultOptions: ProjectOptions = {
   name: 'bar',
+  projectRoot: 'projects/bar',
+  projectType: ProjectType.Application,
 };
 
-describe('php library schematic', () => {
+describe('php project schematic', () => {
   const schematicRunner = new SchematicTestRunner(schematicCollection, require.resolve('../../collection.json'));
 
-  const runSchematic = async (opts: LibraryOptions): Promise<UnitTestTree> => {
+  const runSchematic = async (opts: ProjectOptions): Promise<UnitTestTree> => {
     return schematicRunner.runSchematicAsync(schematicName, opts, workspaceTree).toPromise();
   };
   let workspaceTree: Tree;
@@ -23,8 +26,8 @@ describe('php library schematic', () => {
     workspaceTree = createEmptyWorkspace();
   });
 
-  it(`should create project's composer manifest file`, async () => {
+  it(`should create project's vscode workspace file`, async () => {
     const tree = await runSchematic(defaultOptions);
-    expect(tree.exists('/bar/composer.json')).toBeTruthy();
+    expect(tree.exists(`/${defaultOptions.projectRoot}/${defaultOptions.name}.code-workspace`)).toBeTruthy();
   });
 });

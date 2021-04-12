@@ -1,12 +1,12 @@
 {
   "$schema": "http://json-schema.org/schema",
-  "id": "WdtkPhpSchematicsApplication",
-  "title": "Php Application Options Schema",
+  "id": "WdtkPhpSchematicsProject",
+  "title": "Php Project Options Schema",
   "type": "object",
-  "description": "Generates a new PHP application in the workspace.",
+  "description": "Configures a new PHP project in the workspace.",
   "properties": {
     "name": {
-      "description": "The name of the application.",
+      "description": "The name of the project.",
       "type": "string",
       "format": "html-selector",
       "$default": {
@@ -15,9 +15,16 @@
       },
       "x-prompt": "What name would you like to use for the PHP application?"
     },
-    "directory": {
-      "description": "The directory in which the new application will be created.",
-      "type": "string"
+    "projectRoot": {
+      "description": "The root directory of the new app.",
+      "type": "string",
+      "visible": false
+    },
+    "projectType": {
+      "description": "The root directory of the new app.",
+      "type": "string",
+      "enum": ["application", "library"],
+      "visible": false
     },
     "skipFormat": {
       "description": "Skip formatting files.",
@@ -30,5 +37,5 @@
       "default": false
     }
   },
-  "required": ["name"]
+  "required": ["name", "projectType"]
 }

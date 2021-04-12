@@ -1,0 +1,30 @@
+<?php
+
+function ___PHAR___Main() { 
+    static $classes = null;
+    if ($classes === null) {
+        $srcDir = dirname(__FILE__).'/<%= outputDirOffsetFromRoot %>/<%= sourceRoot %>';
+        if(is_dir($srcDir)) {
+            define('___PHAR____SOURCE_PATH', $srcDir);
+        }
+        $classes = [___CLASSLIST___];
+        $___PHAR___ClassLoader = function ($cn) use ($classes) {
+            $cn = strtolower($cn);
+            if (!isset($classes[$cn])) {
+                return;
+            }
+            if (defined('___PHAR____SOURCE_PATH')) {
+                require_once ___PHAR____SOURCE_PATH . $classes[$cn];
+            } else {
+                require_once "phar://___PHAR___{$classes[$cn]}";
+            }
+        };
+
+        spl_autoload_register($___PHAR___ClassLoader);
+        Phar::mapPhar('___PHAR___');
+    }
+}
+___PHAR___Main();
+
+// WARNING: DO NOT MODIFY PAST THIS POINT!
+___PHAR_EXIT_THUNK___

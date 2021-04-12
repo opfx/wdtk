@@ -26,10 +26,17 @@
     "files.eol": "\n",
     "files.exclude": {
       "**/node_modules": true,
-      "**/.vscode":true,
-      "**/jest.config.js":true
+      "**/.vscode": true,
+      "**/jest.config.js": true
     },
-    "cSpell.words": ["wdtk"],
+    "cSpell.customWorkspaceDictionaries": [
+      {
+        "name": "Workspace dictionary",
+        "description": "These are words that can be used for this workspace",
+        "path": "./../../sdk/var/cspell/dictionary.txt",
+        "addWords": true
+      }
+    ],
     "jest.pathToJest": "yarn test",
     "jest.disabledWorkspaceFolders": ["work", "Core"]
   },

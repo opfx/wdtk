@@ -20,6 +20,12 @@
       "description": "Creates a PHP library.",
       "factory": "./schematics/library/index",
       "schema": "./schematics/library/schema.json"
+    },
+    "project": {
+      "description": "Configures a PHP project.",
+      "factory": "./schematics/project/index",
+      "schema": "./schematics/project/schema.json",
+      "hidden": true
     }
   }
 }

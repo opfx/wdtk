@@ -1,0 +1,8 @@
+<?php
+$paths = ['<%= offsetFromRoot %>/<%= distRoot %>', '<%= offsetFromRoot %>/../<%= distRoot %>/'];
+foreach ($paths as $path) {
+  set_include_path(get_include_path() . PATH_SEPARATOR . dirname(__FILE__) . "/$path");
+}
+require_once '<%= name %>.phar';
+
+// add test bootstrapping code here
