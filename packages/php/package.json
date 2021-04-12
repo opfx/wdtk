@@ -22,9 +22,9 @@
     "types": "./index.d.ts"
   },
   "dependencies": {
-    "@wdtk/core": "*",
     "@phptools/autoload": "^1.0.0",
     "@phptools/composer": "^1.0.0",
+    "@wdtk/core": "*",
     "tslib": "^2.0.1"
   },
   "devDependencies": {
