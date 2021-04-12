@@ -1,6 +1,6 @@
 {
   "name": "@wdtk/source",
-  "version": "0.5.0-alpha.0",
+  "version": "1.0.0-next-0",
   "description": "Development Toolkit",
   "main": "index.js",
   "author": "opfx",
@@ -23,6 +23,9 @@
     "unpublish": "node ./bin/admin unpublish",
     "wx": "node ./bin/wx",
     "postinstall": "node ./sdk/hooks/yarn/postinstall"
+  },
+  "resolutions": {
+    "rxjs": "6.6.3"
   },
   "dependencies": {
     "tslib": "^2.0.1"

@@ -14,10 +14,10 @@
     "types": "./index.d.ts"
   },
   "dependencies": {
-    "@angular-devkit/architect": "~0.1100.5",
-    "@angular-devkit/schematics": "^11.0.5",
+    "@angular-devkit/architect": "~0.1102.8",
+    "@angular-devkit/schematics": "^11.2.8",
     "@cypress/webpack-preprocessor": "~4.1.2",
-    "@schematics/angular": "^11.0.5",
+    "@schematics/angular": "^11.2.8",
     "@wdtk/core": "0.0.0",
     "fork-ts-checker-webpack-plugin": "^3.1.1",
     "ts-loader": "^8.0.4",
