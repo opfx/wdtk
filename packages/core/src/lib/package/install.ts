@@ -2,7 +2,8 @@ import { SpawnOptions } from 'child_process';
 import { spawn } from 'child_process';
 
 import { existsSync, mkdtempSync, readFileSync, realpathSync, writeFileSync } from 'fs';
-import * as ora from 'ora';
+// import * as ora from 'ora';
+import { Spinner } from '@wdtk/core/util';
 import { tmpdir } from 'os';
 import * as Path from 'path';
 import * as rimraf from 'rimraf';
@@ -32,7 +33,8 @@ export async function installPackage(packageName: string, packageManager: Packag
     cwd: opts.cwd || process.cwd(),
   };
   return new Promise((resolve, reject) => {
-    const spinner = ora({ text: `Installing '${packageName}' using '${packageManager}'...`, discardStdin: process.platform !== 'win32' });
+    // const spinner = new Spinner({ text: `Installing '${packageName}' using '${packageManager}'...`, discardStdin: process.platform !== 'win32' });
+    const spinner = new Spinner(`Installing '${packageName}' using '${packageManager}'...`);
     spinner.start();
     const installProcess = spawn(packageManager, installArgs, spawnOpts);
     installProcess.stdout.on('data', (data) => {
