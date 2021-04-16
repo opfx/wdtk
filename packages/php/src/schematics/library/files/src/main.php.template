@@ -25,6 +25,3 @@ function ___PHAR___Main() {
     }
 }
 ___PHAR___Main();
-
-// WARNING: DO NOT MODIFY PAST THIS POINT!
-___PHAR_EXIT_THUNK___

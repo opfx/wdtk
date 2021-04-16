@@ -64,11 +64,7 @@ function generateFiles(opts: LibraryOptions): Rule {
 }
 
 /**
- * Generates the project definition for the PHP application.
- * @param opts
- */
-/**
- * Generates the project definition for the PHP application.
+ * Generates the project definition for the PHP library.
  * @param opts
  */
 function generateProjectDefinition(opts: LibraryOptions): Rule {
@@ -103,8 +99,7 @@ async function normalizeOptions(tree: Tree, opts: LibraryOptions): Promise<Libra
   const packageName = normalizePackageName(tree, opts.name);
   const packageNameForComposer = packageName.replace('@', '');
   const projectRoot = opts.directory ? strings.dasherize(opts.directory) : `${newProjectRoot}/${opts.name}`;
-  // const outputPath = `${offsetFromRoot(projectRoot)}/${normalize(`dist/lib/${opts.name}.phar`)}`;
-  const outputPath = normalize(`dist/lib/${opts.name}.phar`);
+  const outputPath = normalize(`dist/lib/`);
 
   return {
     ...opts,
