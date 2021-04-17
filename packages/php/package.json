@@ -25,6 +25,7 @@
     "@phptools/autoload": "^1.0.0",
     "@phptools/composer": "^1.0.0",
     "@wdtk/core": "*",
+    "glob": "^7.1.6",
     "tslib": "^2.0.1"
   },
   "devDependencies": {

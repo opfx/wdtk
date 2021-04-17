@@ -15,6 +15,12 @@
       },
       "x-prompt": "What name would you like to use for the PHP library?"
     },
+    "package": {
+      "description": "Package the library in phar.",
+      "type": "boolean",
+      "format": "html-selector",
+      "x-prompt": "Package the PHP library in a phar?"
+    },
     "directory": {
       "description": "The directory in which the new library will be created.",
       "type": "string"

@@ -76,7 +76,7 @@ function generateProjectDefinition(opts: LibraryOptions): Rule {
       options: {
         outputPath: opts.outputPath,
         main: join(normalizedProjectRoot, 'src/main.php'),
-        package: true,
+        package: opts.package,
       },
     });
     project.targets.add({
@@ -99,7 +99,7 @@ async function normalizeOptions(tree: Tree, opts: LibraryOptions): Promise<Libra
   const packageName = normalizePackageName(tree, opts.name);
   const packageNameForComposer = packageName.replace('@', '');
   const projectRoot = opts.directory ? strings.dasherize(opts.directory) : `${newProjectRoot}/${opts.name}`;
-  const outputPath = normalize(`dist/lib/`);
+  const outputPath = opts.package ? normalize(`dist/lib/${opts.name}.phar`) : normalize(`dist/lib/${opts.name}`);
 
   return {
     ...opts,

@@ -39,7 +39,7 @@
       {
         "type": "node",
         "request": "launch",
-        "name": "generate app",
+        "name": "app generate",
         "skipFiles": ["<node_internals>/**"],
         "program": "${workspaceFolder:PHP}/../../bin/wx",
         "cwd": "${workspaceFolder:PHP}/../../../work/sample",
@@ -50,21 +50,10 @@
       {
         "type": "node",
         "request": "launch",
-        "name": "generate lib",
+        "name": "app serve",
         "skipFiles": ["<node_internals>/**"],
         "program": "${workspaceFolder:PHP}/../../bin/wx",
         "cwd": "${workspaceFolder:PHP}/../../../work/sample",
-        "console": "integratedTerminal",
-        "args": ["generate", "@wdtk/php:lib", "common", "--verbose", "--skip-install" /*, "--dry-run"*/],
-        "env": { "WX_DEBUG": "true", "WX_DISABLE_VERSION_CHECK": "true" }
-      },
-      {
-        "type": "node",
-        "request": "launch",
-        "name": "serve app",
-        "skipFiles": ["<node_internals>/**"],
-        "program": "${workspaceFolder:PHP}/../../bin/wx",
-        "cwd": "${workspaceFolder:PHP}/../../../work/php",
         "console": "integratedTerminal",
         "args": ["start", "api", "--verbose"],
         "env": { "WX_DEBUG": "true", "WX_DISABLE_VERSION_CHECK": "true" }
@@ -72,24 +61,47 @@
       {
         "type": "node",
         "request": "launch",
-        "name": "build lib",
+        "name": "app build",
+        "skipFiles": ["<node_internals>/**"],
+        "program": "${workspaceFolder:PHP}/../../bin/wx",
+        "cwd": "${workspaceFolder:PHP}/../../../work/sample",
+        "console": "integratedTerminal",
+        "args": ["build", "api", "--verbose"],
+        "env": { "WX_DEBUG": "true", "WX_DISABLE_VERSION_CHECK": "true", "NG_DEBUG": "true" }
+      },
+      {
+        "type": "node",
+        "request": "launch",
+        "name": "lib generate",
+        "skipFiles": ["<node_internals>/**"],
+        "program": "${workspaceFolder:PHP}/../../bin/wx",
+        "cwd": "${workspaceFolder:PHP}/../../../work/sample",
+        "console": "integratedTerminal",
+        "args": ["generate", "@wdtk/php:lib", "common", "--verbose", "--skip-install" /*, "--dry-run"*/],
+        "env": { "WX_DEBUG": "true", "WX_DISABLE_VERSION_CHECK": "true" }
+      },
+
+      {
+        "type": "node",
+        "request": "launch",
+        "name": "lib build",
         "skipFiles": ["<node_internals>/**"],
         "program": "${workspaceFolder:PHP}/../../bin/wx",
         "cwd": "${workspaceFolder:PHP}/../../../work/sample",
         "console": "integratedTerminal",
         "args": ["build", "common", "--verbose"],
-        "env": { "WX_DEBUG": "true", "NG_DEBUG": "true", "WX_DISABLE_VERSION_CHECK": "true" }
+        "env": { "WX_DEBUG": "true", "WX_DISABLE_VERSION_CHECK": "true", "NG_DEBUG": "true" }
       },
       {
         "type": "node",
         "request": "launch",
-        "name": "test lib",
+        "name": "lib test",
         "skipFiles": ["<node_internals>/**"],
         "program": "${workspaceFolder:PHP}/../../bin/wx",
         "cwd": "${workspaceFolder:PHP}/../../../work/sample",
         "console": "integratedTerminal",
         "args": ["test", "common", "--verbose"],
-        "env": { "WX_DEBUG": "true", "NG_DEBUG": "true", "WX_DISABLE_VERSION_CHECK": "true" }
+        "env": { "WX_DEBUG": "true", "WX_DISABLE_VERSION_CHECK": "true", "NG_DEBUG": "true" }
       }
     ],
     "compounds": []

@@ -12,6 +12,7 @@ import { strings } from '@wdtk/core/util';
 import { Schema } from './schema';
 
 export interface ApplicationOptions extends Schema {
+  outputPath: string;
   packageName: string;
   packageNameForComposer: string;
   projectRoot: string;
@@ -59,12 +60,24 @@ function generateProjectDefinition(opts: ApplicationOptions): Rule {
     project.targets.add({
       name: 'build',
       builder: '@wdtk/php:build',
+      options: {
+        outputPath: opts.outputPath,
+        main: join(normalizedProjectRoot, 'src/app/index.php'),
+        package: false,
+        assets: [
+          {
+            glob: 'favicon.ico',
+            input: join(normalizedProjectRoot, 'src'),
+            output: 'pub',
+          },
+        ],
+      },
     });
     project.targets.add({
       name: 'serve',
       builder: '@wdtk/php:serve',
       options: {
-        main: join(normalizedProjectRoot, 'src/index.php'),
+        main: join(normalizedProjectRoot, 'src/app/index.php'),
         debug: {
           enabled: true,
           clientPort: 9000,
@@ -74,28 +87,6 @@ function generateProjectDefinition(opts: ApplicationOptions): Rule {
         },
       },
     });
-  });
-}
-function generateProjectDefinitionA(opts: ApplicationOptions): Rule {
-  const normalizedProjectRoot = normalize(opts.projectRoot);
-  return updateWorkspaceDefinition((workspace) => {
-    const project = workspace.projects.add({
-      name: opts.name,
-      root: normalizedProjectRoot,
-      projectType: opts.projectType,
-    });
-    project.targets.add({
-      name: 'build',
-      builder: '@wdtk/php:build',
-    });
-    project.targets.add({
-      name: 'serve',
-      builder: '@wdtk/php:serve',
-      options: {
-        main: join(normalizedProjectRoot, 'src/index.php'),
-      },
-    });
-    // workspace.extensions.defaultProject = workspace.extensions.defaultProject || opts.name;
   });
 }
 
@@ -108,9 +99,10 @@ async function normalizeOptions(tree: Tree, opts: ApplicationOptions): Promise<A
   const packageNameForComposer = packageName.replace('@', '');
 
   const projectRoot = opts.directory ? strings.dasherize(opts.directory) : `${newProjectRoot}/${opts.name}`;
-
+  const outputPath = normalize(`dist/app/${opts.name}`);
   return {
     ...opts,
+    outputPath,
     projectRoot,
     packageName,
     packageNameForComposer,

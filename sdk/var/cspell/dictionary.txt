@@ -1,3 +1,5 @@
+COPYFILE
+FICLONE
 Paratest
 autoload
 dasherize
@@ -5,6 +7,8 @@ devkit
 docroot
 dphar
 dxdebug
+gitkeep
+nodir
 phar
 phptools
 phpunit
