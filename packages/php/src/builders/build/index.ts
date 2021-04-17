@@ -39,11 +39,11 @@ function execute(opts: BuildBuilderOptions, ctx: BuilderContext): Observable<Bui
       return runBuilder(opts, ctx).pipe(
         concatMap(async (buildEvent) => {
           const { success } = buildEvent;
-          if (buildEvent.warnings) {
+          if (buildEvent.warnings && (buildEvent.warnings as any).length > 0) {
             ctx.logger.warn(builderWarningsToString(buildEvent, ctx));
           }
           if (!success) {
-            if (buildEvent.errors) {
+            if (buildEvent.errors && (buildEvent.errors as any).length > 0) {
               ctx.logger.error(builderErrorsToString(buildEvent, ctx));
             }
             return buildEvent;
