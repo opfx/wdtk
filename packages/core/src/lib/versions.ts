@@ -10,5 +10,5 @@ export const versions = {
   TsNode: '~9.0.0',
   Typescript: '~4.1.5',
   ZoneJs: '~0.11.3',
-  Wdtk: '^1.0.0-next-0',
+  Wdtk: '^1.0.0',
 };
