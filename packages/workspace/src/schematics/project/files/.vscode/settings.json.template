@@ -18,5 +18,13 @@
     "**/cypress.json": true,
     "**/.*rc": true,
     "**/test-setup.ts": true
-  }
+  },
+  "cSpell.customWorkspaceDictionaries": [
+    {
+      "name": "Workspace dictionary",
+      "description": "These are words that can be used for this workspace",
+      "path": "./<%= offsetFromRoot %>/sdk/var/cspell/dictionary.txt",
+      "addWords": true
+    }
+  ]
 }
