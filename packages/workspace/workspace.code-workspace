@@ -1,0 +1,45 @@
+{
+  "folders": [
+    {
+      "name": "Workspace",
+      "path": "."
+    },
+    {
+      "name": "Core",
+      "path": "./../../packages/core"
+    }
+  ],
+  "settings": {
+    "terminal.integrated.cwd": "./../../../wdtk",
+    "files.eol": "\n",
+    "files.exclude": {
+      "**/node_modules": true
+    },
+    "cSpell.customWorkspaceDictionaries": [
+      {
+        "name": "Workspace dictionary",
+        "description": "These are words that can be used for this workspace",
+        "path": "./../../sdk/var/cspell/dictionary.txt",
+        "addWords": true
+      }
+    ],
+    "jest.pathToJest": "yarn test",
+    "jest.disabledWorkspaceFolders": ["Work", "Core"]
+  },
+  "launch": {
+    "configurations": [
+      {
+        "type": "node",
+        "request": "launch",
+        "name": "new workspace",
+        "skipFiles": ["<node_internals>/**"],
+        "program": "${workspaceFolder:Workspace}/../../bin/wx",
+        "cwd": "${workspaceFolder:Workspace}/../../../work",
+        "console": "integratedTerminal",
+        "args": ["new", "sample", "--verbose", "--skip-install"],
+        "env": { "WX_DEBUG": "true", "WX_DISABLE_VERSION_CHECK": "true" }
+      }
+    ],
+    "compounds": []
+  }
+}
