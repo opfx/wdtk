@@ -8,6 +8,25 @@ import { logging, JsonObject } from '@angular-devkit/core';
 import { packages } from './../../lib/packages';
 import * as buildSchema from './build-schema';
 
+const minimatch = require('minimatch');
+
+const gitIgnoreFiles = fs.readFileSync(path.join(__dirname, '../../.gitignore'), 'utf-8').split('\n');
+const gitIgnore = gitIgnoreFiles
+  .map((line) => line.replace(/#.*/, ''))
+  .filter((line) => !line.startsWith('!'))
+  .filter((line) => !line.match(/^\s*$/));
+const gitIgnoreExcept = gitIgnoreFiles.filter((line) => line.startsWith('!')).map((line) => line.substr(1));
+
+function gitIgnoreMatch(p: string): boolean {
+  p = path.relative(path.resolve(path.join(__dirname, '..', '..')), p);
+
+  if (gitIgnoreExcept.some((line) => minimatch(p, line))) {
+    return false;
+  }
+
+  return gitIgnore.some((line) => minimatch(p, line));
+}
+
 function exec(command: string, args: string[], opts: { cwd?: string }, log: logging.Logger) {
   const { status, error, stderr, stdout } = spawnSync(command, args, { stdio: 'inherit', ...opts });
   if (status != 0) {
@@ -95,8 +114,9 @@ export default async function (argv: { local?: boolean; snapshot?: boolean }, lo
         if (filename.endsWith('code-workspace')) {
           return false;
         }
-        // skip files from .gitignore
-        // TODO
+        if (gitIgnoreMatch(filename)) {
+          return false;
+        }
         return true;
       });
     packageLog.info(`found ${resources.length} resource(s)...`);
