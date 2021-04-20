@@ -168,7 +168,6 @@ function setupProjectVsCodeLaunchConfigurations(opts: ProjectOptions) {
  */
 function setupProjectVsCodeTaskConfigurations(opts: ProjectOptions) {
   const vscodeProjectFile = join(normalize(normalize(opts.projectRoot)), `${opts.name}.code-workspace`);
-  const vscodeProjectName = strings.classify(opts.name);
 
   return updateJsonInTree(vscodeProjectFile, (vscodeProject, ctx: SchematicContext) => {
     ctx.logger.debug(` ∙ setting up vscode php task configurations`);
