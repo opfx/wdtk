@@ -5,6 +5,6 @@
     "composer": "<%= offsetFromRoot %>/node_modules/.bin/composer",
     "build": "yarn composer run build --no-ansi",
     "test": "yarn composer run test --no-ansi",
-    "postinstall": "yarn composer update --no-ansi"
+    "postinstall": "yarn composer install --no-ansi"
   }
 }

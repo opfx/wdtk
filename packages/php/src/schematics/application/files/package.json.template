@@ -3,6 +3,6 @@
   "version": "0.0.1",
   "scripts": {
     "composer": "<%= offsetFromRoot %>/node_modules/.bin/composer",
-    "postinstall": "yarn composer update --no-ansi"
+    "postinstall": "yarn composer install --no-ansi"
   }
 }
