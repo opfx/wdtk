@@ -10,7 +10,7 @@
       "visible": false
     },
     "projectRoot": {
-      "description": "The root directory of the new app.",
+      "description": "The root directory of the new project.",
       "type": "string",
       "visible": false
     },
