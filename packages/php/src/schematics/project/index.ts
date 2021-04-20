@@ -21,6 +21,7 @@ export default function (opts: ProjectOptions): Rule {
       setupProjectVsCodeSettings(opts),
       setupProjectVsCodeExtensionsRecommendations(opts),
       setupProjectVsCodeLaunchConfigurations(opts),
+      setupProjectVsCodeTaskConfigurations(opts),
       formatFiles(opts),
       addInstallTask(opts),
     ]);
@@ -151,10 +152,47 @@ function setupProjectVsCodeLaunchConfigurations(opts: ProjectOptions) {
       name: 'Launch PHP with currently open test',
       type: 'php',
       request: 'launch',
+      preLaunchTask: `build-${opts.name}`,
       program: '${file}',
       cwd: '${workspaceFolder}',
       port: 9000,
       runtimeArgs: ['-dxdebug.mode=debug', '-dxdebug.start_with_request=yes', '-dxdebug.client_port=9000', '${workspaceFolder}/vendor/bin/phpunit'],
     });
+  });
+}
+
+/**
+ * Adds the build task configuration to the project task settings.
+ *
+ * Needs to be done both in the project schematic (for the project settings) and in the init schematic (for workspace wide settings).
+ */
+function setupProjectVsCodeTaskConfigurations(opts: ProjectOptions) {
+  const vscodeProjectFile = join(normalize(normalize(opts.projectRoot)), `${opts.name}.code-workspace`);
+  const vscodeProjectName = strings.classify(opts.name);
+
+  return updateJsonInTree(vscodeProjectFile, (vscodeProject, ctx: SchematicContext) => {
+    ctx.logger.debug(` ∙ setting up vscode php task configurations`);
+    const tasksConfiguration = vscodeProject.tasks || {};
+    if (!tasksConfiguration.version) {
+      tasksConfiguration.version = '2.0.0';
+    }
+    const tasks = tasksConfiguration.tasks || [];
+    tasks.push({
+      label: `build-${opts.name}`,
+      type: 'shell',
+      command: `wx build ${opts.name}`,
+      group: {
+        kind: 'build',
+        isDefault: true,
+      },
+      presentation: {
+        echo: false,
+        showReuseMessage: false,
+        panel: 'shared',
+        reveal: 'silent',
+      },
+    });
+    tasksConfiguration.tasks = tasks;
+    vscodeProject.tasks = tasksConfiguration;
   });
 }
