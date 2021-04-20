@@ -5,7 +5,7 @@ import { chain, externalSchematic, schematic } from '@angular-devkit/schematics'
 import { addInstallTask, formatFiles, updateJsonInTree, updateWorkspaceDefinition } from '@wdtk/core';
 import { strings } from '@wdtk/core/util';
 
-import { extensionsRecommendations, launchConfigurations } from '../../constants';
+import { extensionsRecommendations } from '../../constants';
 
 import { Schema, ProjectType } from './schema';
 
@@ -119,8 +119,7 @@ function setupProjectVsCodeLaunchConfigurations(opts: ProjectOptions) {
     const configurations = launch.configurations || [];
 
     if (opts.projectType === ProjectType.Application) {
-      launchConfigurations.push({
-        wdtkLaunchId: `phpLaunch${vscodeProjectName}`,
+      configurations.push({
         name: `Launch ${vscodeProjectName} (PHP CLI)`,
         type: 'php',
         request: 'launch',
@@ -130,21 +129,32 @@ function setupProjectVsCodeLaunchConfigurations(opts: ProjectOptions) {
         runtimeArgs: ['-dxdebug.mode=debug', '-dxdebug.start_with_request=yes', '-dxdebug.client_port=9000'],
       });
     }
-    const recommendedConfigurationsWdtkIds = launchConfigurations.map((configuration) => {
-      return configuration.wdtkLaunchId;
+
+    configurations.push({
+      name: 'Listen for Xdebug',
+      type: 'php',
+      request: 'launch',
+      port: 9000,
     });
 
-    const existingConfigurationWdtkIds = configurations
-      .filter((configuration) => configuration.wdtkLaunchId !== undefined)
-      .map((configuration) => configuration.wdtkLaunchId);
+    configurations.push({
+      name: 'Launch PHP with currently open script',
+      type: 'php',
+      request: 'launch',
+      program: '${file}',
+      cwd: '${fileDirname}',
+      port: 9000,
+      runtimeArgs: ['-dxdebug.mode=debug', '-dxdebug.start_with_request=yes', '-dxdebug.client_port=9000'],
+    });
 
-    const missingConfigurationsWdtkIds = recommendedConfigurationsWdtkIds.filter((wdtkId) => !existingConfigurationWdtkIds.includes(wdtkId));
-
-    launchConfigurations.forEach((configuration) => {
-      if (missingConfigurationsWdtkIds.includes(configuration.wdtkLaunchId)) {
-        ctx.logger.debug(` ∙ adding '${configuration.wdtkLaunchId}' launch configuration`);
-        configurations.push(configuration);
-      }
+    configurations.push({
+      name: 'Launch PHP with currently open test',
+      type: 'php',
+      request: 'launch',
+      program: '${file}',
+      cwd: '${workspaceFolder}',
+      port: 9000,
+      runtimeArgs: ['-dxdebug.mode=debug', '-dxdebug.start_with_request=yes', '-dxdebug.client_port=9000', '${workspaceFolder}/vendor/bin/phpunit'],
     });
   });
 }

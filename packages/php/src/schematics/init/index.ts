@@ -1,10 +1,10 @@
-import { chain } from '@angular-devkit/schematics';
+import { chain, noop } from '@angular-devkit/schematics';
 import { Rule, SchematicContext, Tree } from '@angular-devkit/schematics';
 
 import { NodeDependency, NodeDependencyType } from '@wdtk/core';
-import { addWorkspaceDependencies, formatFiles, updateJsonInTree, updateWorkspaceDefinition } from '@wdtk/core';
+import { addWorkspaceDependencies, getWorkspaceDefinition, formatFiles, updateJsonInTree, updateWorkspaceDefinition } from '@wdtk/core';
 
-import { versions, extensionsRecommendations, launchConfigurations } from '../../constants';
+import { versions, extensionsRecommendations } from '../../constants';
 
 import { Schema as InitOptions } from './schema';
 
@@ -16,8 +16,14 @@ const commonDependencies: NodeDependency[] = [
 
 export default function (opts: Partial<InitOptions>): Rule {
   return async (tree: Tree, ctx: SchematicContext) => {
-    opts = await normalizeOptions(tree, opts);
     ctx.logger.debug(`▶ Running '@wdtk/php:init' schematic`);
+    opts = await normalizeOptions(tree, opts);
+    const workspace = await getWorkspaceDefinition(tree);
+    if (workspace.extensions.natures && workspace.extensions.natures['@wdtk/php']) {
+      ctx.logger.debug(` ∙ skipping: php nature is already initialized`);
+      return noop();
+    }
+
     return chain([
       addDependencies(opts), //
       setupWorkspaceDefinition(opts),
@@ -82,21 +88,21 @@ function setupWorkspaceVsCodeLaunchConfigurations(opts: InitOptions) {
     ctx.logger.debug(` ∙ setting up vscode php launch configurations`);
     const configurations = launch.configurations || [];
 
-    const recommendedConfigurationsWdtkIds = launchConfigurations.map((configuration) => {
-      return configuration.wdtkLaunchId;
+    configurations.push({
+      name: 'Listen for Xdebug',
+      type: 'php',
+      request: 'launch',
+      port: 9000,
     });
 
-    const existingConfigurationWdtkIds = configurations
-      .filter((configuration) => configuration.wdtkLaunchId !== undefined)
-      .map((configuration) => configuration.wdtkLaunchId);
-
-    const missingConfigurationsWdtkIds = recommendedConfigurationsWdtkIds.filter((wdtkId) => !existingConfigurationWdtkIds.includes(wdtkId));
-
-    launchConfigurations.forEach((configuration) => {
-      if (missingConfigurationsWdtkIds.includes(configuration.wdtkLaunchId)) {
-        ctx.logger.debug(` ∙ adding '${configuration.wdtkLaunchId}' launch configuration`);
-        configurations.push(configuration);
-      }
+    configurations.push({
+      name: 'Launch PHP with currently open script',
+      type: 'php',
+      request: 'launch',
+      program: '${file}',
+      cwd: '${fileDirname}',
+      port: 9000,
+      runtimeArgs: ['-dxdebug.mode=debug', '-dxdebug.start_with_request=yes', '-dxdebug.client_port=9000'],
     });
   });
 }
