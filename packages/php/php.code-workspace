@@ -7,30 +7,14 @@
     {
       "name": "Core",
       "path": "./../../packages/core"
+    },
+    {
+      "name": "Workspace",
+      "path": "./../../packages/workspace"
     }
-    // {
-    //   "name": "Jest",
-    //   "path": "./../../packages/jest"
-    // },
-    // {
-    //   "name": "Workspace",
-    //   "path": "./../../packages/workspace"
-    // }
   ],
   "settings": {
-    "terminal.integrated.cwd": "./../../../wdtk",
-    "files.eol": "\n",
-    "files.exclude": {
-      "**/node_modules": true
-    },
-    "cSpell.customWorkspaceDictionaries": [
-      {
-        "name": "Workspace dictionary",
-        "description": "These are words that can be used for this workspace",
-        "path": "./../../sdk/var/cspell/dictionary.txt",
-        "addWords": true
-      }
-    ],
+    "terminal.integrated.cwd": "./../../.",
     "jest.pathToJest": "yarn test",
     "jest.disabledWorkspaceFolders": ["Work", "Core"]
   },

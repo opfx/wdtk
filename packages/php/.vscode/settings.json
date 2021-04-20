@@ -1,0 +1,30 @@
+{
+  "editor.defaultFormatter": "esbenp.prettier-vscode",
+  "editor.formatOnSave": true,
+  "files.eol": "\n",
+  "files.exclude": {
+    "**/.git": true,
+    "**/.svn": true,
+    "**/.hg": true,
+    "**/CVS": true,
+    "**/.DS_Store": true,
+    "**/.yarn": true,
+    "**/.vscode": true,
+    "**/node_modules": true,
+    "**/dist": true,
+    "**/tsconfig.*": true,
+    "**/tslint.json": true,
+    "**/jest.*": true,
+    "**/cypress.json": true,
+    "**/.*rc": true,
+    "**/test-setup.ts": true
+  },
+  "cSpell.customWorkspaceDictionaries": [
+    {
+      "name": "Workspace dictionary",
+      "description": "These are words that can be used for this workspace",
+      "path": "./../../sdk/var/cspell/dictionary.txt",
+      "addWords": true
+    }
+  ]
+}
