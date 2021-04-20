@@ -10,19 +10,7 @@
     }
   ],
   "settings": {
-    "terminal.integrated.cwd": "./../../../wdtk",
-    "files.eol": "\n",
-    "files.exclude": {
-      "**/node_modules": true
-    },
-    "cSpell.customWorkspaceDictionaries": [
-      {
-        "name": "Workspace dictionary",
-        "description": "These are words that can be used for this workspace",
-        "path": "./../../sdk/var/cspell/dictionary.txt",
-        "addWords": true
-      }
-    ],
+    "terminal.integrated.cwd": "./../../.",
     "jest.pathToJest": "yarn test",
     "jest.disabledWorkspaceFolders": ["Work", "Core"]
   },
@@ -37,6 +25,31 @@
         "cwd": "${workspaceFolder:Workspace}/../../../work",
         "console": "integratedTerminal",
         "args": ["new", "sample", "--verbose", "--skip-install"],
+        "env": { "WX_DEBUG": "true", "WX_DISABLE_VERSION_CHECK": "true" }
+      },
+      {
+        "type": "node",
+        "request": "launch",
+        "name": "wx natures add",
+        "skipFiles": ["<node_internals>/**"],
+        "program": "${workspaceFolder}/bin/wx",
+        "cwd": "${workspaceFolder}/../work/workspace",
+        "console": "integratedTerminal",
+        // "args": ["nature", "add", "php12", "--verbose"],
+        "args": ["natures", "add", "angular", "--verbose"],
+        "env": { "WX_DEBUG": "true", "WX_DISABLE_VERSION_CHECK": "true" }
+      },
+      {
+        "type": "node",
+        "request": "launch",
+        "name": "wx (remove)",
+        "skipFiles": ["<node_internals>/**"],
+        "program": "${workspaceFolder}/bin/wx",
+        "cwd": "${workspaceFolder}/../work/workspace",
+        "console": "integratedTerminal",
+
+        // "args": ["remove", "--dry-run", "--verbose"],
+        "args": ["remove", "wshop"],
         "env": { "WX_DEBUG": "true", "WX_DISABLE_VERSION_CHECK": "true" }
       }
     ],
