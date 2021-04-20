@@ -1884,6 +1884,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@types/minimatch@npm:3.0.3":
+  version: 3.0.3
+  resolution: "@types/minimatch@npm:3.0.3"
+  checksum: 672ccdac197e8176eed1a9441d0caf8a29a90eb139b1cefdd4c9e71b1c48f5c749f5d101a2d85da15c6259214ebda95072835021407d60330a731a2672964b82
+  languageName: node
+  linkType: hard
+
 "@types/node@npm:*":
   version: 14.14.41
   resolution: "@types/node@npm:14.14.41"
@@ -2012,7 +2019,7 @@ __metadata:
     "@angular-devkit/schematics": ^11.2.8
     "@yarnpkg/lockfile": 1.1.0
     ansi-colors: 4.1.1
-    ini: 1.3.5
+    ini: 1.3.6
     inquirer: ^7.3.3
     jest: 25.2.3
     jsonc-parser: 2.3.0
@@ -2128,10 +2135,12 @@ __metadata:
   resolution: "@wdtk/source@workspace:."
   dependencies:
     "@types/jest": 25.1.4
+    "@types/minimatch": 3.0.3
     "@types/node": 14.0.27
     cypress: ^5.2.0
     glob: ^7.1.6
     jest: 25.2.3
+    minimatch: 3.0.4
     minimist: ^1.2.5
     prettier: 2.0.5
     quicktype-core: ^6.0.68
@@ -6351,10 +6360,10 @@ fsevents@^1.2.7:
   languageName: node
   linkType: hard
 
-"ini@npm:1.3.5":
-  version: 1.3.5
-  resolution: "ini@npm:1.3.5"
-  checksum: 304a78d1e0ec49c6dc316b6a21bee5340ba85159c6581235b26a4cf27e2bac5f66f2c8f0e074ceaf3c48085f89fb974691cbf812df2128d2d74c5ef726d1b19a
+"ini@npm:1.3.6":
+  version: 1.3.6
+  resolution: "ini@npm:1.3.6"
+  checksum: 8c7c0ff83e81dd197e13aa7dfeffaa7e453e63e0bf7c95cbcca58549ec7000af1dd8b67340d4835d860318f4dbdf01047e7a16f897cc225e23609c2da969ff12
   languageName: node
   linkType: hard
 
@@ -8209,7 +8218,7 @@ fsevents@^1.2.7:
   languageName: node
   linkType: hard
 
-"minimatch@npm:^3.0.4":
+"minimatch@npm:3.0.4, minimatch@npm:^3.0.4":
   version: 3.0.4
   resolution: "minimatch@npm:3.0.4"
   dependencies:

@@ -1,6 +1,6 @@
 {
   "name": "@wdtk/source",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Development Toolkit",
   "main": "index.js",
   "author": "opfx",
@@ -32,10 +32,12 @@
   },
   "devDependencies": {
     "@types/jest": "25.1.4",
+    "@types/minimatch": "3.0.3",
     "@types/node": "14.0.27",
     "cypress": "^5.2.0",
     "glob": "^7.1.6",
     "jest": "25.2.3",
+    "minimatch": "3.0.4",
     "minimist": "^1.2.5",
     "prettier": "2.0.5",
     "quicktype-core": "^6.0.68",
