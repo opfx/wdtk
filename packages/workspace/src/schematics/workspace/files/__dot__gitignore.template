@@ -12,7 +12,7 @@
 
 # tools generated data
 **/.phpunit
-
+**/.xdebug
 
 # dependencies
 **/node_modules
