@@ -92,7 +92,12 @@ function generateProjectDefinition(opts: LibraryOptions): Rule {
 
 async function normalizeOptions(tree: Tree, opts: LibraryOptions): Promise<LibraryOptions> {
   const workspace = await getWorkspaceDefinition(tree);
-  const newProjectRoot = workspace.extensions.newProjectRoot;
+
+  let phpNewProjectRoot;
+  if (workspace.extensions.natures && workspace.extensions.natures['@wdtk/php']) {
+    phpNewProjectRoot = workspace.extensions.natures['@wdtk/php'].newProjectRoot;
+  }
+  const newProjectRoot = phpNewProjectRoot ? phpNewProjectRoot : workspace.extensions.newProjectRoot || '';
 
   opts.name = normalizeProjectName(opts.name);
 
