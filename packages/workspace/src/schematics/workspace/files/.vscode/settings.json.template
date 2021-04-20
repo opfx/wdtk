@@ -23,7 +23,7 @@
     {
       "name": "Workspace dictionary",
       "description": "These are words that can be used for this workspace",
-      "path": "./sdk/var/cspell/dictionary.txt",
+      "path": "./sdk/var/cspell/workspace-dictionary.txt",
       "addWords": true
     }
   ]
