@@ -6,7 +6,7 @@
     }
   ],
   "settings": {
-    "terminal.integrated.cwd": "./<%= offsetFromRoot %>/.",
+    "terminal.integrated.cwd": "./<%= offsetFromRoot %>/."
   },
   "launch": {
     "configurations": [],
