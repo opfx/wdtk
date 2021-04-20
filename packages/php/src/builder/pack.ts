@@ -6,10 +6,11 @@ import { getAutoloadBuilderPath } from '@phptools/autoload';
 
 import { BuildResults, ErrorSeverity } from './types';
 
+import { defaultIgnore } from './constants';
 export interface PackOptions {
   alias: string;
   baseDir: string;
-  exclude?: string;
+  ignore?: string;
   include?: string;
   output: string;
   template?: string;
@@ -29,6 +30,7 @@ export async function pack(opts: PackOptions): Promise<BuildResults> {
       errors: [],
       warnings: [],
     };
+
     const php = spawn('php', args);
     php.stdout.on('data', (output) => {
       // ignore std out
@@ -83,16 +85,17 @@ function getArguments(opts: PackOptions): string[] {
   if (opts.template) {
     args.push('--template');
     args.push(opts.template);
-    opts.exclude = opts.template;
+    opts.ignore = opts.template;
   }
 
   args.push('--include');
   args.push('*.*');
 
-  if (opts.exclude) {
+  const ignore = opts.ignore ? defaultIgnore.concat(opts.ignore) : defaultIgnore;
+  ignore.forEach((pattern) => {
     args.push('--exclude');
-    args.push(opts.exclude);
-  }
+    args.push(pattern);
+  });
 
   if (opts.directories) {
     opts.directories.forEach((dir) => {

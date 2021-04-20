@@ -2,7 +2,7 @@ import * as fs from 'fs';
 import * as path from 'path';
 
 import { globAsync } from './../util';
-
+import { defaultIgnore } from './constants';
 export interface SourcePattern {
   glob: string;
   ignore?: string;
@@ -11,8 +11,6 @@ export interface SourcePattern {
   flatten?: boolean;
   followSymLinks?: boolean;
 }
-
-const defaultIgnore = ['.gitkeep', '**/.DS_Store', '**/Thumbs.db'];
 
 export async function copy(entries: SourcePattern[], sourceRoot: string, outputPath: string, changed?: Set<string>) {
   for (const entry of entries) {
