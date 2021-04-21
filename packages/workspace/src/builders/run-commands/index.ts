@@ -55,18 +55,6 @@ function runCommands(opts: RunCommandsBuilderOptions, cwd: string, ctx: BuilderC
   });
 }
 
-function runCommandsD(opts: RunCommandsBuilderOptions, cwd: string, ctx: BuilderContext): Observable<BuilderOutput> {
-  return from(opts.commands).pipe(
-    // mergeMap((command) => {
-    concatMap((command) => {
-      return runCommand(command, cwd, ctx);
-    }),
-    map((result) => {
-      return result;
-    })
-  );
-}
-
 function runCommand(opts, cwd: string, ctx: BuilderContext): Observable<BuilderOutput> {
   const spawnOpts: SpawnOptions = {
     cwd: cwd || process.cwd(),
