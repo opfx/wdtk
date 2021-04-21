@@ -58,7 +58,7 @@ export class Builder {
         };
         const otherFilesPattern = {
           glob: '**/*.php',
-          ignore: ['app/*.*'],
+          ignore: ['app/**'],
           input: '',
           output: '',
         };
