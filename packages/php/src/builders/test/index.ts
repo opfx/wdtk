@@ -1,15 +1,15 @@
 import { BuilderContext, BuilderOutput } from '@angular-devkit/architect';
-import { createBuilder } from '@angular-devkit/architect';
+import { createBuilder, targetFromTargetString } from '@angular-devkit/architect';
 import { JsonObject } from '@angular-devkit/core';
 
-import { SpawnOptions } from 'child_process';
+import { spawn } from 'child_process';
 import * as Path from 'path';
 
 import { Observable } from 'rxjs';
-import { from, of } from 'rxjs';
-import { catchError, switchMap, map } from 'rxjs/operators';
+import { from } from 'rxjs';
 
-import { runPhp } from './../../util';
+import { concatMap, switchMap, map } from 'rxjs/operators';
+
 import { Schema } from './schema';
 
 export interface TestBuilderOptions extends Schema {
@@ -19,28 +19,95 @@ export interface TestBuilderOptions extends Schema {
 export default createBuilder<TestBuilderOptions & JsonObject>(execute);
 
 export function execute(opts: TestBuilderOptions & JsonObject, ctx: BuilderContext): Observable<BuilderOutput> {
-  return from(normalizeOptions(opts, ctx)).pipe(
-    map((opts) => {
-      return {
-        spawnArgs: getPhpSpawnArgs(opts),
-        spawnOpts: getPhpSpawnOpts(opts),
-      };
+  return from(ctx.getProjectMetadata(ctx.target)).pipe(
+    switchMap(async (projectMetadata) => {
+      return { ...(await normalizeOptions(opts, ctx, projectMetadata)) };
     }),
-    switchMap(({ spawnArgs, spawnOpts }) => {
-      return runPhp(spawnArgs, spawnOpts, ctx);
-    }),
-    catchError((err) => {
-      ctx.logger.error(err);
-      return of({ error: `Executing 'test' target failed. Please check above for the error.`, success: false });
+    switchMap((opts) => {
+      return runBuild(opts, ctx).pipe(
+        concatMap(async (buildEvent) => {
+          if (!buildEvent.success) {
+            ctx.logger.error(`Failed to run tests: build failed.`);
+            return buildEvent;
+          }
+
+          try {
+            return await runTests(opts, ctx);
+          } catch (e) {
+            return { success: false, error: `Failed to run tests: ${e.message}` };
+          }
+        }),
+        map((buildEvent) => {
+          return { ...buildEvent };
+        })
+      );
     })
   );
 }
 
-function getPhpSpawnOpts(opts: TestBuilderOptions): SpawnOptions {
-  return { cwd: opts.projectRoot };
+function runBuild(opts: TestBuilderOptions, ctx: BuilderContext): Observable<BuilderOutput> {
+  return new Observable<BuilderOutput>((obs) => {
+    const doBuild = async () => {
+      const buildTarget = targetFromTargetString(opts.buildTarget);
+      const buildOptions = await ctx.getTargetOptions(buildTarget);
+
+      const buildTargetRun = await ctx.scheduleTarget(buildTarget, { ...buildOptions, watch: false });
+
+      try {
+        // throw new Error('Unknown error');
+
+        return await buildTargetRun.result;
+      } finally {
+        await buildTargetRun.stop();
+      }
+    };
+
+    doBuild()
+      .then((result: any) => {
+        if (result.errors && result.errors.length > 0) {
+          obs.next({ success: false });
+        } else {
+          obs.next({ success: true });
+        }
+      })
+      .catch((e) => {
+        obs.next({ success: false, error: e.message });
+      })
+      .finally(() => {
+        obs.complete();
+      });
+  });
 }
 
-function getPhpSpawnArgs(opts: TestBuilderOptions): string[] {
+async function runTests(opts: TestBuilderOptions, ctx: BuilderContext): Promise<BuilderOutput> {
+  const args = getPhpArgs(opts);
+
+  return new Promise((resolve) => {
+    ctx.logger.debug(`spawning php with args: ${JSON.stringify(args)}`);
+    const php = spawn('php', args, { cwd: opts.projectRoot });
+
+    php.stdout.on('data', (output) => {
+      output = output.toString();
+      ctx.logger.info(output);
+    });
+    php.stderr.on('data', (output) => {
+      output = output.toString();
+      ctx.logger.error(output);
+    });
+    const handlePhpExit = (code?: number) => {
+      let success = true;
+      if (code && code !== 0) {
+        success = false;
+      }
+      resolve({ success });
+    };
+    php.on('exit', handlePhpExit);
+    php.on('SIGINT', handlePhpExit);
+    php.on('uncaughtException', handlePhpExit);
+  });
+}
+
+function getPhpArgs(opts: TestBuilderOptions): string[] {
   const args = [];
 
   let toolToRun = 'phpunit';
@@ -70,7 +137,7 @@ function getPhpSpawnArgs(opts: TestBuilderOptions): string[] {
   return args;
 }
 
-async function normalizeOptions(opts: TestBuilderOptions, ctx: BuilderContext): Promise<TestBuilderOptions> {
+async function normalizeOptions(opts: TestBuilderOptions, ctx: BuilderContext, projectMetadata): Promise<TestBuilderOptions> {
   if (opts.parallel) {
     try {
       switch (typeof opts.processes) {
@@ -92,7 +159,7 @@ async function normalizeOptions(opts: TestBuilderOptions, ctx: BuilderContext): 
       opts.processes = 'auto';
     }
   }
-  const projectMetadata = await ctx.getProjectMetadata(ctx.target);
+  // const projectMetadata = await ctx.getProjectMetadata(ctx.target);
   const projectRoot = Path.resolve(ctx.workspaceRoot, (projectMetadata as any).root);
   return {
     ...opts,

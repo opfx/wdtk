@@ -83,6 +83,7 @@ function generateProjectDefinition(opts: LibraryOptions): Rule {
       name: 'test',
       builder: '@wdtk/php:test',
       options: {
+        buildTarget: `${opts.name}:build`,
         parallel: true,
         processes: 'auto',
       },
