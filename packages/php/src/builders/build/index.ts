@@ -6,7 +6,7 @@ import { NodeJsSyncHost } from '@angular-devkit/core/node';
 
 import { Observable } from 'rxjs';
 import { from, of } from 'rxjs';
-import { catchError, concatMap, switchMap, map } from 'rxjs/operators';
+import { concatMap, switchMap, map } from 'rxjs/operators';
 
 import { Spinner } from '@wdtk/core/util';
 
