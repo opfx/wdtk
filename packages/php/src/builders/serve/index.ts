@@ -2,41 +2,97 @@ import { BuilderContext, BuilderOutput } from '@angular-devkit/architect';
 import { createBuilder } from '@angular-devkit/architect';
 import { JsonObject } from '@angular-devkit/core';
 
-import { SpawnOptions } from 'child_process';
+import { spawn, SpawnOptions } from 'child_process';
 import * as Path from 'path';
 import * as File from 'fs';
 
 import { Observable } from 'rxjs';
 import { from, of } from 'rxjs';
-import { catchError, switchMap, map } from 'rxjs/operators';
+import { catchError, concatMap, switchMap, map } from 'rxjs/operators';
 
-import { runPhp } from './../../util';
-
-import { Schema, ModeElement } from './schema';
+import { Schema } from './schema';
 
 export interface ServeBuilderOptions extends Schema {}
 
 export default createBuilder<ServeBuilderOptions & JsonObject>(execute);
 
 export function execute(opts: ServeBuilderOptions & JsonObject, ctx: BuilderContext): Observable<BuilderOutput> {
-  return from(initialize(opts, ctx)).pipe(
-    map((opts) => {
-      return {
-        spawnArgs: getPhpSpawnArgs(opts),
-        spawnOpts: getPhpSpawnOpts(opts),
-      };
+  return from(ctx.getProjectMetadata(ctx.target)).pipe(
+    switchMap(async (projectMetadata) => {
+      opts = await normalizeOptions(opts, ctx, projectMetadata);
+      await initialize(opts, ctx);
+      return opts;
     }),
-    switchMap(({ spawnArgs, spawnOpts }) => {
-      return runPhp(spawnArgs, spawnOpts, ctx);
-    }),
-    catchError((err) => {
-      ctx.logger.error(err);
-      return of({ error: `Executing 'build' target failed. Please check above for the error.`, success: false });
+    switchMap((opts) => {
+      return runBuild(opts, ctx).pipe(
+        concatMap((buildEvent) => {
+          if (!buildEvent.success) {
+            return of(buildEvent);
+          }
+          return runDevServer(opts, ctx);
+        }),
+        map((buildEvent) => {
+          return buildEvent;
+        })
+      );
     })
   );
 }
 
-function getPhpSpawnArgs(opts: ServeBuilderOptions): string[] {
+function runBuild(opts: ServeBuilderOptions, ctx: BuilderContext): Observable<BuilderOutput> {
+  return new Observable<BuilderOutput>((obs) => {
+    obs.next({ success: true });
+    obs.complete();
+  });
+}
+
+function runDevServer(opts: ServeBuilderOptions, ctx: BuilderContext): Observable<BuilderOutput> {
+  const args = getPhpArgs(opts);
+  return new Observable<BuilderOutput>((obs) => {
+    ctx.logger.debug(`spawning php process with args: ${JSON.stringify(args)}`);
+
+    const phpDevServer = spawn('php', args, { cwd: opts.docRoot! });
+
+    ctx.logger.debug(`php dev server was spawned (pid: ${phpDevServer.pid})`);
+
+    // hookup output handlers
+    phpDevServer.stdout.on('data', (output) => {
+      output = output.toString();
+      ctx.logger.info(output);
+    });
+
+    phpDevServer.stderr.on('data', (output) => {
+      output = output.toString();
+      ctx.logger.error(output);
+    });
+
+    const tearDownPhpDevServer = () => {
+      if (phpDevServer && phpDevServer.pid) {
+        ctx.logger.debug(`stopping php dev server (pid: ${phpDevServer.pid})`);
+        phpDevServer.kill();
+      }
+    };
+
+    const handlePhpDevServerExit = (code?: number) => {
+      ctx.logger.debug(`php dev server process exited (code: ${code})`);
+      if (!code || code !== 0) {
+        obs.next({ success: false, error: `PHP dev server exited unexpectedly` });
+      } else {
+        obs.next({ success: true });
+      }
+      obs.complete();
+    };
+
+    phpDevServer.on('exit', handlePhpDevServerExit);
+    phpDevServer.on('SIGINT', handlePhpDevServerExit);
+    phpDevServer.on('uncaughtException', handlePhpDevServerExit);
+
+    // return tear down logic
+    return tearDownPhpDevServer;
+  });
+}
+
+function getPhpArgs(opts: ServeBuilderOptions): string[] {
   const args = [];
 
   if (opts.debug.enabled) {
@@ -62,13 +118,7 @@ function getPhpSpawnArgs(opts: ServeBuilderOptions): string[] {
   return args;
 }
 
-function getPhpSpawnOpts(opts: ServeBuilderOptions): SpawnOptions {
-  return { cwd: opts.docRoot };
-}
-
 async function initialize(opts: ServeBuilderOptions, ctx: BuilderContext): Promise<any> {
-  opts = await normalizeOptions(opts, ctx);
-
   // create the xdebug output dir
   if (opts.debug.outputDir && opts.debug.mode !== 'off') {
     if (!File.existsSync(opts.debug.outputDir)) {
@@ -80,9 +130,8 @@ async function initialize(opts: ServeBuilderOptions, ctx: BuilderContext): Promi
   return opts;
 }
 
-async function normalizeOptions(opts: ServeBuilderOptions, ctx: BuilderContext): Promise<any> {
-  const projectMetadata = await ctx.getProjectMetadata(ctx.target);
-  const projectRoot = Path.resolve(ctx.workspaceRoot, (projectMetadata as any).root);
+async function normalizeOptions(opts: ServeBuilderOptions, ctx: BuilderContext, projectMetadata: any): Promise<any> {
+  const projectRoot = Path.resolve(ctx.workspaceRoot, projectMetadata.root);
 
   const mainPath = Path.resolve(ctx.workspaceRoot, opts.main);
   const docRoot = Path.dirname(mainPath);
