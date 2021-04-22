@@ -4,6 +4,11 @@
   "description": "PHP serve target options for Build Facade.",
   "type": "object",
   "properties": {
+    "buildTarget": {
+      "type": "string",
+      "description": "A build use to build the project, in the format of `project:target[:configuration]`. You can also pass in more than one configuration name as a comma-separated list. Example: `project:target:production,staging`.",
+      "pattern": "^[^:\\s]+:[^:\\s]+(:[^\\s]+)?$"
+    },
     "docRoot": {
       "type": "string",
       "description": "The document root to use."
