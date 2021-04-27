@@ -1,5 +1,5 @@
 import { existsSync, mkdirSync } from 'fs';
-import { dirname } from 'path';
+import { dirname, normalize, basename } from 'path';
 import { spawn } from 'child_process';
 
 import { getAutoloadBuilderPath } from '@phptools/autoload';
@@ -85,7 +85,7 @@ function getArguments(opts: PackOptions): string[] {
   if (opts.template) {
     args.push('--template');
     args.push(opts.template);
-    opts.ignore = opts.template;
+    opts.ignore = `**/${basename(opts.template)}`;
   }
 
   args.push('--include');
@@ -94,7 +94,7 @@ function getArguments(opts: PackOptions): string[] {
   const ignore = opts.ignore ? defaultIgnore.concat(opts.ignore) : defaultIgnore;
   ignore.forEach((pattern) => {
     args.push('--exclude');
-    args.push(pattern);
+    args.push(normalize(pattern));
   });
 
   if (opts.directories) {

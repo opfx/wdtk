@@ -1,8 +1,10 @@
 import { BuilderContext, BuilderOutput } from '@angular-devkit/architect';
 import { createBuilder } from '@angular-devkit/architect';
 import { JsonObject } from '@angular-devkit/core';
-import { normalize, join, resolve, virtualFs } from '@angular-devkit/core';
+import { getSystemPath, normalize, join, resolve, virtualFs } from '@angular-devkit/core';
 import { NodeJsSyncHost } from '@angular-devkit/core/node';
+
+import * as path from 'path';
 
 import { Observable } from 'rxjs';
 import { from, of } from 'rxjs';
@@ -86,9 +88,8 @@ function execute(opts: BuildBuilderOptions, ctx: BuilderContext): Observable<Bui
 
 export function runBuilder(opts: BuildBuilderOptions, ctx: BuilderContext): Observable<BuilderOutput> {
   const getBuilderConfig = (opts: BuildBuilderOptions, ctx: BuilderContext) => {
-    const workspacePath = normalize(ctx.workspaceRoot);
-    const outputPath = join(workspacePath, opts.outputPath);
-    const main = join(workspacePath, opts.main);
+    const outputPath = path.join(ctx.workspaceRoot, opts.outputPath);
+    const main = path.join(ctx.workspaceRoot, opts.main);
     return {
       alias: opts.alias,
       main,
@@ -158,11 +159,11 @@ async function initialize(opts: BuildBuilderOptions, ctx: BuilderContext, projec
 
 async function normalizeOptions(opts: BuildBuilderOptions, ctx: BuilderContext, projectMetadata): Promise<BuildBuilderOptions> {
   opts.alias = opts.alias || ctx.target?.project;
-  const workspaceRoot = normalize(ctx.workspaceRoot);
+  const workspaceRoot = getSystemPath(normalize(ctx.workspaceRoot));
   const projectName = ctx.target?.project;
-  const projectRoot = resolve(workspaceRoot, normalize((projectMetadata.root as string) || ''));
+  const projectRoot = path.resolve(workspaceRoot, normalize((projectMetadata.root as string) || ''));
   const projectType = projectMetadata.projectType as string;
-  const sourceRoot = resolve(workspaceRoot, normalize(projectMetadata.sourceRoot as string));
+  const sourceRoot = path.resolve(workspaceRoot, normalize(projectMetadata.sourceRoot as string));
 
   return { ...opts, projectName, projectRoot, projectType, sourceRoot };
 }
