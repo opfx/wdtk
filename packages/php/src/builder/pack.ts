@@ -66,6 +66,7 @@ export async function pack(opts: PackOptions): Promise<BuildResults> {
 
 function getArguments(opts: PackOptions): string[] {
   const args = [];
+  args.push('-d error_reporting=24575');
   args.push('-dphar.readonly=false');
 
   args.push(getAutoloadBuilderPath());
