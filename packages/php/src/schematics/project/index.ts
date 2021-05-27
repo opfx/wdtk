@@ -154,9 +154,14 @@ function setupProjectVsCodeLaunchConfigurations(opts: ProjectOptions) {
       request: 'launch',
       preLaunchTask: `build-${opts.name}`,
       program: '${file}',
-      cwd: '${workspaceFolder}',
+      cwd: `\${workspaceFolder:${vscodeProjectName}}`,
       port: 9000,
-      runtimeArgs: ['-dxdebug.mode=debug', '-dxdebug.start_with_request=yes', '-dxdebug.client_port=9000', '${workspaceFolder}/vendor/bin/phpunit'],
+      runtimeArgs: [
+        '-dxdebug.mode=debug',
+        '-dxdebug.start_with_request=yes',
+        '-dxdebug.client_port=9000',
+        `\${workspaceFolder:${vscodeProjectName}}/vendor/bin/phpunit`,
+      ],
     });
   });
 }
