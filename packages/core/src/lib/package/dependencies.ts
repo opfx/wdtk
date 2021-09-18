@@ -7,7 +7,7 @@ export enum NodeDependencyType {
   Default = 'dependencies',
   Dev = 'devDependencies',
   Peer = 'peerDependencies',
-  Optional = 'optionalDependecies',
+  Optional = 'optionalDependencies',
 }
 
 export interface NodeDependency {
