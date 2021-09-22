@@ -1,4 +1,4 @@
-import { Rule, SchematicContext, Tree } from '@angular-devkit/schematics';
+import { Rule, SchematicContext } from '@angular-devkit/schematics';
 
 import { updateJsonInTree } from '@wdtk/core';
 

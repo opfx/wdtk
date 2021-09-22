@@ -2,9 +2,9 @@ import { Rule, SchematicContext, Tree } from '@angular-devkit/schematics';
 import { apply, applyTemplates, chain, mergeWith, noop, url } from '@angular-devkit/schematics';
 
 import { NodeDependency, NodeDependencyType } from '@wdtk/core';
-import { addWorkspaceDependencies } from '@wdtk/core';
+import { addWorkspaceDependencies, updateJsonInTree } from '@wdtk/core';
 
-import { versions } from './../../versions';
+import { versions, extensionsRecommendations } from './../../constants';
 
 import { Schema as InitOptions } from './schema';
 
@@ -28,7 +28,7 @@ export default function (opts: InitOptions): Rule {
   return (tree: Tree, ctx: SchematicContext) => {
     ctx.logger.debug(`▶ Running '@wdtk/jest:init' schematic`);
 
-    return chain([generateFiles(opts), addDependencies(opts)]);
+    return chain([generateFiles(opts), addDependencies(opts), setupWorkspaceVsCodeExtensionsRecommendations(opts)]);
   };
 }
 
@@ -57,4 +57,26 @@ function addDependencies(opts: InitOptions): Rule {
       opts.babelJest ? addWorkspaceDependencies(babelDependencies) : noop(),
     ]);
   };
+}
+
+/**
+ * Adds the extensions recommended for PHP development to the workspace root extension recommendations.
+ *
+ * Needs to be done both in the init schematic (for workspace wide settings) and in the project schematic (for project).
+ */
+function setupWorkspaceVsCodeExtensionsRecommendations(opts: InitOptions) {
+  return updateJsonInTree('/.vscode/extensions.json', (extensions, ctx: SchematicContext) => {
+    ctx.logger.debug(` ∙ setting up vscode extension recommendations`);
+    const existingRecommendations: string[] = extensions.recommendations || [];
+    const extensionsToAdd = extensionsRecommendations.filter((extension) => {
+      let includes = false;
+      includes = existingRecommendations.includes(extension);
+      return !includes;
+    });
+    extensionsToAdd.forEach((extension) => {
+      existingRecommendations.push(extension);
+    });
+    extensions.recommendations = existingRecommendations;
+    return extensions;
+  });
 }

@@ -1,7 +1,10 @@
 import { Tree } from '@angular-devkit/schematics';
 import { SchematicTestRunner, UnitTestTree } from '@angular-devkit/schematics/testing';
 
-import { createEmptyWorkspace, getJsonFileContent } from '@wdtk/core/testing';
+import { readJsonInTree } from '@wdtk/core';
+import { createEmptyWorkspace } from '@wdtk/core/testing';
+
+import { extensionsRecommendations } from '../../constants';
 
 import { Schema as InitOptions } from './schema';
 
@@ -21,7 +24,7 @@ describe('jest init schematic', () => {
 
   it(`should add 'jest' dependencies`, async () => {
     const tree = await runSchematic(defaultOptions);
-    const { devDependencies } = getJsonFileContent(tree, 'package.json');
+    const { devDependencies } = readJsonInTree(tree, 'package.json');
 
     expect(devDependencies['jest']).toBeDefined();
     expect(devDependencies['@wdtk/jest']).toBeDefined();
@@ -42,10 +45,38 @@ describe('jest init schematic', () => {
     expect(tree.read('jest.config.js').toString()).toEqual('test');
   });
 
+  it('should add the recommended extension if it does not exist', async () => {
+    const tree = await runSchematic(defaultOptions);
+    const { recommendations } = readJsonInTree(tree, '/.vscode/extensions.json');
+    expect(recommendations).toBeInstanceOf(Array);
+    expect(recommendations).toEqual(expect.arrayContaining(extensionsRecommendations));
+  });
+
+  it('should NOT add the recommended extension if it already exists', async () => {
+    if (!workspaceTree.exists('/.vscode/extensions.json')) {
+      workspaceTree.create(
+        '/.vscode/extensions.json',
+        JSON.stringify({
+          recommendations: [],
+        })
+      );
+    }
+    workspaceTree.overwrite(
+      '/.vscode/extensions.json',
+      JSON.stringify({
+        recommendations: extensionsRecommendations,
+      })
+    );
+    const tree = await runSchematic(defaultOptions);
+    const { recommendations } = readJsonInTree(tree, '/.vscode/extensions.json');
+
+    expect(recommendations).toEqual(extensionsRecommendations);
+  });
+
   describe('--babelJest', () => {
     it(`should add babel dependencies`, async () => {
       const tree = await runSchematic({ ...defaultOptions, babelJest: true });
-      const { devDependencies } = getJsonFileContent(tree, 'package.json');
+      const { devDependencies } = readJsonInTree(tree, 'package.json');
       expect(devDependencies['@babel/core']).toBeDefined();
       expect(devDependencies['@babel/preset-env']).toBeDefined();
       expect(devDependencies['@babel/preset-typescript']).toBeDefined();
@@ -55,7 +86,7 @@ describe('jest init schematic', () => {
 
     it(`should not add 'jest-preset-angular' dependency`, async () => {
       const tree = await runSchematic({ ...defaultOptions, babelJest: true });
-      const { devDependencies } = getJsonFileContent(tree, 'package.json');
+      const { devDependencies } = readJsonInTree(tree, 'package.json');
 
       expect(devDependencies['jest-preset-angular']).not.toBeDefined();
     });
@@ -64,7 +95,7 @@ describe('jest init schematic', () => {
   describe('--support-tsx', () => {
     it(`should not add the 'jest-preset-angular' dependency`, async () => {
       const tree = await runSchematic({ ...defaultOptions, supportTsx: true });
-      const { devDependencies } = getJsonFileContent(tree, 'package.json');
+      const { devDependencies } = readJsonInTree(tree, 'package.json');
 
       expect(devDependencies['jest-preset-angular']).not.toBeDefined();
     });
