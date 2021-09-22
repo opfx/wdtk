@@ -59,6 +59,11 @@ export async function getWorkspaceDefinition(tree: Tree | string = null, path = 
   return workspace;
 }
 
+export async function setWorkspaceDefinition(workspace: WorkspaceDefinition, tree: Tree): Promise<void> {
+  const _host = createHost(tree);
+  workspaces.writeWorkspace(workspace, _host);
+}
+
 export function createHost(tree: Tree): workspaces.WorkspaceHost {
   return {
     async readFile(path: string): Promise<string> {
