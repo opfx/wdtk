@@ -4,6 +4,11 @@
       "version": "1.0.5",
       "description": "Add support for Jest with Angular 9+",
       "factory": "./migrations/update-1.0.5/update-jest-preset-angular"
+    },
+    "add-vscode-extension-workspace": {
+      "version": "1.0.9",
+      "description": "Add recommended vscode extension for running vscode",
+      "factory": "./migrations/update-1.0.9/add-vscode-extension-workspace"
     }
   }
 }
