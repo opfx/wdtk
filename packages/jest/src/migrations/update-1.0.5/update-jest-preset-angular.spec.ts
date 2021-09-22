@@ -4,8 +4,6 @@ import { SchematicTestRunner, UnitTestTree } from '@angular-devkit/schematics/te
 import { readJsonInTree } from '@wdtk/core';
 import { createEmptyWorkspace } from '@wdtk/core/testing';
 
-import update from './update-jest-preset-angular';
-
 const originalWorkspacePackageJson = {
   name: 'sample',
   devDependencies: {
@@ -15,8 +13,6 @@ const originalWorkspacePackageJson = {
     'ts-jest': '^26.4.0',
   },
 };
-
-const updatedWorkspacePackageJson = {};
 
 describe('jest update', () => {
   let schematicRunner = new SchematicTestRunner('test', require.resolve('../../migrations.json'));
