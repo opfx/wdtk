@@ -1,4 +1,9 @@
 {
-  "schematics": {},
-  "packageJsonUpdates": {}
+  "schematics": {
+    "upgrade-jest-preset-angular-9": {
+      "version": "1.0.5",
+      "description": "Add support for Jest with Angular 9+",
+      "factory": "./migrations/update-1.0.5/update-jest-preset-angular"
+    }
+  }
 }
