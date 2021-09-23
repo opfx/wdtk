@@ -21,7 +21,8 @@
   "dependencies": {
     "@angular-devkit/architect": "~0.1102.8",
     "@angular-devkit/schematics": "^11.2.8",
-    "@wdtk/core": "0.0.0"
+    "@wdtk/core": "0.0.0",
+    "identity-obj-proxy": "3.0.0"
   },
   "peerDependencies": {
     "@wdtk/workspace": "*"
