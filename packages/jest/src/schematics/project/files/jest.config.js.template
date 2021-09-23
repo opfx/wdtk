@@ -1,3 +1,5 @@
+require('jest-preset-angular/ngcc-jest-processor');
+
 module.exports = {
   displayName: '<%= project %>',
   preset: '<%= offsetFromRoot %>/jest.preset.js',<% if(setupFile !== 'none') { %>
@@ -23,5 +25,5 @@ module.exports = {
     'jest-preset-angular/build/serializers/ng-snapshot',
     'jest-preset-angular/build/serializers/html-comment',
   ]<% } %>,
-  testPathIgnorePatterns: ['/e2e/']
+  testPathIgnorePatterns: ['/node_modules/', '/e2e/']
 };
