@@ -35,11 +35,11 @@
       "name": "wx (generate)",
       "skipFiles": ["<node_internals>/**"],
       "program": "${workspaceFolder}/bin/wx",
-      "cwd": "${workspaceFolder}/../work/ngx",
+      "cwd": "${workspaceFolder}/../work/stencil",
       "console": "integratedTerminal",
       // "args": ["generate", "@wdtk/angular:app", "sample1",  "--directory", "apps/sample","--verbose","--dry-run"],
       // "args": ["generate", "@wdtk/stencil:lib", "--skip-install", "--verbose"],
-      "args": ["generate", "@wdtk/angular:app", "test-lib", "--verbose"],
+      "args": ["generate", "@wdtk/angular:app", "sample", "--verbose"],
       // "args": ["generate", "--help"],
       "env": { "WX_DEBUG": "true", "WX_DISABLE_VERSION_CHECK": "true" }
     },
@@ -68,6 +68,18 @@
       "console": "integratedTerminal",
       "args": ["e2e", "test-lib", "--debug"],
       "env": { "WX_DEBUG": "true", "WX_DISABLE_VERSION_CHECK": "true" }
+    },
+    {
+      "type": "node",
+      "request": "launch",
+      "name": "wx (test)",
+      "skipFiles": ["<node_internals>/**"],
+      "program": "${workspaceFolder}/bin/wx",
+      "cwd": "${workspaceFolder}/../work/stencil",
+      "console": "integratedTerminal",
+      "args": ["test", "sample", "--show-config"],
+      "env": { "WX_DEBUG": "true", "WX_DISABLE_VERSION_CHECK": "true" },
+      "sourceMaps": false
     },
     {
       "type": "node",
