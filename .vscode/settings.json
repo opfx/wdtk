@@ -8,20 +8,11 @@
     "**/CVS": true,
     "**/.DS_Store": true,
     ".yarn": true,
-    "**/node_modules": true,
+    "**/node_modules": false,
     "**/dist": true,
     "**/target": true,
-    "**/jest.config.js": false,
-    
+    "**/jest.config.js": false
   },
-  "cSpell.words": [
-    "Codelyzer",
-    "Serializers",
-    "dasherize",
-    "devkit",
-    "nestjs",
-    "pacote",
-    "wdtk"
-  ],
-  "cSpell.ignorePaths": ["**/package.json", "**/yarn.lock", "**/node_modules/**", "**/vscode-extension/**", "**/.git/objects/**", ".vscode"]
+  "cSpell.import": ["./sdk/etc/cspell.json"],
+  "cSpell.customWorkspaceDictionaries": ["wdtk"]
 }

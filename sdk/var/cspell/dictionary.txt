@@ -8,6 +8,7 @@ docroot
 dphar
 dxdebug
 gitkeep
+jestrunner
 nodir
 phar
 phptools
@@ -15,3 +16,4 @@ phpunit
 prettierrc
 wdtk
 xdebug
+yarnpkg

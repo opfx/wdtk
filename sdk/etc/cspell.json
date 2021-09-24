@@ -1,0 +1,12 @@
+{
+  "version": "0.2",
+  "language": "en-US",
+  "dictionaryDefinitions": [
+    {
+      "name": "wdtk",
+      "description": "These are words that can be used for the `wdtk` workspace.",
+      "path": "./../../sdk/var/cspell/dictionary.txt"
+    }
+  ],
+  "ignorePaths": [".git", "node_modules", "target", ".vscode", "*.lock", "package.json"]
+}

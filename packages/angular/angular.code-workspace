@@ -15,21 +15,20 @@
     {
       "name": "Core",
       "path": "./../core"
-    },
-    {
-      "name": "Work",
-      "path": "./../../work"
     }
   ],
   "settings": {
-    "terminal.integrated.cwd": "./../../../wdtk",
+    "terminal.integrated.cwd": "./../../.",
     "files.eol": "\n",
     "files.exclude": {
-      "**/node_modules": true
+      "**/node_modules": true,
+      "**/.vscode": true,
+      "**/*config*": true,
+      "**/*.code-workspace": true
     },
-    "cSpell.words": ["wdtk"],
-    "jest.pathToJest": "yarn jest",
-    "jest.disabledWorkspaceFolders": ["Work"]
+    "jestrunner.jestPath": "./../../node_modules/.bin/jest",
+    "cSpell.import": ["${workspaceFolder:Angular}/../../sdk/etc/cspell.json"],
+    "cSpell.customWorkspaceDictionaries": ["wdtk"]
   },
 
   "launch": {
