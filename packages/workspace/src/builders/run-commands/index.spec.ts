@@ -49,7 +49,7 @@ describe(`run-commands`, () => {
   });
 
   it(`should add all args to the command if no interpolation in the command`, async () => {
-    const spawn = spyOn(require('child_process'), 'spawn').and.callThrough();
+    const spawn = jest.spyOn(require('child_process'), 'spawn');
 
     const run = await architect.scheduleBuilder(builder, {
       command: `echo`,
@@ -61,7 +61,7 @@ describe(`run-commands`, () => {
   });
 
   it(`should forward args by default when using commands (plural)`, async () => {
-    const spawn = spyOn(require('child_process'), 'spawn').and.callThrough();
+    const spawn = jest.spyOn(require('child_process'), 'spawn');
 
     const run = await architect.scheduleBuilder(builder, {
       commands: [{ command: `echo` }],
@@ -73,7 +73,7 @@ describe(`run-commands`, () => {
   });
 
   it(`should forward args when forwardAllArgs is set to true`, async () => {
-    const spawn = spyOn(require('child_process'), 'spawn').and.callThrough();
+    const spawn = jest.spyOn(require('child_process'), 'spawn');
 
     const run = await architect.scheduleBuilder(builder, {
       commands: [{ command: `echo`, forwardAllArgs: true }],
@@ -85,7 +85,7 @@ describe(`run-commands`, () => {
   });
 
   it(`should not forward args when forwardAllArgs is set to false`, async () => {
-    const spawn = spyOn(require('child_process'), 'spawn').and.callThrough();
+    const spawn = jest.spyOn(require('child_process'), 'spawn');
 
     const run = await architect.scheduleBuilder(builder, {
       commands: [{ command: `echo`, forwardAllArgs: false }],
@@ -131,34 +131,44 @@ describe(`run-commands`, () => {
   });
 
   it(`should run command in parallel`, async () => {
+    jest.setTimeout(30000);
     const f = Path.join(Os.tmpdir(), 'run-commands.txt');
 
     if (existsSync(f)) {
       unlinkSync(f);
     }
-
+    let sleepCmd = 'sleep 1';
+    if (Os.platform() === 'win32') {
+      sleepCmd = 'ping -n 10 127.0.0.1';
+    }
     const run = await architect.scheduleBuilder(builder, {
-      commands: [{ command: `echo 1 >> ${f}` }, { command: `echo 2 >> ${f}` }],
+      commands: [{ command: `${sleepCmd} && echo 1 >> ${f}` }, { command: `echo 2 >> ${f}` }],
       parallel: true,
     });
     const result = await run.result;
     expect(result.success).toBe(true);
     const content = readFile(f);
-    expect(content).toContain('1');
-    expect(content).toContain('2');
+    expect(content).toContain('21');
   });
 
   it(`should stop execution when a command fails`, async () => {
+    jest.setTimeout(30000);
     const f = Path.join(Os.tmpdir(), 'run-commands.txt');
 
     if (existsSync(f)) {
       unlinkSync(f);
     }
 
+    let sleepCmd = 'sleep 1';
+    if (Os.platform() === 'win32') {
+      sleepCmd = 'ping -n 10 127.0.0.1';
+    }
+
     const run = await architect.scheduleBuilder(builder, {
       commands: [
         { command: `echo 1 >> ${f}  && echox` }, //
-        { command: `echo 2 >> ${f}` },
+
+        { command: `${sleepCmd} && echo 2 >> ${f}` },
       ],
       parallel: true,
     });

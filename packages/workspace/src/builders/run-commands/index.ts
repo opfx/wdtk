@@ -28,8 +28,10 @@ function execute(opts: RunCommandsBuilderOptions & JsonObject, ctx: BuilderConte
 
 function runCommands(opts: RunCommandsBuilderOptions, cwd: string, ctx: BuilderContext): Observable<BuilderOutput> {
   let subscription: Subscription;
+  const executeMap = opts.parallel ? mergeMap : concatMap;
+
   const commands = from(opts.commands).pipe(
-    concatMap((command) => {
+    executeMap((command) => {
       return runCommand(command, opts.cwd, ctx);
     })
   );
@@ -66,10 +68,13 @@ function runCommand(opts, cwd: string, ctx: BuilderContext): Observable<BuilderO
   //   spawnArgs = opts.args;
   // }
   return new Observable<BuilderOutput>((observer) => {
-    ctx.logger.debug(`executing ${opts.command} with args ${JSON.stringify(opts.args)} in '${spawnOpts.cwd}' directory`);
+    ctx.logger.debug(`executing '${opts.command}' in '${spawnOpts.cwd}' directory; args: ${JSON.stringify(opts.args)} `);
     const cmdProcess = spawn(opts.command, spawnArgs, spawnOpts);
 
+    ctx.logger.debug(`started '${opts.command}' pid: ${cmdProcess.pid}`);
+
     const killCmdProcess = () => {
+      ctx.logger.debug(`stopping '${opts.command}' pid: ${cmdProcess.pid}`);
       if (cmdProcess && cmdProcess.pid) {
         cmdProcess.kill();
       }
@@ -82,6 +87,7 @@ function runCommand(opts, cwd: string, ctx: BuilderContext): Observable<BuilderO
       if (code && code !== 0) {
         // output = { success: false, error: 'Build failed. See above for details.' };
         observer.error();
+        observer.complete();
         return;
       }
       observer.next(output);
