@@ -23,11 +23,12 @@
     "files.exclude": {
       "**/node_modules": true,
       "**/.vscode": true,
-      "**/*config*": true,
+      "**/*config.js": true,
+      "**/*config.json": true,
       "**/*.code-workspace": true
     },
     "jestrunner.jestPath": "./../../node_modules/.bin/jest",
-    "cSpell.import": ["${workspaceFolder:Angular}/../../sdk/etc/cspell.json"],
+    "cSpell.import": ["${workspaceFolder:Jest}/../../sdk/etc/cspell.json"],
     "cSpell.customWorkspaceDictionaries": ["wdtk"]
   },
 
