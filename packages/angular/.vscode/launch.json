@@ -10,11 +10,10 @@
       "name": "generate app",
       "skipFiles": ["<node_internals>/**"],
       "program": "${workspaceFolder}/../../bin/wx",
-      "cwd": "${workspaceFolder}/../../work",
+      "cwd": "${workspaceFolder}/../../../work/sample",
       "console": "integratedTerminal",
-      "args": ["generate", "@wdtk/angular:app", "sample1", "--directory", "apps/sample", "--verbose", "--skip-install" /*, "--dry-run"*/],
-      "env": { "WX_DEBUG": "true", "WX_DISABLE_VERSION_CHECK": "true" },
-      "preLaunchTask": "Setup Work Dir"
+      "args": ["generate", "@wdtk/angular:app", "sample-app", "--verbose", "--skip-install" /*, "--dry-run"*/],
+      "env": { "WX_DEBUG": "true", "WX_DISABLE_VERSION_CHECK": "true" }
     },
     {
       "type": "node",
@@ -22,11 +21,10 @@
       "name": "generate lib",
       "skipFiles": ["<node_internals>/**"],
       "program": "${workspaceFolder}/../../bin/wx",
-      "cwd": "${workspaceFolder}/../../work",
+      "cwd": "${workspaceFolder}/../../../work/sample",
       "console": "integratedTerminal",
       "args": ["generate", "@wdtk/angular:lib", "sample1", "--verbose", "--skip-install" /*, "--dry-run"*/],
-      "env": { "WX_DEBUG": "true", "WX_DISABLE_VERSION_CHECK": "true" },
-      "preLaunchTask": "Setup Work Dir"
+      "env": { "WX_DEBUG": "true", "WX_DISABLE_VERSION_CHECK": "true" }
     }
   ]
 }

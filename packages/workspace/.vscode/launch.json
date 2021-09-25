@@ -12,7 +12,7 @@
       "program": "${workspaceFolder}/../../bin/wx",
       "cwd": "${workspaceFolder}/../../../work",
       "console": "integratedTerminal",
-      "args": ["new", "sample", "--verbose"],
+      "args": ["new", "sample", "--verbose", "--skip-install"],
       // "args": ["new", "--help"],
       "env": { "WX_DEBUG": "true", "WX_DISABLE_VERSION_CHECK": "true" }
     }

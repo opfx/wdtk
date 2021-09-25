@@ -11,6 +11,10 @@
     {
       "name": "Core",
       "path": "./../core"
+    },
+    {
+      "name": "Angular",
+      "path": "./../angular"
     }
   ],
   "settings": {
