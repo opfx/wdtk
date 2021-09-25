@@ -95,53 +95,27 @@ describe(`jest project schematic`, () => {
     const tree = await runSchematic({ project: 'test-project' });
     const jestConfigContent = tree.readContent('test-project/jest.config.js');
     expect(jestConfigContent.replace(/[ \t\r]+/g, '')).toBe(
-      `module.exports = {
+      `require('jest-preset-angular/ngcc-jest-processor');
+      
+      module.exports = {
       displayName: 'test-project',
       preset: '../jest.preset.js',
       globals: {
         'ts-jest': {
-          tsConfig: '<rootDir>/tsconfig.spec.json',
+          tsconfig: '<rootDir>/tsconfig.spec.json',
         }
       },
       coverageDirectory: '../coverage/test-project',
+      transform: {
+        '^.+\\\\.(ts|js|html)$': 'jest-preset-angular'
+      },
       snapshotSerializers: [
-        'jest-preset-angular/build/AngularNoNgAttributesSnapshotSerializer.js',
-        'jest-preset-angular/build/AngularSnapshotSerializer.js',
-        'jest-preset-angular/build/HTMLCommentSerializer.js'
+        'jest-preset-angular/build/serializers/no-ng-attributes',
+        'jest-preset-angular/build/serializers/ng-snapshot',
+        'jest-preset-angular/build/serializers/html-comment',
       ],
-      testPathIgnorePatterns: ['/e2e/']
+      testPathIgnorePatterns: ['/node_modules/', '/e2e/']
     };`.replace(/[ \t\r]+/g, '')
     );
-  });
-
-  it(`should add required project dependencies`, async () => {
-    const tree = await runSchematic({ project: 'test-project' });
-    const { devDependencies } = readJsonInTree(tree, '/test-project/package.json');
-    expect(devDependencies['jest']).toBeDefined();
-  });
-
-  it(`should add the 'test' script to project's package manifest`, async () => {
-    const tree = await runSchematic({ project: 'test-project' });
-    const manifest = readJsonInTree(tree, 'test-project/package.json');
-
-    expect(manifest.scripts.test).toEqual('yarn jest');
-  });
-
-  it(`should create a valid 'vscode launch configuration' in '.vscode/launch.json'`, async () => {
-    const expected = {
-      type: 'node',
-      name: 'vscode-jest-tests',
-      request: 'launch',
-      program: '${workspaceFolder}/../node_modules/jest/bin/jest',
-      args: ['--runInBand'],
-      cwd: '${workspaceFolder}',
-      console: 'integratedTerminal',
-      internalConsoleOptions: 'neverOpen',
-      disableOptimisticBPs: true,
-    };
-    const tree = await runSchematic({ project: 'test-project' });
-    const launch = readJsonInTree(tree, 'test-project/.vscode/launch.json');
-    const actual = launch.configurations[0];
-    expect(actual).toEqual(expected);
   });
 });
