@@ -27,8 +27,9 @@ export default function (opts: ProjectOptions): Rule {
       checkTestTargetDoesNotExist(opts),
 
       generateFiles(opts),
-      setupPackageJson(opts),
-      setupLaunchConfig(opts),
+      // disabled since 1.0.11
+      // setupPackageJson(opts),
+      // setupLaunchConfig(opts),
       setupTsConfig(opts),
       setupWorkspaceDefinition(opts),
       setupWorkspaceJestConfig(opts),
@@ -47,7 +48,7 @@ function checkTestTargetDoesNotExist(opts: ProjectOptions): Rule {
 
 /**
  * Adds the required dependencies and scripts to project's package.json
- *
+ * @deprecated since 1.0.11
  * @param opts
  */
 function setupPackageJson(opts: ProjectOptions): Rule {
@@ -71,6 +72,7 @@ function setupPackageJson(opts: ProjectOptions): Rule {
 /**
  * Adds the vscode jest launch configuration to the project's .vscode/launch.json
  *
+ * @deprecated since 1.0.11
  * @param opts
  */
 function setupLaunchConfig(opts: ProjectOptions): Rule {
@@ -149,7 +151,6 @@ function generateFiles(opts: ProjectOptions): Rule {
         }),
         // do not create package.json and /.vscode/launch.json files if they exist already
         tree.exists(join(normalize(opts.projectRoot), 'package.json')) ? filter((file) => file !== '/package.json') : noop(),
-        tree.exists(join(normalize(opts.projectRoot), '/.vscode/launch.json')) ? filter((file) => file !== './vscode/launch.json') : noop(),
         opts.setupFile === 'none' ? filter((file) => file !== '/src/test-setup.ts') : noop(),
         opts.babelJest ? noop() : filter((file) => file !== '/babel-jest.config.json'),
         move(opts.projectRoot),
