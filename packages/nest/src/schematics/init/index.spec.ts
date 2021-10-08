@@ -1,6 +1,7 @@
 import { Tree } from '@angular-devkit/schematics';
 import { SchematicTestRunner, UnitTestTree } from '@angular-devkit/schematics/testing';
-import { createEmptyWorkspace, getJsonFileContent } from '@wdtk/core/testing';
+import { createEmptyWorkspace } from '@wdtk/core/testing';
+import { readJsonInTree } from '@wdtk/core';
 
 import { Schema as InitOptions } from './schema';
 
@@ -21,7 +22,7 @@ describe('node init schematic', () => {
 
   it('should add dependencies', async () => {
     const tree = await runSchematic({ unitTestRunner: 'jest' } as any);
-    const { dependencies, devDependencies } = getJsonFileContent(tree, 'package.json');
+    const { dependencies, devDependencies } = readJsonInTree(tree, 'package.json');
 
     expect(dependencies['@nestjs/common']).toBeDefined();
     expect(dependencies['@nestjs/core']).toBeDefined();

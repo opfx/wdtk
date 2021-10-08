@@ -1,7 +1,7 @@
 import { Tree } from '@angular-devkit/schematics';
 import { SchematicTestRunner, UnitTestTree } from '@angular-devkit/schematics/testing';
-import { getWorkspaceDefinition } from '@wdtk/core';
-import { createEmptyWorkspace, getJsonFileContent } from '@wdtk/core/testing';
+import { getWorkspaceDefinition, readJsonInTree } from '@wdtk/core';
+import { createEmptyWorkspace } from '@wdtk/core/testing';
 
 import { Schema as InitOptions, UnitTestRunner } from './schema';
 
@@ -24,7 +24,7 @@ describe('stencil init schematic', () => {
 
   it(`should workspace dependencies required by stencil`, async () => {
     const tree = await runSchematic(defaultOpts);
-    const { devDependencies } = getJsonFileContent(tree, `/package.json`);
+    const { devDependencies } = readJsonInTree(tree, `/package.json`);
     expect(devDependencies['@wdtk/stencil']).toBeDefined();
   });
 
@@ -50,13 +50,13 @@ describe('stencil init schematic', () => {
     describe(`jest (default)`, () => {
       it(`should add 'jest' dependencies `, async () => {
         const tree = await runSchematic(defaultOpts);
-        const { devDependencies } = getJsonFileContent(tree, `/package.json`);
+        const { devDependencies } = readJsonInTree(tree, `/package.json`);
         expect(devDependencies['@wdtk/jest']).toBeDefined();
       });
 
       it(`should not add 'jest-preset-angular' dependency `, async () => {
         const tree = await runSchematic(defaultOpts);
-        const { devDependencies } = getJsonFileContent(tree, `/package.json`);
+        const { devDependencies } = readJsonInTree(tree, `/package.json`);
         expect(devDependencies['jest-preset-angular']).toBeUndefined();
       });
     });
@@ -64,7 +64,7 @@ describe('stencil init schematic', () => {
     describe(`none`, () => {
       it(`should not add 'jest' dependencies`, async () => {
         const tree = await runSchematic({ ...defaultOpts, unitTestRunner: UnitTestRunner.None });
-        const { devDependencies } = getJsonFileContent(tree, `/package.json`);
+        const { devDependencies } = readJsonInTree(tree, `/package.json`);
         expect(devDependencies['@wdtk/jest']).toBeUndefined();
       });
     });

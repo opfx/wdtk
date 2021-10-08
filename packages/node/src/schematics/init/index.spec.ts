@@ -1,6 +1,7 @@
 import { Tree } from '@angular-devkit/schematics';
 import { SchematicTestRunner, UnitTestTree } from '@angular-devkit/schematics/testing';
-import { createEmptyWorkspace, getJsonFileContent } from '@wdtk/core/testing';
+import { readJsonInTree } from '@wdtk/core';
+import { createEmptyWorkspace } from '@wdtk/core/testing';
 
 import { Schema as InitOptions } from './schema';
 import { UnitTestRunner } from './schema';
@@ -22,7 +23,7 @@ describe('node init schematic', () => {
 
   it(`should add required by node projects dependencies`, async () => {
     const tree = await runSchematic({ unitTestRunner: UnitTestRunner.Jest });
-    const { devDependencies } = getJsonFileContent(tree, 'package.json');
+    const { devDependencies } = readJsonInTree(tree, 'package.json');
     const expectedDependencies = ['@wdtk/node'];
     expectedDependencies.forEach((dependencyName) => {
       expect(devDependencies[dependencyName]).toBeDefined();

@@ -1,9 +1,9 @@
 import { Tree } from '@angular-devkit/schematics';
 import { SchematicTestRunner, UnitTestTree } from '@angular-devkit/schematics/testing';
 
-import { getWorkspaceDefinition } from '@wdtk/core';
+import { readJsonInTree } from '@wdtk/core';
 import { tags } from '@wdtk/core/util';
-import { createEmptyWorkspace, getFileContent, getJsonFileContent } from '@wdtk/core/testing';
+import { createEmptyWorkspace, getFileContent } from '@wdtk/core/testing';
 
 import { Schema as InitOptions } from './schema';
 import { UnitTestRunner } from './schema';
@@ -84,7 +84,7 @@ describe('node init schematic', () => {
 
   it(`should update the root tsconfig with the nest library entry file`, async () => {
     const tree = await runSchematic(defaultOpts);
-    const tsconfig = getJsonFileContent(tree, 'tsconfig.json');
+    const tsconfig = readJsonInTree(tree, 'tsconfig.json');
     expect(tsconfig.compilerOptions.paths['@empty/test-lib']).toEqual([`/${defaultOpts.name}/src/index.ts`]);
   });
 

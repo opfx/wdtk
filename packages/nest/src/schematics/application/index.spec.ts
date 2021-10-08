@@ -1,7 +1,7 @@
 import { Tree } from '@angular-devkit/schematics';
 import { SchematicTestRunner, UnitTestTree } from '@angular-devkit/schematics/testing';
 import { readJsonInTree } from '@wdtk/core';
-import { createEmptyWorkspace, getJsonFileContent } from '@wdtk/core/testing';
+import { createEmptyWorkspace } from '@wdtk/core/testing';
 
 import { Schema as ApplicationOptions } from './schema';
 import { UnitTestRunner } from './schema';

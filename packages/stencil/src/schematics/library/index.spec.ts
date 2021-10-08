@@ -1,7 +1,7 @@
 import { Tree } from '@angular-devkit/schematics';
 import { SchematicTestRunner, UnitTestTree } from '@angular-devkit/schematics/testing';
-import { getWorkspaceDefinition, getProjectDefinition } from '@wdtk/core';
-import { createEmptyWorkspace, getJsonFileContent } from '@wdtk/core/testing';
+import { getWorkspaceDefinition, getProjectDefinition, readJsonInTree } from '@wdtk/core';
+import { createEmptyWorkspace } from '@wdtk/core/testing';
 
 import { Schema as LibraryOptions } from './schema';
 import { E2ETestRunner } from './schema';
@@ -40,7 +40,7 @@ describe('stencil init schematic', () => {
 
   it(`should project dependencies required by stencil`, async () => {
     const tree = await runSchematic(defaultOpts);
-    const { dependencies } = getJsonFileContent(tree, `/${defaultOpts.name}/package.json`);
+    const { dependencies } = readJsonInTree(tree, `/${defaultOpts.name}/package.json`);
     expect(dependencies['@stencil/core']).toBeDefined();
   });
 
