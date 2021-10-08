@@ -1,6 +1,6 @@
 {
   "$schema": "http://json-schema.org/schema",
-  "id": "WdtkJestSchematicsInit",
+  "$id": "WdtkJestSchematicsInit",
   "title": "Jest Init Options Schema",
   "type": "object",
   "description": "Adds Jest support to the workspace.",

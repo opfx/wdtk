@@ -1,6 +1,6 @@
 {
   "$schema": "http://json-schema.org/schema",
-  "id": "WdtkPhpSchematicsProject",
+  "$id": "WdtkPhpSchematicsProject",
   "title": "Php Project Options Schema",
   "type": "object",
   "description": "Configures a new PHP project in the workspace.",

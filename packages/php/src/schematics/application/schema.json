@@ -1,6 +1,6 @@
 {
   "$schema": "http://json-schema.org/schema",
-  "id": "WdtkPhpSchematicsApplication",
+  "$id": "WdtkPhpSchematicsApplication",
   "title": "Php Application Options Schema",
   "type": "object",
   "description": "Generates a new PHP application in the workspace.",

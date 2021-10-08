@@ -1,6 +1,6 @@
 {
   "$schema": "http://json-schema.org/schema",
-  "id": "WdtkWorkspaceSchematicsNgNew",
+  "$id": "WdtkWorkspaceSchematicsNgNew",
   "title": "Workspace Ng New Options Schema",
   "type": "object",
   "properties": {

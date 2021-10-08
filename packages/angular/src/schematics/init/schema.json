@@ -1,6 +1,6 @@
 {
   "$schema": "http://json-schema.org/schema",
-  "id": "WdtkAngularSchematicsInit",
+  "$id": "WdtkAngularSchematicsInit",
   "title": "Angular Init Options Schema",
   "type": "object",
   "description": "Adds support for Angular projects to the workspace.",

@@ -1,6 +1,6 @@
 {
   "$schema": "http://json-schema.org/schema",
-  "id": "WdtkWorkspaceSchematicsProject",
+  "$id": "WdtkWorkspaceSchematicsProject",
   "title": "Workspace Project Options Schema.",
   "type": "object",
   "properties": {

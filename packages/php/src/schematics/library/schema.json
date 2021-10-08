@@ -1,6 +1,6 @@
 {
   "$schema": "http://json-schema.org/schema",
-  "id": "WdtkPhpSchematicsLibrary",
+  "$id": "WdtkPhpSchematicsLibrary",
   "title": "Php Library Options Schema",
   "type": "object",
   "description": "Generates a new PHP library in the workspace.",

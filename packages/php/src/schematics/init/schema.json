@@ -1,6 +1,6 @@
 {
   "$schema": "http://json-schema.org/schema",
-  "id": "WdtkPhpSchematicsInit",
+  "$id": "WdtkPhpSchematicsInit",
   "title": "Php Init Options Schema",
   "type": "object",
   "description": "Adds PHP support to the workspace.",

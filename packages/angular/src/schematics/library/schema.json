@@ -1,6 +1,6 @@
 {
   "$schema": "http://json-schema.org/schema",
-  "id": "WdtkAngularSchematicsLibrary",
+  "$id": "WdtkAngularSchematicsLibrary",
   "title": "Angular Library Options Schema",
   "type": "object",
   "description": "Generates a new Angular Library in the workspace.",

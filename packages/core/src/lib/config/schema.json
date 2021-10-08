@@ -1,6 +1,6 @@
 {
   "$schema": "http://json-schema.org/draft-07/schema#",
-  "id": "https://wdtk.io/schemas/cli-1/schema",
+  "$id": "https://wdtk.io/schemas/cli-1/schema",
   "title": "Workspace Configuration",
   "type": "object",
   "properties": {

@@ -1,6 +1,6 @@
 {
   "$schema": "http://json-schema.org/schema",
-  "id": "WdtkWorkspaceSchematicsRemove",
+  "$id": "WdtkWorkspaceSchematicsRemove",
   "title": "Removes a project from workspace.",
   "type": "object",
   "properties": {

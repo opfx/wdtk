@@ -1,6 +1,6 @@
 {
   "$schema": "http://json-schema.org/schema",
-  "id": "WdtkAngularSchematicsApplication",
+  "$id": "WdtkAngularSchematicsApplication",
   "title": "Angular Application Options Schema",
   "type": "object",
   "description": "Generates a new Angular application in the workspace.",

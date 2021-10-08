@@ -1,6 +1,6 @@
 {
   "$schema": "http://json-schema.org/schema",
-  "id": "WdtkNestSchematicsApplication",
+  "$id": "WdtkNestSchematicsApplication",
   "title": "Nest Init Options Schema",
   "type": "object",
   "description": "Adds Nest (NestJS) nature to the workspace.",

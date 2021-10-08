@@ -1,6 +1,6 @@
 {
   "$schema": "http://json-schema.org/schema",
-  "id": "WdtkNodeSchematicsApplication",
+  "$id": "WdtkNodeSchematicsApplication",
   "title": "Node Application Options Schema",
   "type": "object",
   "description": "Generates a new Node application in the workspace.",

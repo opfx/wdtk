@@ -1,6 +1,6 @@
 {
   "$schema": "http://json-schema.org/schema",
-  "id": "WdtkNodeSchematicsLibrary",
+  "$id": "WdtkNodeSchematicsLibrary",
   "title": "Node Library Options Schema",
   "type": "object",
   "description": "Generates a new Node library in the workspace.",

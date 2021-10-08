@@ -1,6 +1,6 @@
 {
   "$schema": "http://json-schema.org/schema",
-  "id": "WdtkStencilSchematicsLibrary",
+  "$id": "WdtkStencilSchematicsLibrary",
   "title": "Stencil Library Options Schema",
   "type": "object",
   "description": "Generates a new Stencil library in the workspace.",

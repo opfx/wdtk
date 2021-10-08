@@ -1,6 +1,6 @@
 {
   "$schema": "http://json-schema.org/schema",
-  "id": "WdtkNestSchematicsLibrary",
+  "$id": "WdtkNestSchematicsLibrary",
   "title": "Nest Library Options Schema",
   "type": "object",
   "description": "Generates a new Nest (NestJS) library in the workspace.",
