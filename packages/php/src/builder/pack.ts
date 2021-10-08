@@ -68,7 +68,7 @@ function getArguments(opts: PackOptions): string[] {
   const args = [];
   args.push('-d error_reporting=24575');
   args.push('-dphar.readonly=false');
-  args.push('-d extension=fileinfo');
+  // args.push('-d extension=fileinfo');
 
   args.push(getAutoloadBuilderPath());
 
