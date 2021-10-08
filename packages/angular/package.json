@@ -13,8 +13,8 @@
     "types": "./index.d.ts"
   },
   "dependencies": {
-    "@angular-devkit/schematics": "^11.2.8",
-    "@schematics/angular": "^11.2.8",
+    "@angular-devkit/schematics": "^13.0.0-next.6",
+    "@schematics/angular": "^13.0.0-next.6",
     "@wdtk/core": "0.0.0",
     "@wdtk/cypress": "0.0.0",
     "@wdtk/jest": "0.0.0",

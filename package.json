@@ -1,6 +1,6 @@
 {
   "name": "@wdtk/source",
-  "version": "1.0.11",
+  "version": "1.13.0-next",
   "description": "Development Toolkit",
   "main": "index.js",
   "author": "opfx",
@@ -44,6 +44,6 @@
     "rimraf": "^3.0.2",
     "temp": "^0.9.1",
     "ts-jest": "27.0.3",
-    "typescript": "~4.0.3"
+    "typescript": "~4.3.5"
   }
 }

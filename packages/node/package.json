@@ -12,10 +12,10 @@
     "types": "./index.d.ts"
   },
   "dependencies": {
-    "@angular-devkit/architect": "~0.1102.8",
-    "@angular-devkit/build-webpack": "^0.1102.8",
-    "@angular-devkit/core": "^11.2.8",
-    "@angular-devkit/schematics": "^11.2.8",
+    "@angular-devkit/architect": "~0.1300.0-next.6",
+    "@angular-devkit/build-webpack": "^0.1300.0-next.6",
+    "@angular-devkit/core": "^13.0.0-next.6",
+    "@angular-devkit/schematics": "^13.0.0-next.6",
     "@wdtk/core": "*",
     "@wdtk/jest": "*",
     "circular-dependency-plugin": "^5.2.0",

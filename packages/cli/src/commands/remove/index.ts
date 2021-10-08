@@ -45,7 +45,7 @@ export class RemoveCommand extends SchematicCommand<RemoveCommandOptions> {
         if (answer.projectName && answer.projectName.length > 0) {
           return resolve(answer.projectName);
         }
-        return resolve();
+        return resolve(undefined);
       });
     });
   }

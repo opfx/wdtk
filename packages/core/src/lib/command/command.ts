@@ -56,7 +56,7 @@ export abstract class Command<T extends CommandOptions = CommandOptions> {
     }
   }
 
-  abstract async run(args: T & Arguments): Promise<number | void>;
+  abstract run(args: T & Arguments): Promise<number | void>;
 
   async validateAndRun(args: T & Arguments): Promise<number | void> {
     if (!(args.help === true || args.help === 'json' || args.help === 'JSON')) {
