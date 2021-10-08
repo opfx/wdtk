@@ -1,13 +1,9 @@
-import { readFileSync } from 'fs';
-import * as path from 'path';
-
 import { Logger } from '@wdtk/core/util';
-import { strings, tags } from '@wdtk/core/util';
 
-import { CoreSchemaRegistry, JsonParseMode, JsonObject, UriHandler } from './../json';
-import { isJsonObject, parseJson } from './../json';
+import { CoreSchemaRegistry, UriHandler } from './../json';
+import { isJsonObject, readAndParseJson } from './../json';
 
-import { CommandDescriptor, SubCommandDescriptor, CommandMapOptions, CommandWorkspace, CommandMap } from './types';
+import { CommandDescriptor, CommandWorkspace, CommandMap } from './types';
 import { CommandNotFoundException } from './exceptions';
 import { Command } from './command';
 
@@ -191,8 +187,7 @@ export async function getCommandDescriptor(args: string[], commands: CommandMap,
 }
 
 async function loadCommandDescriptor(name: string, schemaPath: string, registry: CoreSchemaRegistry): Promise<CommandDescriptor> {
-  const schemaContent = readFileSync(schemaPath, 'utf-8');
-  const schema = parseJson(schemaContent, JsonParseMode.Loose, { path: schemaPath });
+  const schema = readAndParseJson(schemaPath);
   if (!isJsonObject(schema)) {
     throw new Error(`Invalid command JSON loaded from '${JSON.stringify(schemaPath)}'`);
   }

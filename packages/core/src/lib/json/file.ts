@@ -1,7 +1,8 @@
 import { JsonValue } from '@wdtk/core';
 import { Tree } from '@angular-devkit/schematics';
-
-import { Node, applyEdits, findNodeAtLocation, getNodeValue, modify, parseTree } from 'jsonc-parser';
+import { readFileSync } from 'fs';
+import { Node, ParseError } from 'jsonc-parser';
+import { applyEdits, findNodeAtLocation, getNodeValue, modify, parse, parseTree, printParseErrorCode } from 'jsonc-parser';
 
 export type InsertionIndex = (properties: string[]) => number;
 export type JsonPath = (string | number)[];
@@ -67,4 +68,19 @@ export class JsonFile {
       this.modify(jsonPath, undefined);
     }
   }
+}
+
+export function readAndParseJson(path: string): any {
+  const errors: ParseError[] = [];
+  const content = parse(readFileSync(path, 'utf-8'), errors, { allowTrailingComma: true });
+  if (errors.length) {
+    formatError(path, errors);
+  }
+
+  return content;
+}
+
+function formatError(path: string, errors: ParseError[]): never {
+  const { error, offset } = errors[0];
+  throw new Error(`Failed to parse "${path}" as JSON AST Object. ${printParseErrorCode(error)} at location: ${offset}.`);
 }

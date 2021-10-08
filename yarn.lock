@@ -2075,7 +2075,7 @@ __metadata:
     ini: 1.3.6
     inquirer: ^7.3.3
     jest: 27.2.0
-    jsonc-parser: 2.3.0
+    jsonc-parser: 3.0.0
     pacote: 9.5.12
     semver: 5.7.1
     strip-json-comments: 3.1.1
@@ -7804,13 +7804,6 @@ fsevents@^1.2.7:
   bin:
     json5: lib/cli.js
   checksum: e76ea23dbb8fc1348c143da628134a98adf4c5a4e8ea2adaa74a80c455fc2cdf0e2e13e6398ef819bfe92306b610ebb2002668ed9fc1af386d593691ef346fc3
-  languageName: node
-  linkType: hard
-
-"jsonc-parser@npm:2.3.0":
-  version: 2.3.0
-  resolution: "jsonc-parser@npm:2.3.0"
-  checksum: 6d28b9ad6751d980ff74bdd5ff14c14f128128cbc51a1ae3e1be78154dc5d7a4f39ca36fc69d4665cde163297f907b86cb3fa036e649fcc758b4c758ec5443e1
   languageName: node
   linkType: hard
 

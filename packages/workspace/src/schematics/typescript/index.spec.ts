@@ -1,13 +1,8 @@
-import { Tree } from '@angular-devkit/schematics';
 import { SchematicTestRunner, UnitTestTree } from '@angular-devkit/schematics/testing';
-import { JsonParseMode, parseJson } from '@wdtk/core';
+import { readJsonInTree } from '@wdtk/core';
+
 import { versions } from './../../versions';
 import { Schema as TypescriptOptions } from './schema';
-
-// tslint:disable-next-line: no-any
-function getJsonFileContent(tree: UnitTestTree, path: string): any {
-  return parseJson(tree.readContent(path).toString(), JsonParseMode.Loose);
-}
 
 describe('workspace schematic', () => {
   const schematicRunner = new SchematicTestRunner('@wdtk/workspace', require.resolve('../../collection.json'));
@@ -29,7 +24,7 @@ describe('workspace schematic', () => {
 
   it('should have the latest version of typescript dependencies in package.json', async () => {
     const tree = await runSchematic(defaultOptions);
-    const packageJson = getJsonFileContent(tree, '/package.json');
+    const packageJson = readJsonInTree(tree, '/package.json');
 
     expect(packageJson.dependencies['tslib']).toBe(`${versions.TsLib}`);
 
