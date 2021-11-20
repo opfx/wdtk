@@ -199,7 +199,7 @@ function build(log: logging.Logger) {
 
 async function clean(logger: logging.Logger) {
   const distDir = path.join(__dirname, './../../target');
-  return new Promise((resolve, reject) => {
+  return new Promise<void>((resolve, reject) => {
     logger.info(`Cleaning... `);
     if (!fs.existsSync(distDir)) {
       resolve();
