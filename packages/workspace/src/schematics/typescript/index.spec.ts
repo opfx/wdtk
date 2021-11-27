@@ -18,7 +18,6 @@ describe('workspace schematic', () => {
     const opts = { ...defaultOptions };
     const tree = await runSchematic(opts);
     const files = tree.files;
-    expect(files).toContain('/tslint.json');
     expect(files).toContain('/tsconfig.json');
   });
 

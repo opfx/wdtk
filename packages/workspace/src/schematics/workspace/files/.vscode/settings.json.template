@@ -16,7 +16,6 @@
     "**/vendor": true,
     "**/dist": true,
     "**/tsconfig.*": true,
-    "**/tslint.json": true,
     "**/jest.*": true,
     "**/cypress.json": true,
     "**/.*rc": true,

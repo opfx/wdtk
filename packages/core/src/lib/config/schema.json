@@ -460,8 +460,7 @@
                       "@angular-devkit/build-angular:extract-i18n",
                       "@angular-devkit/build-angular:karma",
                       "@angular-devkit/build-angular:protractor",
-                      "@angular-devkit/build-angular:server",
-                      "@angular-devkit/build-angular:tslint"
+                      "@angular-devkit/build-angular:server"
                     ]
                   }
                 },
