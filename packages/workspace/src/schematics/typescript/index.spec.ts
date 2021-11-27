@@ -29,9 +29,9 @@ describe('workspace schematic', () => {
     expect(packageJson.dependencies['tslib']).toBe(`${versions.TsLib}`);
 
     expect(packageJson.devDependencies['@types/node']).toBe(`${versions.NodeTypes}`);
-    expect(packageJson.devDependencies['codelyzer']).toBe(`${versions.Codelyzer}`);
+
     expect(packageJson.devDependencies['ts-node']).toBe(`${versions.TsNode}`);
-    expect(packageJson.devDependencies['tslint']).toBe(`${versions.TsLint}`);
+
     expect(packageJson.devDependencies['typescript']).toBe(`${versions.Typescript}`);
   });
 });

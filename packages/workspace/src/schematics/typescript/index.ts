@@ -19,24 +19,14 @@ const workspaceDependencies: NodeDependency[] = [
     version: versions.NodeTypes,
   },
   {
-    name: 'codelyzer',
-    type: NodeDependencyType.Dev,
-    version: versions.Codelyzer,
-  },
-  {
     name: 'ts-node',
     type: NodeDependencyType.Dev,
     version: versions.TsNode,
   },
   {
-    name: 'tslint',
-    type: NodeDependencyType.Dev,
-    version: versions.TsLint,
-  },
-  {
     name: '@angular-devkit/build-angular',
     type: NodeDependencyType.Dev,
-    version: versions.AngularBuild,
+    version: versions.Angular,
   },
   {
     name: 'typescript',
