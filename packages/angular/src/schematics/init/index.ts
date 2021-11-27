@@ -29,20 +29,17 @@ const protractorWorkspaceDependencies: NodeDependency[] = [
   //dev dependencies
   { name: 'protractor', type: NodeDependencyType.Dev, version: versions.Protractor },
   { name: 'jasmine-core', type: NodeDependencyType.Dev, version: versions.JasmineCore },
-  { name: 'jasmine-spec-reporter', type: NodeDependencyType.Dev, version: versions.JasmineSpecReporter },
   { name: '@types/jasmine', type: NodeDependencyType.Dev, version: versions.JasmineTypes },
-  { name: '@types/jasminewd2', type: NodeDependencyType.Dev, version: versions.JasmineWd2Types },
 ];
 
 const karmaWorkspaceDependencies: NodeDependency[] = [
   //dev dependencies
   { name: 'karma', type: NodeDependencyType.Dev, version: versions.Karma },
   { name: 'karma-chrome-launcher', type: NodeDependencyType.Dev, version: versions.KarmaChromeLauncher },
-  { name: 'karma-coverage-istanbul-reporter', type: NodeDependencyType.Dev, version: versions.KarmaCoverageIstanbulReporter },
+  { name: 'karma-coverage', type: NodeDependencyType.Dev, version: versions.KarmaCoverage },
   { name: 'karma-jasmine', type: NodeDependencyType.Dev, version: versions.KarmaJasmine },
   { name: 'karma-jasmine-html-reporter', type: NodeDependencyType.Dev, version: versions.KarmaJasmineHtmlReporter },
   { name: 'jasmine-core', type: NodeDependencyType.Dev, version: versions.JasmineCore },
-  { name: 'jasmine-spec-reporter', type: NodeDependencyType.Dev, version: versions.JasmineSpecReporter },
   { name: '@types/jasmine', type: NodeDependencyType.Dev, version: versions.JasmineTypes },
 ];
 

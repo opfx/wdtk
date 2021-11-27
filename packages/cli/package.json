@@ -15,7 +15,7 @@
     }
   },
   "dependencies": {
-    "@angular/cli": "^13.0.0-next.6",
+    "@angular/cli": "^13.0.3",
     "@wdtk/core": "0.0.0",
     "@wdtk/workspace": "0.0.0",
     "inquirer": "^7.3.3",
