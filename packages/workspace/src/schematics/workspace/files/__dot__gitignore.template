@@ -11,6 +11,7 @@
 /out-tsc
 
 # tools generated data
+**/.angular
 **/.phpunit
 **/.xdebug
 

@@ -10,6 +10,7 @@
     "**/.DS_Store": true,
     "**/.yarn": true,
     "**/.vscode": true,
+    "**/.angular": true,
     "**/.phpunit": true,
     "**/.xdebug": true,
     "**/node_modules": true,
