@@ -37,9 +37,11 @@
       "program": "${workspaceFolder}/bin/wx",
       "cwd": "${workspaceFolder}/../work/stencil",
       "console": "integratedTerminal",
-      // "args": ["generate", "@wdtk/angular:app", "sample1",  "--directory", "apps/sample","--verbose","--dry-run"],
+
       // "args": ["generate", "@wdtk/stencil:lib", "--skip-install", "--verbose"],
-      "args": ["generate", "@wdtk/angular:app", "sample", "--verbose"],
+      // "args": ["generate", "@wdtk/angular:app", "sample", "--verbose"],
+      // "args": ["generate", "@wdtk/angular:app", "sample1",  "--directory", "apps/sample","--verbose","--dry-run"],
+      "args": ["generate", "@wdtk/angular:lib", "sample-lib", "--verbose"],
       // "args": ["generate", "--help"],
       "env": { "WX_DEBUG": "true", "WX_DISABLE_VERSION_CHECK": "true" }
     },

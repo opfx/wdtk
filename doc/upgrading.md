@@ -27,13 +27,11 @@ The following constant version need to be updated:
 | --- | :----------- | :------ | :-------- | :-- |
 | 1   | Angular      | core    | constants |     |
 | 2   | AngularBuild | core    | constants |     |
-| 3   | Codelyzer    | core    | constants |     |
-| 4   | NodeTypes    | core    | constants |     |
-| 5   | TsLib        | core    | constants |     |
-| 6   | TsLint       | core    | constants |     |
-| 7   | TsNode       | core    | constants |     |
-| 8   | Typescript   | core    | constants |     |
-| 9   | Rxjs         | core    | constants |     |
-| 10  | ZoneJs       | core    | constants |     |
+| 3   | NodeTypes    | core    | constants |     |
+| 4   | TsLib        | core    | constants |     |
+| 5   | TsNode       | core    | constants |     |
+| 6   | Typescript   | core    | constants |     |
+| 7   | Rxjs         | core    | constants |     |
+| 8   | ZoneJs       | core    | constants |     |
 
 To find the versions for `RxJs`, `ZoneJs`, `CodeLyzer`, `NodeTypes`, `TsLib`, `TsLint`, `TsNode` and `Typescript`, install `@angular/cli`, with the version you are upgrading to, and use it to create a new application. Open generated `package.json`, and check the versions used by the vanilla schematics. If the versions in the generated `package.json` are higher than the ones defined in the version constants, update the constants to the newer version.

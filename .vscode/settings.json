@@ -14,5 +14,13 @@
     "**/jest.config.js": false
   },
   "cSpell.import": ["./sdk/etc/cspell.json"],
-  "cSpell.customWorkspaceDictionaries": ["wdtk"]
+  "cSpell.customWorkspaceDictionaries": [
+    "wdtk"
+  ],
+  "markdownlint.config": {
+    "MD028": false,
+    "MD025": {
+      "front_matter_title": ""
+    }
+  }
 }

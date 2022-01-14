@@ -72,7 +72,7 @@ function addTasks(opts: LibraryOptions): Rule {
 
 // templates to be filtered out if a wrapper application was created
 function sandboxAppPathFilter(path: string): boolean {
-  const toRemoveList = /(karma.conf.js|package.json|test.ts|tsconfig.json|tsconfig.spec.json|tslint.json).template$/;
+  const toRemoveList = /(karma.conf.js|package.json|test.ts|tsconfig.json|tsconfig.spec.json).template$/;
 
   return !toRemoveList.test(path);
 }
@@ -111,7 +111,7 @@ function generateFiles(opts: LibraryOptions): Rule {
         commonModule: false,
         flat: true,
         path: srcDir,
-        export: true,
+        // export: true,
         project: opts.name,
       }),
       externalSchematic('@schematics/angular', 'component', {
